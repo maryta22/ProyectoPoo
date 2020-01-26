@@ -55,7 +55,6 @@ public class PlatillosView {
             platos.getChildren().add(plato);
         }
         root.getChildren().addAll(filtros, platos);
-        System.out.println("Desde platillos view");
         return root;
     }
 

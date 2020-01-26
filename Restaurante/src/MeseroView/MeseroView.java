@@ -30,8 +30,6 @@ import proyectopoo2p.ProyectoPOO2p;
 public class MeseroView {
     private static VBox root;
     private VBox pruebas;
-    double orgSceneX, orgSceneY; //Pruebas
-    double orgTranslateX, orgTranslateY; //Pruebas
     ArrayList<Circle> mesas;
     private HBox vistaMesa,filtros;
     private VBox descripcion, platillos,botones,pedido;
@@ -74,57 +72,7 @@ public class MeseroView {
         return root;
     }
     
-//        public void cargarMesas(){
-//        mesas = new ArrayList<>();
-//        for(Mesa m: ProyectoPOO2p.datos.getMesas()){
-//            Circle c = new Circle(m.getRadio());
-//            c.setCenterX(m.getCoordenadaX());
-//            
-//            c.setCenterY(m.getCoordenadaY());
-//            
-//            EventHandler<MouseEvent> circleOnMousePressedEventHandler = 
-//        new EventHandler<MouseEvent>() {
-// 
-//        @Override
-//        public void handle(MouseEvent t) {
-//            orgSceneX = t.getSceneX();
-//            orgSceneY = t.getSceneY();
-//            orgTranslateX = ((Circle)(t.getSource())).getTranslateX();
-//            orgTranslateY = ((Circle)(t.getSource())).getTranslateY();
-//           
-//        }
-//    };
-//        EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = 
-//        new EventHandler<MouseEvent>() {
-// 
-//        @Override
-//        public void handle(MouseEvent t) {
-//            double offsetX = t.getSceneX() - orgSceneX;
-//            double offsetY = t.getSceneY() - orgSceneY;
-//            double newTranslateX = orgTranslateX + offsetX;
-//            double newTranslateY = orgTranslateY + offsetY;
-//             
-//            ((Circle)(t.getSource())).setTranslateX(newTranslateX);
-//            ((Circle)(t.getSource())).setTranslateY(newTranslateY);
-//           
-//                m.setCoordenadaX(t.getSceneX());
-//                m.setCoordenadaY(t.getSceneY());
-//                
-//            
-//        }
-//    };      
-//            c.setOnMouseClicked(evento ->{
-//                crearEscenaPedido();
-//                ProyectoPOO2p.scene.setRoot(vistaMesa);
-//            }); 
-//            c.setCursor(Cursor.HAND);
-//            c.setOnMousePressed(circleOnMousePressedEventHandler);
-//            c.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-//           
-//            mesas.add(c);
-//        }
-//        
-//    }
+
       
         public void crearEscenaPedido(){
              descripcion = new VBox();

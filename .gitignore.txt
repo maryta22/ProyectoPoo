@@ -1,3 +1,4 @@
 /Restaurante/nbproject/private/
 /Restaurante/target/
 /Restaurante/nbproject/private/private.properties
+/Restaurante/build/build-jar.properties
