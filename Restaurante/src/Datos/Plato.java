@@ -12,12 +12,14 @@ import java.io.Serializable;
  * @author danny
  */
 public class Plato implements Serializable {
+    private int codigo;
     private String nombre;
     private Double precio;
     private String ruta;
     private String tipo;
     
-    public Plato(String nombre, Double precio,String ruta,String tipo){
+    public Plato(int codigo,String nombre, Double precio,String ruta,String tipo){
+        this.codigo=codigo;
         this.nombre=nombre;
         this.precio=precio;
         this.ruta=ruta;
