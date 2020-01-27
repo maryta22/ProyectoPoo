@@ -21,10 +21,15 @@ import java.util.logging.Logger;
  *
  * @author danny
  */
-public class Interfaz implements Serializable{
+public class Interfaz implements Serializable {
 
-    private HashMap<String,ArrayList<Plato>> platos = new HashMap<>();
-    
+    ObjectOutputStream archivoSopas;
+    ObjectOutputStream archivoSegundos;
+    ObjectOutputStream archivoPostres;
+    ObjectOutputStream archivoBebidas;
+
+    private HashMap<String, ArrayList<Plato>> platos = new HashMap<>();
+
     private ArrayList<Usuario> usuarios = new ArrayList<>();
     private ArrayList<Mesa> mesas = new ArrayList<>();
 
@@ -40,23 +45,24 @@ public class Interfaz implements Serializable{
         crearPlatos();
         crearUsuarios();
         crearMesas();
-        crearArchivo();
+        crearArchivos();
 
     }
- 
-    
-    
-    public void crearMesas(){
+
+    public void crearMesas() {
         mesas.add(new Mesa(100, 100, 15, "01"));
         mesas.add(new Mesa(200, 200, 25, "02"));
         mesas.add(new Mesa(300, 300, 50, "03"));
+        mesas.add(new Mesa(200, 500, 25, "04"));
+        mesas.add(new Mesa(500, 100, 30, "05"));
     }
 
     public void crearUsuarios() {
         usuarios.add(new Administrador("Admin", "Admin"));
         usuarios.add(new Mesero("Mesero1", "Mesero1"));
         usuarios.add(new Mesero("Mesero2", "Mesero2"));
-        usuarios.add(new Mesero("m","m"));
+        //usuario de acceso rapido para pruebas :v
+        usuarios.add(new Mesero("m", "m"));
     }
 
     /**
@@ -65,8 +71,10 @@ public class Interfaz implements Serializable{
      */
     public void crearPlatos() {
         platos.put("Sopa", sopas());
-        platos.put("Segundo",segundos());
-        System.out.println(platos);
+        platos.put("Segundo", segundos());
+        platos.put("Postre", postres());
+        platos.put("Bebida", bebidas());
+
     }
 
     /**
@@ -74,16 +82,16 @@ public class Interfaz implements Serializable{
      *
      * @return un ArrayList<Plato> de las sopas.
      */
-    public ArrayList<Plato>  sopas() {
-        ArrayList<Plato> Sopas= new ArrayList<>();
-        Plato sopa1 = new Plato(0001,"Sopa de queso", 1.50, "src/Archivos/PLATOS/SOPAS/SOPA DE QUESO.jpg", "Sopa");
-        Plato sopa2 = new Plato(0002,"Caldo de Bola", 2.50, "src/Archivos/PLATOS/SOPAS/CALDO DE BOLA.jpg", "Sopa");
-        Plato sopa3 = new Plato(0003,"Biche de pescado", 2.00, "src/Archivos/PLATOS/SOPAS/BICHE DE PESCADO.jpg", "Sopa");
-        Plato sopa4 = new Plato(0004,"Caldo de pata", 3.00, "src/Archivos/PLATOS/SOPAS/CALDO DE PATA.jpg", "Sopa");
-        Plato sopa5 = new Plato(0005,"Locro de habas", 1.50, "src/Archivos/PLATOS/SOPAS/LOCRO DE HABAS.jpg", "Sopa");
+    public ArrayList<Plato> sopas() {
+        ArrayList<Plato> Sopas = new ArrayList<>();
+        Plato sopa1 = new Plato(0001, "Sopa de queso", 1.50, "src/Archivos/PLATOS/SOPAS/SOPA DE QUESO.jpg", "Sopa");
+        Plato sopa2 = new Plato(0002, "Caldo de Bola", 2.50, "src/Archivos/PLATOS/SOPAS/CALDO DE BOLA.jpg", "Sopa");
+        Plato sopa3 = new Plato(0003, "Biche de pescado", 2.00, "src/Archivos/PLATOS/SOPAS/BICHE DE PESCADO.jpg", "Sopa");
+        Plato sopa4 = new Plato(0004, "Caldo de pata", 3.00, "src/Archivos/PLATOS/SOPAS/CALDO DE PATA.jpg", "Sopa");
+        Plato sopa5 = new Plato(0005, "Locro de habas", 1.50, "src/Archivos/PLATOS/SOPAS/LOCRO DE HABAS.jpg", "Sopa");
         Sopas.add(sopa1);
         Sopas.add(sopa2);
-        return Sopas ;
+        return Sopas;
     }
 
     /**
@@ -93,11 +101,11 @@ public class Interfaz implements Serializable{
      */
     public ArrayList<Plato> segundos() {
         ArrayList<Plato> Segundos = new ArrayList<>();
-        Plato segundo1 = new Plato(0010,"Guatita", 2.50, "src/Archivos/PLATOS/SEGUNDOS/GUATITA.jpg", "Segundo");
-        Plato segundo2 = new Plato(0011,"Chaulafán", 4.50, "src/Archivos/PLATOS/SEGUNDOS/CHAULAFÁN.jpg", "Segundo");
-        Plato segundo3 = new Plato(0012,"Seco de chivo", 2.00, "src/Archivos/PLATOS/SEGUNDOS/SECO DE CHIVO.jpg", "Segundo");
-        Plato segundo4 = new Plato(0013,"Seco de carne", 2.00, "src/Archivos/PLATOS/SEGUNDOS/SECO DE CARNE.jpg", "Segundo");
-        Plato segundo5 = new Plato(0014,"Seco de pollo", 2.00, "src/Archivos/PLATOS/SEGUNDOS/SECO DE POLLO.jpg", "Segundo");
+        Plato segundo1 = new Plato(0010, "Guatita", 2.50, "src/Archivos/PLATOS/SEGUNDOS/GUATITA.jpg", "Segundo");
+        Plato segundo2 = new Plato(0011, "Chaulafán", 4.50, "src/Archivos/PLATOS/SEGUNDOS/CHAULAFÁN.jpg", "Segundo");
+        Plato segundo3 = new Plato(0012, "Seco de chivo", 2.00, "src/Archivos/PLATOS/SEGUNDOS/SECO DE CHIVO.jpg", "Segundo");
+        Plato segundo4 = new Plato(0013, "Seco de carne", 2.00, "src/Archivos/PLATOS/SEGUNDOS/SECO DE CARNE.jpg", "Segundo");
+        Plato segundo5 = new Plato(0014, "Seco de pollo", 2.00, "src/Archivos/PLATOS/SEGUNDOS/SECO DE POLLO.jpg", "Segundo");
         Segundos.add(segundo1);
         Segundos.add(segundo2);
         Segundos.add(segundo3);
@@ -113,11 +121,11 @@ public class Interfaz implements Serializable{
      */
     public ArrayList<Plato> postres() {
         ArrayList<Plato> Postres = new ArrayList<>();
-        Plato postre1 = new Plato(0020,"Dulce de higos", 1.00, "src/Archivos/PLATOS/POSTRES/DULCE DE HIGOS.jpg", "Postre");
-        Plato postre2 = new Plato(0021,"Torta tres leches", 1.50, "src/Archivos/PLATOS/POSTRES/TORTA TRES LECHES.jpg", "Postre");
-        Plato postre3 = new Plato(0022,"Churros", 1.00, "src/Archivos/PLATOS/POSTRES/CHURROS.jpg", "Postre");
-        Plato postre4 = new Plato(0023,"Crepas Dulces", 1.00, "src/Archivos/PLATOS/SEGUNDO/CREPAS DULCES.jpg", "Postre");
-        Plato postre5 = new Plato(0024,"Mousse de Maracuyá", 1.00, "src/Archivos/PLATOS/SEGUNDO/MOUSSE DE MARACUYÁ.jpg", "Postre");
+        Plato postre1 = new Plato(0020, "Dulce de higos", 1.00, "src/Archivos/PLATOS/POSTRES/DULCE DE HIGOS.jpg", "Postre");
+        Plato postre2 = new Plato(0021, "Torta tres leches", 1.50, "src/Archivos/PLATOS/POSTRES/TORTA TRES LECHES.jpg", "Postre");
+        Plato postre3 = new Plato(0022, "Churros", 1.00, "src/Archivos/PLATOS/POSTRES/CHURROS.jpg", "Postre");
+        Plato postre4 = new Plato(0023, "Crepas Dulces", 1.00, "src/Archivos/PLATOS/SEGUNDO/CREPAS DULCES.jpg", "Postre");
+        Plato postre5 = new Plato(0024, "Mousse de Maracuyá", 1.00, "src/Archivos/PLATOS/SEGUNDO/MOUSSE DE MARACUYÁ.jpg", "Postre");
         Postres.add(postre1);
         Postres.add(postre2);
         Postres.add(postre3);
@@ -133,11 +141,11 @@ public class Interfaz implements Serializable{
      */
     public ArrayList<Plato> bebidas() {
         ArrayList<Plato> Bebidas = new ArrayList<>();
-        Plato bebida1 = new Plato(0031,"Jugo de naranja", 1.00, "src/Archivos/PLATOS/BEBIDAS/JUGO DE NARANJA.jpg", "Bebida");
-        Plato bebida2 = new Plato(0032,"Jugo de mora", 1.50, "src/Archivos/PLATOS/BEBIDAS/JUGO DE MORA.jpg", "Bebida");
-        Plato bebida3 = new Plato(0033,"Jugo de maracuyá", 1.00, "src/Archivos/PLATOS/BEBIDAS/JUGO DE MARACUYÁ.jpg", "Bebida");
-        Plato bebida4 = new Plato(0034,"Limonada", 1.00, "src/Archivos/PLATOS/SEGUNDO/LIMONADA.jpg", "Bebida");
-        Plato bebida5 = new Plato(0035,"Jugo de coco", 1.00, "src/Archivos/PLATOS/SEGUNDO/JUGO DE COCO.jpg", "Bebida");
+        Plato bebida1 = new Plato(0031, "Jugo de naranja", 1.00, "src/Archivos/PLATOS/BEBIDAS/JUGO DE NARANJA.jpg", "Bebida");
+        Plato bebida2 = new Plato(0032, "Jugo de mora", 1.50, "src/Archivos/PLATOS/BEBIDAS/JUGO DE MORA.jpg", "Bebida");
+        Plato bebida3 = new Plato(0033, "Jugo de maracuyá", 1.00, "src/Archivos/PLATOS/BEBIDAS/JUGO DE MARACUYÁ.jpg", "Bebida");
+        Plato bebida4 = new Plato(0034, "Limonada", 1.00, "src/Archivos/PLATOS/SEGUNDO/LIMONADA.jpg", "Bebida");
+        Plato bebida5 = new Plato(0035, "Jugo de coco", 1.00, "src/Archivos/PLATOS/SEGUNDO/JUGO DE COCO.jpg", "Bebida");
         Bebidas.add(bebida1);
         Bebidas.add(bebida2);
         Bebidas.add(bebida3);
@@ -145,42 +153,52 @@ public class Interfaz implements Serializable{
         Bebidas.add(bebida5);
         return Bebidas;
     }
-    
-    public void crearArchivo(){
+
+    public void crearArchivos() {
         try {
-            ObjectOutputStream archivoSopas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Sopas.dat"));
-            ObjectOutputStream archivoSegundos = new ObjectOutputStream(new FileOutputStream("src/Archivos/Segundos.dat"));
-            ObjectOutputStream archivoPostres = new ObjectOutputStream(new FileOutputStream("src/Archivos/Postres.dat"));
-            ObjectOutputStream archivoBebidas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Bebidas.dat"));
-            
-            
+            archivoSopas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Sopas.dat"));
+            archivoSegundos = new ObjectOutputStream(new FileOutputStream("src/Archivos/Segundos.dat"));
+            archivoPostres = new ObjectOutputStream(new FileOutputStream("src/Archivos/Postres.dat"));
+            archivoBebidas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Bebidas.dat"));
+
             for (HashMap.Entry<String, ArrayList<Plato>> entry : platos.entrySet()) {
-                
-                if(null== entry.getKey()){
+
+                if (null == entry.getKey()) {
                     System.out.println("No existe ese tipo");
-                }else switch (entry.getKey()) {
-                    case "Sopa":
-                        archivoSopas.writeObject(entry.getValue());
-                        break;
-                    case "Segundo":
-                        archivoSegundos.writeObject(entry.getValue());
-                        break;
-                    case "Postre":
-                        archivoPostres.writeObject(entry.getValue());
-                        break;
-                    case "Bebida":
-                        archivoBebidas.writeObject(entry.getValue());
-                        break;
-                    default:
-                        System.out.println("No existe ese tipo");
-                        break;
+                } else {
+                    switch (entry.getKey()) {
+                        case "Sopa":
+                            archivoSopas.writeObject(entry.getValue());
+                            break;
+                        case "Segundo":
+                            archivoSegundos.writeObject(entry.getValue());
+                            break;
+                        case "Postre":
+                            archivoPostres.writeObject(entry.getValue());
+                            break;
+                        case "Bebida":
+                            archivoBebidas.writeObject(entry.getValue());
+                            break;
+                        default:
+                            System.out.println("No existe ese tipo");
+                            break;
+                    }
                 }
-                    
-                   
-           }
-            
+
+            }
+
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        }
+
+    }
+
+    public void modificarMenu(String tipo, int codigo) {
+        ArrayList<Plato> porModificar = platos.get(tipo);
+        for (Plato platoModificar : porModificar) {
+            if (platoModificar.getCodigo() == codigo) {
+                
+            }
         }
 
     }

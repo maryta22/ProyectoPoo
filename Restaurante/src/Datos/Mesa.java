@@ -5,6 +5,7 @@
  */
 package Datos;
 
+import Usuario.Mesero;
 import javafx.scene.shape.Circle;
 
 /**
@@ -16,12 +17,15 @@ public class Mesa  {
     private double coordenadaY;
     private double radio;
     private String numeroMesa;
+    private Mesero mesa;
+    private boolean disponible;
 
     public Mesa(double coordenadaX, double coordenadaY,double radio,String numero) {
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
         this.radio = radio;
         this.numeroMesa = numero;
+        disponible=true;
         
     }
     

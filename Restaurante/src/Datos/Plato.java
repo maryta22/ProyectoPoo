@@ -42,6 +42,10 @@ public class Plato implements Serializable {
         return tipo;
     }
 
+    public int getCodigo() {
+        return codigo;
+    }
+
     @Override
     public String toString() {
         return  nombre + "-" +  precio + "-" +  ruta + "-" +  tipo ;
