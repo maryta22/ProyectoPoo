@@ -8,6 +8,10 @@ package MeseroView;
 import Datos.Mesa;
 import Usuario.Administrador;
 import Usuario.Mesero;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -28,7 +32,7 @@ import proyectopoo2p.ProyectoPOO2p;
  * @author danny
  */
 public class MesasView {
-    private ArrayList<Circle> mesas;
+    private static ArrayList<Circle> mesas;
     private double orgSceneX, orgSceneY; //Pruebas
     private double orgTranslateX, orgTranslateY; //Pruebas
     private Pane root;
@@ -122,5 +126,21 @@ public class MesasView {
              vistaMesa.getChildren().addAll(descripcion,new PlatillosView().build());
              ProyectoPOO2p.setScene(vistaMesa);
         });
+    }
+    
+    public static void main(String[]args){
+        ArrayList<Circle> mesas = new ArrayList<>();
+        for(Circle m: mesas){
+            mesas.add(m);
+            
+        }
+        try(ObjectOutputStream arch= new ObjectOutputStream(new FileOutputStream("src/Archivos/mesas.dat"))){
+            arch.writeObject(mesas);
+        }catch(FileNotFoundException ie){
+            System.out.println(ie.getMessage());
+            
+        }catch(IOException io){
+            System.out.println(io.getMessage());
+        }
     }
 }
