@@ -29,7 +29,7 @@ public class ProyectoPOO2p extends Application {
     @Override
     public void start(Stage primaryStage) {
         
-        scene = new Scene(new LoginView().crearLogin(),700,700);
+        scene = new Scene(new LoginView().crearLogin(),800,800);
         primaryStage.setTitle("Proyecto Poo");
         primaryStage.setScene(scene);
         primaryStage.show();

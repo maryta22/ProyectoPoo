@@ -15,9 +15,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import proyectopoo2p.ProyectoPOO2p;
 
 /**
  *
@@ -32,6 +35,9 @@ public class PlatillosView {
 
     public PlatillosView() {
         root = new VBox();
+        root.setMinHeight(700);
+        root.setMinWidth(700);
+        
     }
 
     public Parent build() {
@@ -47,12 +53,26 @@ public class PlatillosView {
             //filtro.setStyle("-fx-border-color:white; -fx-background-color: black;");
             filtros.getChildren().add(filtro);
         }
-        for (int i = 0; i < 20; i++) {
-            Label plato = new Label("Plato" + String.valueOf(i + 1));
-            //plato.setStyle("-fx-border-color:white; -fx-background-color: black;");
-            plato.setMinHeight(50);
-            plato.setMinWidth(50);
-            platos.getChildren().add(plato);
+//        for (int i = 0; i < 20; i++) {
+//            Label plato = new Label("Plato" + String.valueOf(i + 1));
+//            //plato.setStyle("-fx-border-color:white; -fx-background-color: black;");
+//            plato.setMinHeight(50);
+//            plato.setMinWidth(50);
+//            platos.getChildren().add(plato);
+//        }
+        for(String s:ProyectoPOO2p.datos.getPlatos().keySet()){
+            for(Plato p:ProyectoPOO2p.datos.getPlatos().get(s)){
+                System.out.println(p.getRuta());
+                VBox detalles = new VBox();
+                Label precio = new Label("Precio: "+String.valueOf(p.getPrecio()));
+                Label nombre = new Label(p.getNombre());
+                Image plato = new Image(p.getRuta());
+                ImageView img = new ImageView(plato);
+                img.setFitHeight(80);
+                img.setFitWidth(80);
+                detalles.getChildren().addAll(precio,img,nombre);
+                platos.getChildren().add(detalles);
+            }
         }
         root.getChildren().addAll(filtros, platos);
         return root;
