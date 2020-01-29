@@ -5,12 +5,15 @@
  */
 package MeseroView;
 
+import Datos.Mesa;
 import Datos.Plato;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Parent;
@@ -31,6 +34,7 @@ public class PlatillosView {
     private HBox filtros;
     private FlowPane platos;
     DataOutputStream sopas;
+    private Mesa mesaActual;
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida"};
 
     public PlatillosView() {
@@ -38,6 +42,10 @@ public class PlatillosView {
         root.setMinHeight(700);
         root.setMinWidth(700);
         
+    }
+    public PlatillosView(Mesa m){
+        this();
+        mesaActual =m;
     }
 
     public Parent build() {
@@ -62,22 +70,35 @@ public class PlatillosView {
 //        }
         for(String s:ProyectoPOO2p.datos.getPlatos().keySet()){
             for(Plato p:ProyectoPOO2p.datos.getPlatos().get(s)){
-                System.out.println(p.getRuta());
                 VBox detalles = new VBox();
                 Label precio = new Label("Precio: "+String.valueOf(p.getPrecio()));
                 Label nombre = new Label(p.getNombre());
                 Image plato = new Image(p.getRuta());
                 ImageView img = new ImageView(plato);
                 img.setFitHeight(80);
-                img.setFitWidth(80);
+                img.setFitWidth(80);  
+                crearAccionPedido(img,p.getNombre(),p.getPrecio());
                 detalles.getChildren().addAll(precio,img,nombre);
                 platos.getChildren().add(detalles);
             }
         }
+        
         root.getChildren().addAll(filtros, platos);
         return root;
     }
 
+    public void crearAccionPedido(ImageView img,String nombre,Double precio){
+        img.setOnMouseClicked(event->{
+           Map<String,Double> pedidoActual = mesaActual.getComidasPedido();
+            if(pedidoActual.containsKey(nombre)){
+                pedidoActual.put(nombre, pedidoActual.get(nombre)+precio);
+            }else{
+                pedidoActual.put(nombre, precio);
+            }
+            System.out.println(mesaActual.getComidasPedido());
+        });
+        
+    }
     
-
+    
 }

@@ -6,6 +6,8 @@
 package Datos;
 
 import Usuario.Mesero;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.scene.shape.Circle;
 
 /**
@@ -19,6 +21,7 @@ public class Mesa  {
     private String numeroMesa;
     private Mesero mesa;
     private boolean disponible;
+    private Map<String,Double> comidasPedido;
 
     public Mesa(double coordenadaX, double coordenadaY,double radio,String numero) {
         this.coordenadaX = coordenadaX;
@@ -26,7 +29,16 @@ public class Mesa  {
         this.radio = radio;
         this.numeroMesa = numero;
         disponible=true;
+        comidasPedido = new HashMap<>();
         
+    }
+
+    public Map<String, Double> getComidasPedido() {
+        return comidasPedido;
+    }
+
+    public void setComidasPedido(Map<String, Double> comidasPedido) {
+        this.comidasPedido = comidasPedido;
     }
     
     public void setNumeroMesa(String numeroMesa) {

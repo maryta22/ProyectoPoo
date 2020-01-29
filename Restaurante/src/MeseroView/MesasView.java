@@ -6,6 +6,7 @@
 package MeseroView;
 
 import Datos.Mesa;
+import LoginView.LoginView;
 import Usuario.Administrador;
 import Usuario.Mesero;
 import java.io.FileNotFoundException;
@@ -13,6 +14,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -36,6 +41,8 @@ public class MesasView {
     private double orgSceneX, orgSceneY; //Pruebas
     private double orgTranslateX, orgTranslateY; //Pruebas
     private Pane root;
+    private VBox pedido;
+    private boolean enVentana=true;
     
     public MesasView(){
        root = new Pane();
@@ -57,7 +64,6 @@ public class MesasView {
                 crearEscenaPedido(c,m);
                 //root.setCursor(Cursor.NONE);
             }
-            System.out.println("Desde build mesas");
         }
          
         
@@ -109,21 +115,29 @@ public class MesasView {
             HBox vistaMesa = new HBox();
             VBox descripcion = new VBox();
              
-             VBox pedido = new VBox();
+             pedido = new VBox();
              pedido.setPadding(new Insets(15));
              pedido.setSpacing(25);
              pedido.setStyle("-fx-border-color: green;");
-             pedido.getChildren().addAll(new Label("Plato 1"),new Label("Plato 2"),new Label("Plato 3"),new Label("Total A pagar"));
+             Thread hiloMesas = new Thread(new HiloActualizarPedido(m) );
+             hiloMesas.start();
              pedido.setAlignment(Pos.CENTER_LEFT);
              VBox botones = new VBox();
              botones.setPadding(new Insets(15));
              botones.setSpacing(25);
              botones.setAlignment(Pos.CENTER);
              botones.setStyle("-fx-border-color: red;");
-             botones.getChildren().addAll(new Button("Finalizar Orden"), new Button("Regresar"));
+             Button regresar = new Button("Regresar");
+             //Temporal 
+             regresar.setOnMouseClicked(v->{
+                 enVentana = false;
+                 ProyectoPOO2p.scene.setRoot(new MeseroView().build());
+                
+             });
+             botones.getChildren().addAll(new Button("Finalizar Orden"), regresar);
              descripcion.getChildren().addAll(pedido,botones);
              
-             vistaMesa.getChildren().addAll(descripcion,new PlatillosView().build());
+             vistaMesa.getChildren().addAll(descripcion,new PlatillosView(m).build());
              ProyectoPOO2p.setScene(vistaMesa);
         });
     }
@@ -143,4 +157,45 @@ public class MesasView {
             System.out.println(io.getMessage());
         }
     }
+    
+    public void colocarPedido(Mesa m){
+        pedido.getChildren().clear();
+        Set<String> orden = m.getComidasPedido().keySet();
+        for(String s: orden){
+            Label plato = new Label(s);
+            Label precio = new Label(String.valueOf(m.getComidasPedido().get(s)));
+            pedido.getChildren().addAll(plato,precio);
+        }
+        
+    }
+    
+    public class HiloActualizarPedido implements Runnable{
+        private Mesa m; //Al final se colocarán nombre adecuados
+        
+        public HiloActualizarPedido(Mesa m){
+         this.m = m;
+        }
+        
+        @Override
+        public void run() {
+            
+            System.out.println("Hilo iniciado");
+            while(enVentana){
+            
+                try {
+                    Platform.runLater(()->{
+                    colocarPedido(m);
+                    });
+                    
+                    
+                    Thread.sleep(2500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MesasView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+             
+            }
+        }
+
+}
 }

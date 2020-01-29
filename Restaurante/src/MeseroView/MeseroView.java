@@ -91,7 +91,7 @@ public class MeseroView {
              botones.getChildren().addAll(new Button("Finalizar Orden"), new Button("Regresar"));
              descripcion.getChildren().addAll(pedido,botones);
              
-             vistaMesa.getChildren().addAll(descripcion,new PlatillosView().build());
+            // vistaMesa.getChildren().addAll(descripcion,new PlatillosView().build());
         }
     public void crearPlatillos(){
         platillos = new VBox();
