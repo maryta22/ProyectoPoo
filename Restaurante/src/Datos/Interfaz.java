@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -229,5 +230,16 @@ public class Interfaz implements Serializable {
         return platos;
     }
     
-    
+    public Plato getPlato(String nombre){
+        List<Plato> platosCompletos = new ArrayList<>();
+        for(ArrayList<Plato> listaPlatos: platos.values()){
+            platosCompletos.addAll(listaPlatos);
+        }
+        for(Plato p: platosCompletos){
+            if(p.getNombre().equals(nombre)){
+                return p;
+            }
+        }
+        return null;
+    }
 }

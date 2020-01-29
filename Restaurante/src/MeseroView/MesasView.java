@@ -6,6 +6,7 @@
 package MeseroView;
 
 import Datos.Mesa;
+import Datos.Plato;
 import LoginView.LoginView;
 import Usuario.Administrador;
 import Usuario.Mesero;
@@ -14,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -160,11 +162,14 @@ public class MesasView {
     
     public void colocarPedido(Mesa m){
         pedido.getChildren().clear();
-        Set<String> orden = m.getComidasPedido().keySet();
-        for(String s: orden){
+        Map<String,Double> orden = m.getComidasPedido();
+        for(String s: orden.keySet()){
             Label plato = new Label(s);
-            Label precio = new Label(String.valueOf(m.getComidasPedido().get(s)));
-            pedido.getChildren().addAll(plato,precio);
+            Double precioUnitario = ProyectoPOO2p.datos.getPlato(s).getPrecio();
+            Double unidades = orden.get(s)/precioUnitario;
+            Label detalle = new Label(String.valueOf(unidades)+" Unidad(es) a: "+String.valueOf(precioUnitario)+" C/u");
+            Label precio = new Label(String.valueOf(orden.get(s)));
+            pedido.getChildren().addAll(plato,detalle,precio);
         }
         
     }

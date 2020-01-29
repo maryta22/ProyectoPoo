@@ -51,5 +51,14 @@ public class Plato implements Serializable {
         return  nombre + "-" +  precio + "-" +  ruta + "-" +  tipo ;
     }
     
+    public boolean equals(Object o){
+        if(o!=null){
+            Plato plato = (Plato) o;
+            if(plato.getNombre().equals(this.nombre)){
+                return true;
+            }
+        }
+        return false;
+    }
     
 }
