@@ -9,6 +9,7 @@ import Usuario.Administrador;
 import Usuario.Mesero;
 import Usuario.Usuario;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -169,7 +170,19 @@ public class Interfaz implements Serializable {
             archivoSegundos = new ObjectOutputStream(new FileOutputStream("src/Archivos/Segundo.dat"));
             archivoPostres = new ObjectOutputStream(new FileOutputStream("src/Archivos/Postre.dat"));
             archivoBebidas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Bebida.dat"));
+            
+            agregarElementosArchivos();
 
+        } catch (IOException ex) {
+            System.out.println("IOExcepcion");
+        }
+
+    }
+    
+    
+    public void agregarElementosArchivos(){
+        try {
+         
             for (HashMap.Entry<String, ArrayList<Plato>> entry : platos.entrySet()) {
 
                 if (null == entry.getKey()) {
@@ -199,11 +212,9 @@ public class Interfaz implements Serializable {
         } catch (IOException ex) {
             System.out.println("IOExcepcion");
         }
-
     }
     
-    /**
-     * 
+    /*
      * Recibe el @param plato y modifica ese plato en el HashMap. 
      */
 
@@ -217,6 +228,11 @@ public class Interfaz implements Serializable {
         }  
 
     }
+    
+    public void actualizarMenus(){
+        File ficherosopa =new File("src/Archivos/Sopa.dat");
+    }
+    
 
     public boolean validarUsuario(String usuario, String contraseña) {
         for (Usuario u : usuarios) {
