@@ -201,6 +201,11 @@ public class Interfaz implements Serializable {
         }
 
     }
+    
+    /**
+     * 
+     * Recibe el @param plato y modifica ese plato en el HashMap. 
+     */
 
     public void modificarMenu(Plato plato) {
         ArrayList<Plato> porModificar = platos.get(plato.getTipo());
