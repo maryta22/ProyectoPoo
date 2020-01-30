@@ -8,7 +8,9 @@ package Datos;
 import Usuario.Administrador;
 import Usuario.Mesero;
 import Usuario.Usuario;
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -47,6 +49,7 @@ public class Interfaz implements Serializable {
         crearUsuarios();
         crearMesas();
         crearArchivos();
+        System.out.println(archivoSopas);
 
     }
 
@@ -63,6 +66,7 @@ public class Interfaz implements Serializable {
         usuarios.add(new Mesero("Mesero1", "Mesero1"));
         usuarios.add(new Mesero("Mesero2", "Mesero2"));
         //usuario de acceso rapido para pruebas :v
+        usuarios.add(new Administrador("a","a"));
         usuarios.add(new Mesero("m", "m"));
     }
 
@@ -154,13 +158,17 @@ public class Interfaz implements Serializable {
         Bebidas.add(bebida5);
         return Bebidas;
     }
+    
+    /**
+     * Crea los archivos binarios recorriendo el HashMap.
+     */
 
     public void crearArchivos() {
         try {
-            archivoSopas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Sopas.dat"));
-            archivoSegundos = new ObjectOutputStream(new FileOutputStream("src/Archivos/Segundos.dat"));
-            archivoPostres = new ObjectOutputStream(new FileOutputStream("src/Archivos/Postres.dat"));
-            archivoBebidas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Bebidas.dat"));
+            archivoSopas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Sopa.dat"));
+            archivoSegundos = new ObjectOutputStream(new FileOutputStream("src/Archivos/Segundo.dat"));
+            archivoPostres = new ObjectOutputStream(new FileOutputStream("src/Archivos/Postre.dat"));
+            archivoBebidas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Bebida.dat"));
 
             for (HashMap.Entry<String, ArrayList<Plato>> entry : platos.entrySet()) {
 
@@ -189,18 +197,19 @@ public class Interfaz implements Serializable {
             }
 
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("IOExcepcion");
         }
 
     }
 
-    public void modificarMenu(String tipo, int codigo) {
-        ArrayList<Plato> porModificar = platos.get(tipo);
+    public void modificarMenu(Plato plato) {
+        ArrayList<Plato> porModificar = platos.get(plato.getTipo());
         for (Plato platoModificar : porModificar) {
-            if (platoModificar.getCodigo() == codigo) {
-                
+            if (platoModificar.getCodigo() == plato.getCodigo()) {
+                porModificar.remove(platoModificar);
+                porModificar.add(plato);
             }
-        }
+        }  
 
     }
 

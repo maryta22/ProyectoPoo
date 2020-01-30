@@ -5,6 +5,7 @@
  */
 package MeseroView;
 
+import static Datos.Constantes.altoVentana;
 import Datos.Mesa;
 import Datos.Plato;
 import LoginView.LoginView;

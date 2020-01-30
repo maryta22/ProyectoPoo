@@ -34,10 +34,7 @@ public class MeseroView {
     private HBox vistaMesa,filtros;
     private VBox descripcion, platillos,botones,pedido;
     private FlowPane platos;
-    
-    
-    
-    
+
     
     public MeseroView() {
         root = new VBox();

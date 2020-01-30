@@ -38,21 +38,21 @@ public class PlatillosView {
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida"};
 
     public PlatillosView() {
-        root = new VBox();
+        root = new VBox(50);
         root.setMinHeight(700);
         root.setMinWidth(700);
         
     }
-    public PlatillosView(Mesa m){
+    public PlatillosView(Mesa mesa){
         this();
-        mesaActual =m;
+        mesaActual = mesa;
     }
 
     public Parent build() {
 
         filtros = new HBox();
         platos = new FlowPane();
-        filtros.setSpacing(50);
+        filtros.setSpacing(100);
         platos.setHgap(15);
         platos.setVgap(15);
         root.setStyle("-fx-border-color: yellow;");
@@ -70,7 +70,7 @@ public class PlatillosView {
 //        }
         for(String s:ProyectoPOO2p.datos.getPlatos().keySet()){
             for(Plato p:ProyectoPOO2p.datos.getPlatos().get(s)){
-                VBox detalles = new VBox();
+                VBox detalles = new VBox(10);
                 Label precio = new Label("Precio: "+String.valueOf(p.getPrecio()));
                 Label nombre = new Label(p.getNombre());
                 Image plato = new Image(p.getRuta());
