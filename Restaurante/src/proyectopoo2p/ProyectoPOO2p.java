@@ -1,10 +1,11 @@
-   /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package proyectopoo2p;
 
+import Datos.Constantes;
 import Datos.Interfaz;
 import LoginView.LoginView;
 import Usuario.Usuario;
@@ -22,17 +23,20 @@ import javafx.stage.Stage;
  * @author danny
  */
 public class ProyectoPOO2p extends Application {
+
     public static Scene scene;
-     public static Interfaz datos;
-     public static Usuario usuario;
-            
+    public static Interfaz datos;
+    public static Usuario usuario;
+
     @Override
     public void start(Stage primaryStage) {
-        
-        scene = new Scene(new LoginView().crearLogin(),800,800);
+
+        scene = new Scene(new LoginView().crearLogin(),Constantes.anchoVentana,Constantes.altoVentana);
         primaryStage.setTitle("Proyecto Poo");
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
     /**
@@ -42,14 +46,13 @@ public class ProyectoPOO2p extends Application {
         datos = new Interfaz();
         launch(args);
     }
-    
-    public static void setScene(Parent newRoot){
-    scene.setRoot(newRoot);
+
+    public static void setScene(Parent newRoot) {
+        scene.setRoot(newRoot);
     }
-    
-    public Interfaz getInterfaz(){
+
+    public Interfaz getInterfaz() {
         return datos;
     }
 
-    
 }
