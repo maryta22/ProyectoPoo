@@ -50,6 +50,7 @@ public class AdminView {
     private TableView tablaReportes;
     private ArrayList<TableColumn> columnas = new ArrayList<>();
     private DatePicker fechaInicio,fechaFin;
+    private static boolean diseño ;
     
     public AdminView() {
         root = new BorderPane();
@@ -58,14 +59,16 @@ public class AdminView {
         
         
     }
+
+    public static boolean isDiseño() {
+        return diseño;
+    }
+
+    public static void setDiseño(boolean diseño) {
+        AdminView.diseño = diseño;
+    }
     
     public Parent build(){
-//        Label prueba = new Label("Menu Admin");
-//        Button logOut = new Button("Cerrar Sesión");
-//        root.getChildren().addAll(prueba,logOut); //Pruebas
-//        logOut.setOnMouseClicked(event ->{
-//            ProyectoPOO2p.setScene(new LoginView().crearLogin());
-//        });
         crearSeccionTop();
         return root;
     }
@@ -95,11 +98,14 @@ public class AdminView {
                 switch(texto){
                     case "Monitoreo":
                         System.out.println("Monitor");
+                        diseño = false;
                         root.setCenter(new MesasView().build());
                         //Aqui se colocará el codigo para generar las mesas
                         break;
                     case "Diseño Plano":
                         System.out.println("Diseñar");
+                        diseño = true;
+                        root.setCenter(new MesasView().build());
                         //Aqui se colocará el código para generar las mesas
                         break;
                     case "Gestión Menú":
@@ -148,14 +154,7 @@ public class AdminView {
     }
     
     public void crearColumnas(){
-//        for(String s: columnasReporte){
-//            TableColumn<String,String> columna = new TableColumn(s);
-//            columna.setPrefWidth(ProyectoPOO2p.scene.getWidth()/columnasReporte.size());
-//            
-//            columna.setCellValueFactory(new PropertyValueFactory<>(s));
-//            tablaReportes.getColumns().add(columna);
-//        }
-        
+        columnas.clear();
         TableColumn<Pedido,LocalDate> fecha = new TableColumn("Fecha");
         TableColumn <Pedido,Mesa> mesa = new TableColumn("Mesa");
         TableColumn <Pedido,Mesero> mesero = new TableColumn("Mesero");

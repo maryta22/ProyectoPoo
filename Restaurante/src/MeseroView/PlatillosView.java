@@ -7,6 +7,7 @@ package MeseroView;
 
 import Datos.Mesa;
 import Datos.Plato;
+import Usuario.Mesero;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -61,13 +62,6 @@ public class PlatillosView {
             //filtro.setStyle("-fx-border-color:white; -fx-background-color: black;");
             filtros.getChildren().add(filtro);
         }
-//        for (int i = 0; i < 20; i++) {
-//            Label plato = new Label("Plato" + String.valueOf(i + 1));
-//            //plato.setStyle("-fx-border-color:white; -fx-background-color: black;");
-//            plato.setMinHeight(50);
-//            plato.setMinWidth(50);
-//            platos.getChildren().add(plato);
-//        }
         for(String s:ProyectoPOO2p.datos.getPlatos().keySet()){
             for(Plato p:ProyectoPOO2p.datos.getPlatos().get(s)){
                 VBox detalles = new VBox(10);
@@ -77,7 +71,10 @@ public class PlatillosView {
                 ImageView img = new ImageView(plato);
                 img.setFitHeight(80);
                 img.setFitWidth(80);  
-                crearAccionPedido(img,p.getNombre(),p.getPrecio());
+                if(ProyectoPOO2p.usuario instanceof Mesero){
+                    crearAccionPedido(img,p.getNombre(),p.getPrecio());
+                }
+                
                 detalles.getChildren().addAll(precio,img,nombre);
                 platos.getChildren().add(detalles);
             }

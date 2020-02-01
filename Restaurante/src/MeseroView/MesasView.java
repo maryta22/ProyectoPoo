@@ -61,11 +61,15 @@ public class MesasView {
             mesas.add(c);
             root.getChildren().add(c);
             if(ProyectoPOO2p.usuario instanceof Administrador){
-                crearMovimientoMesas(c,m);
-                System.out.println("Si");
+                if(AdminView.isDiseño()){
+                    crearMovimientoMesas(c,m);
+                }else{
+                     root.setCursor(Cursor.NONE);
+                }
+               
             }else{
                 crearEscenaPedido(c,m);
-                //root.setCursor(Cursor.NONE);
+               
             }
         }
          
