@@ -6,18 +6,21 @@
 package MeseroView;
 
 import Datos.Mesa;
+import Datos.Pedido;
 import Datos.Plato;
 import Usuario.Mesero;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,6 +39,7 @@ public class PlatillosView {
     private FlowPane platos;
     DataOutputStream sopas;
     private Mesa mesaActual;
+    private Double aPagar = new Double(0);
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida"};
 
     public PlatillosView() {
@@ -73,6 +77,7 @@ public class PlatillosView {
                 img.setFitWidth(80);  
                 if(ProyectoPOO2p.usuario instanceof Mesero){
                     crearAccionPedido(img,p.getNombre(),p.getPrecio());
+                    
                 }
                 
                 detalles.getChildren().addAll(precio,img,nombre);
@@ -92,10 +97,25 @@ public class PlatillosView {
             }else{
                 pedidoActual.put(nombre, precio);
             }
+            aPagar+=precio;
             System.out.println(mesaActual.getComidasPedido());
         });
         
     }
     
+    public void setBotonesEscena(VBox boxBotones){
+        Button regresar = new Button("Regresar");
+        regresar.setOnMouseClicked(v->{
+                 ProyectoPOO2p.scene.setRoot(new MeseroView().build());
+                
+             });
+        Button finalizar = new Button("Finalizar Orden");
+        finalizar.setOnMouseClicked(event->{
+            Pedido pMesa = new Pedido(LocalDate.now(),mesaActual,(Mesero)ProyectoPOO2p.usuario,"000-123",mesaActual.getCliente(),aPagar);
+            ProyectoPOO2p.datos.getPedidos().add(pMesa);
+        });
+        
+        boxBotones.getChildren().addAll(regresar,finalizar);
+    }
     
 }

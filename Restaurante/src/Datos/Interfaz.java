@@ -36,6 +36,7 @@ public class Interfaz implements Serializable {
 
     private ArrayList<Usuario> usuarios = new ArrayList<>();
     private ArrayList<Mesa> mesas = new ArrayList<>();
+    private ArrayList<Pedido> pedidos = new ArrayList<>();
 
     public Interfaz() {
         inicializarDatos();
@@ -44,7 +45,9 @@ public class Interfaz implements Serializable {
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
-
+    public ArrayList<Pedido> getPedidos(){
+        return pedidos;
+    }
     public void inicializarDatos() {
         crearPlatos();
         crearUsuarios();

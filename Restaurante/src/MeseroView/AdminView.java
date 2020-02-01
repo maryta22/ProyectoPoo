@@ -144,7 +144,8 @@ public class AdminView {
         tablaReportes = new TableView();
         tablaReportes.setEditable(true);
         crearColumnas();
-        ObservableList<Pedido> items = FXCollections.observableArrayList(new Pedido(LocalDate.now(),new Mesa(10,10,5,"25"),new Mesero("A","A"),"001-00","Juan",15.25));//Datos de prueba
+        ObservableList<Pedido> items = cargarPedidos();
+                //FXCollections.observableArrayList(new Pedido(LocalDate.now(),new Mesa(10,10,5,"25"),new Mesero("A","A"),"001-00","Juan",15.25));//Datos de prueba
         tablaReportes.setItems(items);
         reporte.setStyle("-fx-border-color: green;");
         reporte.getChildren().addAll(filtrado,tablaReportes);
@@ -152,7 +153,10 @@ public class AdminView {
         
         
     }
-    
+    public ObservableList<Pedido> cargarPedidos(){
+        ArrayList<Pedido> pedidos = ProyectoPOO2p.datos.getPedidos();
+        return (FXCollections.observableArrayList(pedidos));
+    }
     public void crearColumnas(){
         columnas.clear();
         TableColumn<Pedido,LocalDate> fecha = new TableColumn("Fecha");

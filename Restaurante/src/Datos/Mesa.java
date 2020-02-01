@@ -23,6 +23,7 @@ public class Mesa  {
     private Mesero mesa;
     private boolean disponible;
     private Map<String,Double> comidasPedido;
+    private String cliente="Prueba";
 
     public Mesa(double coordenadaX, double coordenadaY,double radio,String numero) {
         this.coordenadaX = coordenadaX;
@@ -34,6 +35,9 @@ public class Mesa  {
         
     }
 
+    public String getCliente(){
+        return cliente;
+    }
     public Map<String, Double> getComidasPedido() {
         return comidasPedido;
     }

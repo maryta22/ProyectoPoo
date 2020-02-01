@@ -134,17 +134,19 @@ public class MesasView {
              botones.setSpacing(25);
              botones.setAlignment(Pos.CENTER);
              botones.setStyle("-fx-border-color: red;");
-             Button regresar = new Button("Regresar");
-             //Temporal 
-             regresar.setOnMouseClicked(v->{
-                 enVentana = false;
-                 ProyectoPOO2p.scene.setRoot(new MeseroView().build());
-                
-             });
-             botones.getChildren().addAll(new Button("Finalizar Orden"), regresar);
+//             Button regresar = new Button("Regresar");
+//             Button finalizar = new Button("Finalizar Orden");
+//             //Temporal 
+//             regresar.setOnMouseClicked(v->{
+//                 enVentana = false;
+//                 ProyectoPOO2p.scene.setRoot(new MeseroView().build());
+//                
+//             });
+            PlatillosView vistaPlatos = new PlatillosView(m);
+             vistaPlatos.setBotonesEscena(botones);
              descripcion.getChildren().addAll(pedido,botones);
              
-             vistaMesa.getChildren().addAll(descripcion,new PlatillosView(m).build());
+             vistaMesa.getChildren().addAll(descripcion,vistaPlatos.build());
              ProyectoPOO2p.setScene(vistaMesa);
         });
     }
@@ -198,7 +200,7 @@ public class MesasView {
                     });
                     
                     
-                    Thread.sleep(2500);
+                    Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MesasView.class.getName()).log(Level.SEVERE, null, ex);
                 }
