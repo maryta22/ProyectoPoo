@@ -121,8 +121,8 @@ public class MesasView {
         c.setOnMouseClicked(event->{
             HBox vistaMesa = new HBox();
             VBox descripcion = new VBox();
-             
-             pedido = new VBox();
+             PlatillosView vistaPlatos = new PlatillosView(m);
+             pedido = vistaPlatos.seccionDetalle();
              pedido.setPadding(new Insets(15));
              pedido.setSpacing(25);
              pedido.setStyle("-fx-border-color: green;");
@@ -142,7 +142,7 @@ public class MesasView {
 //                 ProyectoPOO2p.scene.setRoot(new MeseroView().build());
 //                
 //             });
-            PlatillosView vistaPlatos = new PlatillosView(m);
+            
              vistaPlatos.setBotonesEscena(botones);
              descripcion.getChildren().addAll(pedido,botones);
              

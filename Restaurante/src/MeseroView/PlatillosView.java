@@ -40,13 +40,18 @@ public class PlatillosView {
     DataOutputStream sopas;
     private Mesa mesaActual;
     private Double aPagar = new Double(0);
-    private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida"};
+    private VBox detalle;
+    private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida","Todos"};
 
     public PlatillosView() {
         root = new VBox(50);
+        detalle = new VBox();
         root.setMinHeight(700);
         root.setMinWidth(700);
         
+    }
+    public VBox seccionDetalle(){
+        return detalle;
     }
     public PlatillosView(Mesa mesa){
         this();
@@ -63,28 +68,32 @@ public class PlatillosView {
         root.setStyle("-fx-border-color: yellow;");
         for (int i = 0; i < tipos.length; i++) {
             Label filtro = new Label(tipos[i]);
+            filtro.setStyle("-fx-border-color:white; -fx-background-color: black;");
+            filtro.setMinHeight(50);
+            filtro.setMinWidth(filtros.getWidth()/tipos.length);
+            makeClickable(filtro);
             //filtro.setStyle("-fx-border-color:white; -fx-background-color: black;");
             filtros.getChildren().add(filtro);
         }
-        for(String s:ProyectoPOO2p.datos.getPlatos().keySet()){
-            for(Plato p:ProyectoPOO2p.datos.getPlatos().get(s)){
-                VBox detalles = new VBox(10);
-                Label precio = new Label("Precio: "+String.valueOf(p.getPrecio()));
-                Label nombre = new Label(p.getNombre());
-                Image plato = new Image(p.getRuta());
-                ImageView img = new ImageView(plato);
-                img.setFitHeight(80);
-                img.setFitWidth(80);  
-                if(ProyectoPOO2p.usuario instanceof Mesero){
-                    crearAccionPedido(img,p.getNombre(),p.getPrecio());
-                    
-                }
-                
-                detalles.getChildren().addAll(precio,img,nombre);
-                platos.getChildren().add(detalles);
-            }
-        }
-        
+//        for(String s:ProyectoPOO2p.datos.getPlatos().keySet()){
+//            for(Plato p:ProyectoPOO2p.datos.getPlatos().get(s)){
+//                VBox detalles = new VBox(10);
+//                Label precio = new Label("Precio: "+String.valueOf(p.getPrecio()));
+//                Label nombre = new Label(p.getNombre());
+//                Image plato = new Image(p.getRuta());
+//                ImageView img = new ImageView(plato);
+//                img.setFitHeight(80);
+//                img.setFitWidth(80);  
+//                if(ProyectoPOO2p.usuario instanceof Mesero){
+//                    crearAccionPedido(img,p.getNombre(),p.getPrecio());
+//                    
+//                }
+//                
+//                detalles.getChildren().addAll(precio,img,nombre);
+//                platos.getChildren().add(detalles);
+//            }
+//        }
+        colocarTodos();
         root.getChildren().addAll(filtros, platos);
         return root;
     }
@@ -113,9 +122,56 @@ public class PlatillosView {
         finalizar.setOnMouseClicked(event->{
             Pedido pMesa = new Pedido(LocalDate.now(),mesaActual,(Mesero)ProyectoPOO2p.usuario,"000-123",mesaActual.getCliente(),aPagar);
             ProyectoPOO2p.datos.getPedidos().add(pMesa);
+            mesaActual.getComidasPedido().clear();
+            detalle.getChildren().clear();
+            ProyectoPOO2p.scene.setRoot(new MeseroView().build());
         });
         
         boxBotones.getChildren().addAll(regresar,finalizar);
     }
     
+    public void makeClickable(Label filtro){
+        String texto = filtro.getText();
+        filtro.setOnMouseClicked(event->{
+            platos.getChildren().clear();
+            if(!texto.equals("Todos")){
+                colocarPlatosPorFiltro(texto);
+            }else{
+                colocarTodos();
+            }
+            
+        });
+    }
+    
+    public void colocarPlatosPorFiltro(String tipoPlato){
+        platos.getChildren().clear();
+       for(Plato p: ProyectoPOO2p.datos.getPlatos().get(tipoPlato)){
+           colocarPlato(p);
+       }
+    }
+    public void colocarTodos(){
+        platos.getChildren().clear();
+        for(String s:ProyectoPOO2p.datos.getPlatos().keySet()){
+                for(Plato p:ProyectoPOO2p.datos.getPlatos().get(s)){
+                    colocarPlato(p);
+                }
+            }
+        }
+    
+    public void colocarPlato(Plato p){
+                    VBox detalles = new VBox(10);
+                    Label precio = new Label("Precio: "+String.valueOf(p.getPrecio()));
+                    Label nombre = new Label(p.getNombre());
+                    Image plato = new Image(p.getRuta());
+                    ImageView img = new ImageView(plato);
+                    img.setFitHeight(80);
+                    img.setFitWidth(80);  
+                    if(ProyectoPOO2p.usuario instanceof Mesero){
+                        crearAccionPedido(img,p.getNombre(),p.getPrecio());
+
+                    }
+
+                    detalles.getChildren().addAll(precio,img,nombre);
+                    platos.getChildren().add(detalles);
+    }
 }
