@@ -12,4 +12,5 @@ package Datos;
 public class Constantes {
     public static double anchoVentana = 1000;
     public static double altoVentana = 750;
+    
 }

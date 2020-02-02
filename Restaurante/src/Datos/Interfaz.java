@@ -100,6 +100,9 @@ public class Interfaz implements Serializable {
         Plato sopa5 = new Plato(0005, "Locro de habas", 1.50, "/Archivos/PLATOS/SOPAS/LOCRO DE HABAS.jpg", "Sopa");
         Sopas.add(sopa1);
         Sopas.add(sopa2);
+        Sopas.add(sopa3);
+        Sopas.add(sopa4);
+        Sopas.add(sopa5);
         return Sopas;
     }
 
