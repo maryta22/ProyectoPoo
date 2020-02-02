@@ -33,6 +33,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import proyectopoo2p.ProyectoPOO2p;
 
@@ -60,6 +61,7 @@ public class MesasView {
             mesaNumero = new StackPane();
             Label numero = new Label(m.getNumeroMesa());
             Circle c = new Circle(m.getRadio());
+            darColorMesa(c,m);
             c.setCenterX(m.getCoordenadaX());
             c.setCenterY(m.getCoordenadaY());
             mesaNumero.setLayoutX(m.getCoordenadaX());
@@ -126,7 +128,9 @@ public class MesasView {
     
     public void crearEscenaPedido(Circle c, Mesa m){
         c.setOnMouseClicked(event->{
-            HBox vistaMesa = new HBox();
+            if(m.getMesero()==null|| m.getMesero().equals((Mesero)ProyectoPOO2p.usuario)){
+               m.setMesero((Mesero)ProyectoPOO2p.usuario); 
+                HBox vistaMesa = new HBox();
             VBox descripcion = new VBox();
              PlatillosView vistaPlatos = new PlatillosView(m);
              pedido = vistaPlatos.seccionDetalle();
@@ -155,6 +159,9 @@ public class MesasView {
              
              vistaMesa.getChildren().addAll(descripcion,vistaPlatos.build());
              ProyectoPOO2p.setScene(vistaMesa);
+            }
+            
+           
         });
     }
     
@@ -186,6 +193,18 @@ public class MesasView {
             pedido.getChildren().addAll(plato,detalle,precio);
         }
         
+    }
+    
+    public void darColorMesa(Circle c, Mesa m){
+        if(m.getMesero()!=null){
+            if(m.getMesero().equals(ProyectoPOO2p.usuario)){
+                c.setFill(Color.GREEN);
+            }else{
+                c.setFill(Color.RED);
+            }
+        }else{
+            c.setFill(Color.YELLOW);
+        }
     }
     
     public class HiloActualizarPedido implements Runnable{

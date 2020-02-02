@@ -20,7 +20,7 @@ public class Mesa  {
     private double coordenadaY;
     private double radio;
     private String numeroMesa;
-    private Mesero mesa;
+    private Mesero mesero;
     private boolean disponible;
     private Map<String,Double> comidasPedido;
     private String cliente="Prueba";
@@ -32,6 +32,7 @@ public class Mesa  {
         this.numeroMesa = numero;
         disponible=true;
         comidasPedido = new HashMap<>();
+        mesero = null;
         
     }
 
@@ -65,7 +66,15 @@ public class Mesa  {
     public double getRadio() {
         return radio;
     }
-
+    
+    public Mesero getMesero(){
+        return mesero;
+    }
+    
+    public void setMesero(Mesero mesero){
+        this.mesero = mesero;
+    }
+    
     public void setCoordenadaX(double coordenadaX) {
         this.coordenadaX = coordenadaX;
     }
