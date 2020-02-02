@@ -31,6 +31,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import proyectopoo2p.ProyectoPOO2p;
@@ -46,6 +47,7 @@ public class MesasView {
     private Pane root;
     private VBox pedido;
     private boolean enVentana=true;
+    private StackPane mesaNumero;
     
     public MesasView(){
        root = new Pane();
@@ -55,14 +57,19 @@ public class MesasView {
     
     public Parent build(){
         for(Mesa m: ProyectoPOO2p.datos.getMesas()){
+            mesaNumero = new StackPane();
+            Label numero = new Label(m.getNumeroMesa());
             Circle c = new Circle(m.getRadio());
             c.setCenterX(m.getCoordenadaX());
             c.setCenterY(m.getCoordenadaY());
+            mesaNumero.setLayoutX(m.getCoordenadaX());
+            mesaNumero.setLayoutY(m.getCoordenadaY());
             mesas.add(c);
-            root.getChildren().add(c);
+            mesaNumero.getChildren().addAll(c,numero);
+            root.getChildren().add(mesaNumero);
             if(ProyectoPOO2p.usuario instanceof Administrador){
                 if(AdminView.isDiseño()){
-                    crearMovimientoMesas(c,m);
+                    crearMovimientoMesas(mesaNumero,m);
                 }else{
                      root.setCursor(Cursor.NONE);
                 }
@@ -77,7 +84,7 @@ public class MesasView {
         return root;
     }
     
-    public void crearMovimientoMesas(Circle c, Mesa m){
+    public void crearMovimientoMesas(StackPane c, Mesa m){
  
        
             System.out.println("Mesa movimiento");
@@ -88,8 +95,8 @@ public class MesasView {
         public void handle(MouseEvent t) {
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
-            orgTranslateX = ((Circle)(t.getSource())).getTranslateX();
-            orgTranslateY = ((Circle)(t.getSource())).getTranslateY();
+            orgTranslateX = ((StackPane)(t.getSource())).getTranslateX();
+            orgTranslateY = ((StackPane)(t.getSource())).getTranslateY();
            
         }
     };
@@ -103,8 +110,8 @@ public class MesasView {
             double newTranslateX = orgTranslateX + offsetX;
             double newTranslateY = orgTranslateY + offsetY;
              
-            ((Circle)(t.getSource())).setTranslateX(newTranslateX);
-            ((Circle)(t.getSource())).setTranslateY(newTranslateY);
+            ((StackPane)(t.getSource())).setTranslateX(newTranslateX);
+            ((StackPane)(t.getSource())).setTranslateY(newTranslateY);
             m.setCoordenadaX(t.getSceneX());
             m.setCoordenadaY(t.getSceneY());
                 
