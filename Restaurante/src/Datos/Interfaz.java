@@ -172,10 +172,10 @@ public class Interfaz implements Serializable {
 
     public void crearArchivos() {
         try {
-            archivoSopas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Sopa.dat"));
-            archivoSegundos = new ObjectOutputStream(new FileOutputStream("src/Archivos/Segundo.dat"));
-            archivoPostres = new ObjectOutputStream(new FileOutputStream("src/Archivos/Postre.dat"));
-            archivoBebidas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Bebida.dat"));
+            archivoSopas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Sopas.dat"));
+            archivoSegundos = new ObjectOutputStream(new FileOutputStream("src/Archivos/Segundos.dat"));
+            archivoPostres = new ObjectOutputStream(new FileOutputStream("src/Archivos/Postres.dat"));
+            archivoBebidas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Bebidas.dat"));
             
             agregarElementosArchivos();
 
