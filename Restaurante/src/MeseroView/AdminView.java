@@ -53,10 +53,7 @@ public class AdminView {
     private static boolean diseño ;
     
     public AdminView() {
-        root = new BorderPane();
-        
-        
-        
+        root = new BorderPane();  
         
     }
 
@@ -140,6 +137,7 @@ public class AdminView {
         fechaFin = new DatePicker();
         fechaFin.setEditable(false);
         Button buscar = new Button("Buscar");
+        aplicarFiltro(buscar);
         filtrado.getChildren().addAll(inicio,fechaInicio,fin,fechaFin,buscar);
         tablaReportes = new TableView();
         tablaReportes.setEditable(true);
@@ -157,6 +155,9 @@ public class AdminView {
         ArrayList<Pedido> pedidos = ProyectoPOO2p.datos.getPedidos();
         return (FXCollections.observableArrayList(pedidos));
     }
+    
+    
+    
     public void crearColumnas(){
         columnas.clear();
         TableColumn<Pedido,LocalDate> fecha = new TableColumn("Fecha");
@@ -187,6 +188,21 @@ public class AdminView {
     }
     
      
-    
+    public void aplicarFiltro(Button filtro){
+        filtro.setOnMouseClicked(event->{
+            LocalDate inicioFiltro = fechaInicio.getValue();
+            LocalDate finFiltro = fechaFin.getValue();
+            ObservableList<Pedido> items = cargarPedidos();
+            List<Pedido> itemsFiltrados = new ArrayList<>();
+            
+            for(Pedido p: items){
+                if(p.getFecha().isAfter(inicioFiltro) && p.getFecha().isBefore(finFiltro)){
+                    itemsFiltrados.add(p);
+                }
+            }
+            tablaReportes.setItems(FXCollections.observableArrayList(itemsFiltrados));
+            
+        });
+    }
     
 }

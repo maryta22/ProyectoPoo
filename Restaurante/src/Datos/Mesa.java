@@ -84,9 +84,13 @@ public class Mesa  {
     public void setCoordenadaY(double coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
-
-    @Override
-    public String toString() {
+    
+    public void setVentasTotal(Double venta){
+        valorTotalFacturado += venta;
+    }
+    
+   
+    public String getDatos() {
         if(mesero==null){
             return "Numero de Mesa=" + numeroMesa + 
                 "\nMesero= Ninguno" + 
@@ -99,6 +103,10 @@ public class Mesa  {
                 "\n Disponible=" + disponible +
                 "\n Cliente=" + cliente +
                 "\n Valor Facturado en el Dia=" + valorTotalFacturado;
+    }
+    
+    public String toString(){
+        return numeroMesa;
     }
     
     

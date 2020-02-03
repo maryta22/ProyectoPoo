@@ -65,8 +65,8 @@ public class MesasView {
             darColorMesa(c,m);
             c.setCenterX(m.getCoordenadaX());
             c.setCenterY(m.getCoordenadaY());
-            mesaNumero.setLayoutX(m.getCoordenadaX());
-            mesaNumero.setLayoutY(m.getCoordenadaY());
+            mesaNumero.setTranslateX(m.getCoordenadaX());
+            mesaNumero.setTranslateY(m.getCoordenadaY());
             mesas.add(c);
             mesaNumero.getChildren().addAll(c,numero);
             root.getChildren().add(mesaNumero);
@@ -88,15 +88,11 @@ public class MesasView {
         return root;
     }
         public void mostrarInformaciónMesa(StackPane p, Mesa m){
-           Tooltip informacion = new Tooltip(m.toString());
-           
+           Tooltip informacion = new Tooltip(m.getDatos());
            Tooltip.install(p,informacion);
         }
     public void crearMovimientoMesas(StackPane c, Mesa m){
- 
-       
-            System.out.println("Mesa movimiento");
-                     EventHandler<MouseEvent> circleOnMousePressedEventHandler = 
+        EventHandler<MouseEvent> circleOnMousePressedEventHandler = 
         new EventHandler<MouseEvent>() {
  
         @Override
@@ -120,8 +116,8 @@ public class MesasView {
              
             ((StackPane)(t.getSource())).setTranslateX(newTranslateX);
             ((StackPane)(t.getSource())).setTranslateY(newTranslateY);
-            m.setCoordenadaX(t.getSceneX());
-            m.setCoordenadaY(t.getSceneY());
+            m.setCoordenadaX(newTranslateX);
+            m.setCoordenadaY(newTranslateY);
                 
             
         }
@@ -140,8 +136,8 @@ public class MesasView {
             VBox descripcion = new VBox();
              PlatillosView vistaPlatos = new PlatillosView(m);
              pedido = vistaPlatos.seccionDetalle();
-             pedido.setPadding(new Insets(15));
-             pedido.setSpacing(25);
+             pedido.setPadding(new Insets(10));
+             pedido.setSpacing(10);
              pedido.setStyle("-fx-border-color: green;");
              Thread hiloMesas = new Thread(new HiloActualizarPedido(m) );
              hiloMesas.start();
@@ -151,18 +147,8 @@ public class MesasView {
              botones.setSpacing(25);
              botones.setAlignment(Pos.CENTER);
              botones.setStyle("-fx-border-color: red;");
-//             Button regresar = new Button("Regresar");
-//             Button finalizar = new Button("Finalizar Orden");
-//             //Temporal 
-//             regresar.setOnMouseClicked(v->{
-//                 enVentana = false;
-//                 ProyectoPOO2p.scene.setRoot(new MeseroView().build());
-//                
-//             });
-            
              vistaPlatos.setBotonesEscena(botones);
              descripcion.getChildren().addAll(pedido,botones);
-             
              vistaMesa.getChildren().addAll(descripcion,vistaPlatos.build());
              ProyectoPOO2p.setScene(vistaMesa);
             }

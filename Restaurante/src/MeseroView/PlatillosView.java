@@ -122,6 +122,8 @@ public class PlatillosView {
         finalizar.setOnMouseClicked(event->{
             Pedido pMesa = new Pedido(LocalDate.now(),mesaActual,(Mesero)ProyectoPOO2p.usuario,"000-123",mesaActual.getCliente(),aPagar);
             ProyectoPOO2p.datos.getPedidos().add(pMesa);
+            mesaActual.setVentasTotal(aPagar);
+            mesaActual.setMesero(null);
             mesaActual.getComidasPedido().clear();
             detalle.getChildren().clear();
             ProyectoPOO2p.scene.setRoot(new MeseroView().build());
