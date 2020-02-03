@@ -28,6 +28,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -73,11 +74,12 @@ public class MesasView {
                 if(AdminView.isDiseño()){
                     crearMovimientoMesas(mesaNumero,m);
                 }else{
-                     root.setCursor(Cursor.NONE);
+                     mostrarInformaciónMesa(mesaNumero,m);
+                     //root.setCursor(Cursor.NONE);
                 }
                
             }else{
-                crearEscenaPedido(c,m);
+                crearEscenaPedido(mesaNumero,m);
                
             }
         }
@@ -85,7 +87,11 @@ public class MesasView {
         
         return root;
     }
-    
+        public void mostrarInformaciónMesa(StackPane p, Mesa m){
+           Tooltip informacion = new Tooltip(m.toString());
+           
+           Tooltip.install(p,informacion);
+        }
     public void crearMovimientoMesas(StackPane c, Mesa m){
  
        
@@ -126,7 +132,7 @@ public class MesasView {
     
     }
     
-    public void crearEscenaPedido(Circle c, Mesa m){
+    public void crearEscenaPedido(StackPane c, Mesa m){
         c.setOnMouseClicked(event->{
             if(m.getMesero()==null|| m.getMesero().equals((Mesero)ProyectoPOO2p.usuario)){
                m.setMesero((Mesero)ProyectoPOO2p.usuario); 

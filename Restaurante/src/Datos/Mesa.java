@@ -24,6 +24,7 @@ public class Mesa  {
     private boolean disponible;
     private Map<String,Double> comidasPedido;
     private String cliente="Prueba";
+    private Double valorTotalFacturado;
 
     public Mesa(double coordenadaX, double coordenadaY,double radio,String numero) {
         this.coordenadaX = coordenadaX;
@@ -33,6 +34,7 @@ public class Mesa  {
         disponible=true;
         comidasPedido = new HashMap<>();
         mesero = null;
+        valorTotalFacturado = new Double(0);
         
     }
 
@@ -82,10 +84,24 @@ public class Mesa  {
     public void setCoordenadaY(double coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
-    
-    public String toString(){
-        return numeroMesa;
+
+    @Override
+    public String toString() {
+        if(mesero==null){
+            return "Numero de Mesa=" + numeroMesa + 
+                "\nMesero= Ninguno" + 
+                "\nDisponible=" + disponible +
+                "\nCliente=" + cliente +
+                "\nValor Facturado en el Dia=" + valorTotalFacturado;
+        }
+        return  "Numero de Mesa=" + numeroMesa + 
+                "\n Mesero=" + mesero.getNombreUsuario() + 
+                "\n Disponible=" + disponible +
+                "\n Cliente=" + cliente +
+                "\n Valor Facturado en el Dia=" + valorTotalFacturado;
     }
+    
+    
 
     
 }
