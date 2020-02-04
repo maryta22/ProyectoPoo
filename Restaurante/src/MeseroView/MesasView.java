@@ -5,6 +5,7 @@
  */
 package MeseroView;
 
+import AditionalViews.ModificacionMesa;
 import static Datos.Constantes.altoVentana;
 import Datos.Mesa;
 import Datos.Plato;
@@ -55,42 +56,18 @@ public class MesasView {
        root = new Pane();
        mesas = new ArrayList<>();
         
+        
     }
     
     public Parent build(){
-        for(Mesa m: ProyectoPOO2p.datos.getMesas()){
-            mesaNumero = new StackPane();
-            Label numero = new Label(m.getNumeroMesa());
-            Circle c = new Circle(m.getRadio());
-            darColorMesa(c,m);
-            c.setCenterX(m.getCoordenadaX());
-            c.setCenterY(m.getCoordenadaY());
-            mesaNumero.setTranslateX(m.getCoordenadaX());
-            mesaNumero.setTranslateY(m.getCoordenadaY());
-            mesas.add(c);
-            mesaNumero.getChildren().addAll(c,numero);
-            root.getChildren().add(mesaNumero);
-            if(ProyectoPOO2p.usuario instanceof Administrador){
-                if(AdminView.isDiseño()){
-                    crearMovimientoMesas(mesaNumero,m);
-                }else{
-                     mostrarInformaciónMesa(mesaNumero,m);
-                     //root.setCursor(Cursor.NONE);
-                }
-               
-            }else{
-                crearEscenaPedido(mesaNumero,m);
-               
-            }
-        }
-         
-        
+        colocarMesas();
         return root;
+        
     }
-        public void mostrarInformaciónMesa(StackPane p, Mesa m){
-           Tooltip informacion = new Tooltip(m.getDatos());
-           Tooltip.install(p,informacion);
-        }
+    public void mostrarInformaciónMesa(StackPane p, Mesa m){
+       Tooltip informacion = new Tooltip(m.getDatos());
+       Tooltip.install(p,informacion);
+    }
     public void crearMovimientoMesas(StackPane c, Mesa m){
         EventHandler<MouseEvent> circleOnMousePressedEventHandler = 
         new EventHandler<MouseEvent>() {
@@ -128,8 +105,41 @@ public class MesasView {
     
     }
     
+    public void colocarMesas(){
+        root.getChildren().clear();
+        for(Mesa m: ProyectoPOO2p.datos.getMesas()){
+                mesaNumero = new StackPane();
+                Label numero = new Label(m.getNumeroMesa());
+                Circle c = new Circle(m.getRadio());
+                darColorMesa(c,m);
+                mesaNumero.setTranslateX(m.getCoordenadaX());
+                mesaNumero.setTranslateY(m.getCoordenadaY());
+                mesas.add(c);
+                mesaNumero.getChildren().addAll(c,numero);
+                root.getChildren().add(mesaNumero);
+                if(ProyectoPOO2p.usuario instanceof Administrador){
+                    if(AdminView.isDiseño()){
+                        crearMovimientoMesas(mesaNumero,m);
+                       
+                    }else{
+                         mostrarInformaciónMesa(mesaNumero,m);
+                    }
+
+                }else{
+                    crearEscenaPedido(mesaNumero,m);
+
+                }
+            }
+        
+        if(AdminView.isDiseño()){
+         crearMesa();
+        }
+       
+    }
+    
     public void crearEscenaPedido(StackPane c, Mesa m){
         c.setOnMouseClicked(event->{
+            m.setDisponible(false);
             if(m.getMesero()==null|| m.getMesero().equals((Mesero)ProyectoPOO2p.usuario)){
                m.setMesero((Mesero)ProyectoPOO2p.usuario); 
                 HBox vistaMesa = new HBox();
@@ -188,15 +198,33 @@ public class MesasView {
     }
     
     public void darColorMesa(Circle c, Mesa m){
-        if(m.getMesero()!=null){
-            if(m.getMesero().equals(ProyectoPOO2p.usuario)){
+        if(!(ProyectoPOO2p.usuario instanceof Administrador)){
+            if(m.getMesero()!=null){
+                if(m.getMesero().equals(ProyectoPOO2p.usuario)){
+                    c.setFill(Color.GREEN);
+                }else{
+                    c.setFill(Color.RED);
+                }
+            }else{
+                c.setFill(Color.YELLOW);
+            }
+        }else{
+            if(m.isDisponible()){
                 c.setFill(Color.GREEN);
             }else{
                 c.setFill(Color.RED);
             }
-        }else{
-            c.setFill(Color.YELLOW);
         }
+        
+    }
+    
+    public void crearMesa(){
+        root.setOnMouseClicked(event->{
+            ModificacionMesa escenaModificacion = new ModificacionMesa(event);
+            escenaModificacion.showStage();
+            
+        });
+         
     }
     
     public class HiloActualizarPedido implements Runnable{
@@ -208,8 +236,6 @@ public class MesasView {
         
         @Override
         public void run() {
-            
-            System.out.println("Hilo iniciado");
             while(enVentana){
             
                 try {

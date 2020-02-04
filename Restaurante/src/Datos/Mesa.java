@@ -37,7 +37,14 @@ public class Mesa  {
         valorTotalFacturado = new Double(0);
         
     }
+    public void setDisponible(boolean disponible){
+        this.disponible = disponible;
+    }
 
+    public boolean isDisponible() {
+        return disponible;
+    }
+    
     public String getCliente(){
         return cliente;
     }
@@ -109,7 +116,15 @@ public class Mesa  {
         return numeroMesa;
     }
     
-    
+    public boolean equals(Object o){
+        if(o!=null){
+            Mesa mesa = (Mesa) o;
+            if(mesa.numeroMesa.equals(this.numeroMesa)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     
 }
