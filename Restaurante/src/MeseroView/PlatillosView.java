@@ -50,10 +50,13 @@ public class PlatillosView {
     private VBox detalle;
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida", "Todos"};
     private ArrayList<Double> unidadesTotal = new ArrayList<>();
+    
     private Stage ventanaParaModificar;
     private Stage ventanaParaIngresarDatos;
+    
     Stage nuevoPlato;
     ComboBox combo;
+    VBox rootCrear;
 
     public PlatillosView() {
         root = new VBox(50);
@@ -111,8 +114,8 @@ public class PlatillosView {
             Map<String, ArrayList<Double>> pedidoActual = mesaActual.getComidasPedido();
             if (pedidoActual.containsKey(nombre)) {
                 ArrayList<Double> venta = pedidoActual.get(nombre);
-                venta.set(0, venta.get(0)+1);
-                venta.set(1, venta.get(1)+precio);
+                venta.set(0, venta.get(0) + 1);
+                venta.set(1, venta.get(1) + precio);
                 //pedidoActual.put(nombre, pedidoActual.get(nombre) + precio);
             } else {
                 ArrayList<Double> venta = new ArrayList<>();
@@ -276,7 +279,6 @@ public class PlatillosView {
 
             ProyectoPOO2p.datos.actualizarPedidos();
             //colocarPlatosPorFiltro(p.getTipo()); //Esta de más
-            
 
             colocarPlatosPorFiltro(p.getTipo());
 
@@ -289,7 +291,7 @@ public class PlatillosView {
 
             nuevoPlato = new Stage();
             combo = new ComboBox();
-            VBox root = new VBox(10);
+            rootCrear = new VBox(10);
             Button crear = new Button(" Crear ");
 
             HBox paraTipo = new HBox(10);
@@ -313,9 +315,9 @@ public class PlatillosView {
             paraNombre.getChildren().addAll(nombre, escribirNombre);
             paraPrecio.getChildren().addAll(precio, escribirPrecio);
 
-            root.getChildren().addAll(paraTipo, paraNombre, paraPrecio, crear);
+            rootCrear.getChildren().addAll(paraTipo, paraNombre, paraPrecio, crear);
 
-            Scene scene = new Scene(root, Constantes.anchoVentana / 2, Constantes.altoVentana / 2);
+            Scene scene = new Scene(rootCrear, Constantes.anchoVentana / 2, Constantes.altoVentana / 2);
 
             nuevoPlato.setScene(scene);
             nuevoPlato.setResizable(false);
@@ -328,21 +330,22 @@ public class PlatillosView {
     public void agregarNuevoPlato(Button boton, TextField nombre, TextField precio) {
 
         boton.setOnMouseClicked(event -> {
-            if (ProyectoPOO2p.datos.esString(nombre) == true && ProyectoPOO2p.datos.esDouble(precio) == true && combo.getValue() != null) {
-                ProyectoPOO2p.datos.getPlatos().get(combo.getValue().toString()).add(
+            try {
+                if(nombre!=null && precio!=null && combo.getValue()!= null){
+                    ProyectoPOO2p.datos.getPlatos().get(combo.getValue().toString()).add(
                         new Plato(0003, nombre.getText(), Double.parseDouble(precio.getText()), "/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
                 colocarTodos();
 
                 nuevoPlato.close();
-            } else {
-                nuevoPlato.getScene().getRoot().getChildrenUnmodifiable().add(new Label("Ingrese los datos correctos porfavor"));
+                }
+                
+            } catch (UnsupportedOperationException | NullPointerException | NumberFormatException ex) {
+                Stage ventana = new Stage();
+                ventana.setScene(new Scene(new Label("Ingrese los datos correctamente"),500,100));
+                ventana.show();
             }
-
-
         });
 
     }
-    
-    
 
 }
