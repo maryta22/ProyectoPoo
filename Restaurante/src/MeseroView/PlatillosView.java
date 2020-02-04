@@ -56,6 +56,7 @@ public class PlatillosView {
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida", "Todos"};
     private Stage ventanaParaModificar;
     private Stage ventanaParaIngresarDatos;
+    Stage nuevoPlato;
     ComboBox combo;
 
     public PlatillosView() {
@@ -99,12 +100,11 @@ public class PlatillosView {
         //Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
         //filtros.getChildren().add(cliente);
         colocarTodos();
-        
+
         if (ProyectoPOO2p.usuario instanceof Administrador) {
             crearNuevoPlato(boton);
         }
-        
-        
+
         root.getChildren().addAll(filtros, platos);
         root.getChildren().add(boton);
         return root;
@@ -204,14 +204,13 @@ public class PlatillosView {
     public void modificarPlato(Plato plato) {
 
         Label elegir = new Label("          Elija una opción: ");
-        
+
         TextField ingresoNombre = new TextField();
         TextField ingresoPrecio = new TextField();
 
         Button nombre = new Button("Modificar nombre");
         Button precio = new Button("Modificar Precio");
         Button eliminar = new Button("Eiminar el plato");
-        
 
         ventanaParaModificar = new Stage();
 
@@ -231,7 +230,7 @@ public class PlatillosView {
         eliminarPlato(eliminar, plato);
 
         cambiarPlatos(nombre, plato, ingresoNombre);
-        cambiarPlatos(precio, plato,ingresoPrecio);
+        cambiarPlatos(precio, plato, ingresoPrecio);
     }
 
     /**
@@ -262,73 +261,78 @@ public class PlatillosView {
     }
 
     public void cambiarPlatos(Button boton, Plato p, TextField mensaje) {
-        boton.setOnMouseClicked(event -> {    
+        boton.setOnMouseClicked(event -> {
             if (boton.getText().equals("Modificar nombre")) {
                 p.setNombre(mensaje.getText());
 
             } else if (boton.getText().equals("Modificar Precio")) {
                 p.setPrecio(Double.parseDouble(mensaje.getText()));
             }
-            
+
             ProyectoPOO2p.datos.modificarMenu(p);
             colocarTodos();
             colocarPlatosPorFiltro(p.getTipo());
-            
+
         });
 
     }
-    
+
     public void crearNuevoPlato(Button boton) {
         boton.setOnMouseClicked((MouseEvent event) -> {
 
-            Stage ventana = new Stage();
+            nuevoPlato = new Stage();
             combo = new ComboBox();
             VBox root = new VBox(10);
             Button crear = new Button(" Crear ");
-            
+
             HBox paraTipo = new HBox(10);
             HBox paraNombre = new HBox(10);
-            HBox paraPrecio= new HBox(10);
-            
+            HBox paraPrecio = new HBox(10);
+
             TextField escribirNombre = new TextField();
             TextField escribirPrecio = new TextField();
-            
+
             Label escoja = new Label(" Tipo de plato:  ");
             Label nombre = new Label(" Nombre del plato: ");
             Label precio = new Label(" Precio del plato: ");
 
             ObservableList<String> items = FXCollections.observableArrayList();
-            for(int i= 0 ; i<4 ; i++){
+            for (int i = 0; i < 4; i++) {
                 items.add(tipos[i]);
             }
             combo.itemsProperty().set(items);
-            
-            paraTipo.getChildren().addAll(escoja,combo);
-            paraNombre.getChildren().addAll(nombre,escribirNombre);
+
+            paraTipo.getChildren().addAll(escoja, combo);
+            paraNombre.getChildren().addAll(nombre, escribirNombre);
             paraPrecio.getChildren().addAll(precio, escribirPrecio);
-            
-            root.getChildren().addAll(paraTipo,paraNombre,paraPrecio,crear);
-            
+
+            root.getChildren().addAll(paraTipo, paraNombre, paraPrecio, crear);
+
             Scene scene = new Scene(root, Constantes.anchoVentana / 2, Constantes.altoVentana / 2);
-            
-            ventana.setScene(scene);
-            ventana.setResizable(true);
-            ventana.show();
-            
-            agregarNuevoPlato(crear,escribirNombre,escribirPrecio);
+
+            nuevoPlato.setScene(scene);
+            nuevoPlato.setResizable(false);
+            nuevoPlato.show();
+
+            agregarNuevoPlato(crear, escribirNombre, escribirPrecio);
         });
     }
-    
-    public void agregarNuevoPlato(Button boton, TextField nombre, TextField precio){
-        
-        
-        boton.setOnMouseClicked(event -> {    
-            ProyectoPOO2p.datos.getPlatos().get(combo.getValue().toString()).add(
-                    new Plato(0003,nombre.getText(),Double.parseDouble(precio.getText()),"/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
-            colocarTodos();
+
+    public void agregarNuevoPlato(Button boton, TextField nombre, TextField precio) {
+
+        boton.setOnMouseClicked(event -> {
+            if (ProyectoPOO2p.datos.esString(nombre) == true && ProyectoPOO2p.datos.esDouble(precio) == true && combo.getValue() == null) {
+                ProyectoPOO2p.datos.getPlatos().get(combo.getValue().toString()).add(
+                        new Plato(0003, nombre.getText(), Double.parseDouble(precio.getText()), "/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
+                colocarTodos();
+
+                nuevoPlato.close();
+            } else {
+                nuevoPlato.getScene().getRoot().getChildrenUnmodifiable().add(new Label("Ingrese los datos correctos porfavor"));
+            }
+
         });
 
     }
 
-   
 }

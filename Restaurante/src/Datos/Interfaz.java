@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.TextField;
+import static jdk.nashorn.internal.runtime.JSType.isString;
 
 /**
  *
@@ -40,8 +42,8 @@ public class Interfaz implements Serializable {
     ObjectOutputStream archivoBebidas;
 
     private HashMap<String, ArrayList<Plato>> platos = new HashMap<>();
-    private List<String> nombresArchivos = Arrays.asList("Sopas.dat","Segundos.dat","Postres.dat","Bebidas.dat");
-    private List<String> clavesMapa = Arrays.asList("Sopa","Segundo","Postre","Bebida");
+    private List<String> nombresArchivos = Arrays.asList("Sopas.dat", "Segundos.dat", "Postres.dat", "Bebidas.dat");
+    private List<String> clavesMapa = Arrays.asList("Sopa", "Segundo", "Postre", "Bebida");
 
     private ArrayList<Usuario> usuarios = new ArrayList<>();
     private ArrayList<Mesa> mesas = new ArrayList<>();
@@ -57,9 +59,11 @@ public class Interfaz implements Serializable {
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
-    public ArrayList<Pedido> getPedidos(){
+
+    public ArrayList<Pedido> getPedidos() {
         return pedidos;
     }
+
     public void inicializarDatos() {
         crearPlatos();
         crearUsuarios();
@@ -70,8 +74,8 @@ public class Interfaz implements Serializable {
 
     }
 
-    public void crearArchivoMesas(){
-        try(ObjectOutputStream op = new ObjectOutputStream(new FileOutputStream("src/Archivos/Mesas.dat"))){
+    public void crearArchivoMesas() {
+        try (ObjectOutputStream op = new ObjectOutputStream(new FileOutputStream("src/Archivos/Mesas.dat"))) {
             op.writeObject(mesas);
             System.out.println("Archivo escrito");
         } catch (FileNotFoundException ex) {
@@ -80,7 +84,7 @@ public class Interfaz implements Serializable {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void crearMesas() {
         mesas.add(new Mesa(100, 100, 15, "01"));
         mesas.add(new Mesa(200, 200, 25, "02"));
@@ -94,7 +98,7 @@ public class Interfaz implements Serializable {
         usuarios.add(new Mesero("Mesero1", "Mesero1"));
         usuarios.add(new Mesero("Mesero2", "Mesero2"));
         //usuario de acceso rapido para pruebas :v
-        usuarios.add(new Administrador("a","a"));
+        usuarios.add(new Administrador("a", "a"));
         usuarios.add(new Mesero("m", "m"));
     }
 
@@ -189,18 +193,17 @@ public class Interfaz implements Serializable {
         Bebidas.add(bebida5);
         return Bebidas;
     }
-    
+
     /**
      * Crea los archivos binarios recorriendo el HashMap.
      */
-
     public void crearArchivos() {
         try {
             archivoSopas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Sopas.dat"));
             archivoSegundos = new ObjectOutputStream(new FileOutputStream("src/Archivos/Segundos.dat"));
             archivoPostres = new ObjectOutputStream(new FileOutputStream("src/Archivos/Postres.dat"));
             archivoBebidas = new ObjectOutputStream(new FileOutputStream("src/Archivos/Bebidas.dat"));
-            
+
             agregarElementosArchivos();
 
         } catch (IOException ex) {
@@ -208,14 +211,13 @@ public class Interfaz implements Serializable {
         }
 
     }
-    
+
     /**
      * Escribe los archivos.
      */
-    
-    public void agregarElementosArchivos(){
+    public void agregarElementosArchivos() {
         try {
-         
+
             for (HashMap.Entry<String, ArrayList<Plato>> entry : platos.entrySet()) {
 
                 if (null == entry.getKey()) {
@@ -246,93 +248,90 @@ public class Interfaz implements Serializable {
             System.out.println("IOExcepcion");
         }
     }
-    
+
     /*
      * Recibe el @param plato y modifica ese plato en el HashMap. 
      */
-
     public void modificarMenu(Plato p) {
-        for(Plato plato: platos.get(p.getTipo())){
-            if(plato.getCodigo()== p.getCodigo()){
+        for (Plato plato : platos.get(p.getTipo())) {
+            if (plato.getCodigo() == p.getCodigo()) {
                 platos.get(p.getTipo()).remove(plato);
                 platos.get(p.getTipo()).add(p);
             }
-        } 
+        }
 
     }
-    
-    public void cargarData(){
+
+    public void cargarData() {
         int contador = 0;
-        for(String s:nombresArchivos){
-            try(ObjectInputStream ob = new ObjectInputStream(new FileInputStream("src/Archivos/"+s))){
-                platos.put(clavesMapa.get(contador), (ArrayList<Plato>)ob.readObject());
-                System.out.println(s+" leido");
-            
+        for (String s : nombresArchivos) {
+            try (ObjectInputStream ob = new ObjectInputStream(new FileInputStream("src/Archivos/" + s))) {
+                platos.put(clavesMapa.get(contador), (ArrayList<Plato>) ob.readObject());
+                System.out.println(s + " leido");
+
             } catch (IOException ex) {
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-            }finally{
-                contador +=1;
+            } finally {
+                contador += 1;
             }
         }
-    
+
     }
-    
-    public void cargarReportes(){
-        try(BufferedReader bf = new BufferedReader(new FileReader("src/Archivos/pedidos.txt"))){
+
+    public void cargarReportes() {
+        try (BufferedReader bf = new BufferedReader(new FileReader("src/Archivos/pedidos.txt"))) {
             String linea = null;
-            while((linea=bf.readLine())!=null){
-                String[] datosPedido =  linea.split(",");
-                Pedido pedido = new Pedido(LocalDate.parse(datosPedido[0]),datosPedido[1],(Mesero)getUsuario(datosPedido[2]),datosPedido[3],datosPedido[4],Double.parseDouble(datosPedido[5]));
+            while ((linea = bf.readLine()) != null) {
+                String[] datosPedido = linea.split(",");
+                Pedido pedido = new Pedido(LocalDate.parse(datosPedido[0]), datosPedido[1], (Mesero) getUsuario(datosPedido[2]), datosPedido[3], datosPedido[4], Double.parseDouble(datosPedido[5]));
                 pedidos.add(pedido);
             }
-            
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void cargarMesas(){
-        try(ObjectInputStream op = new ObjectInputStream(new FileInputStream("src/Archivos/Mesas.dat"))){
+
+    public void cargarMesas() {
+        try (ObjectInputStream op = new ObjectInputStream(new FileInputStream("src/Archivos/Mesas.dat"))) {
             mesas = (ArrayList<Mesa>) op.readObject();
-             
+
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void actualizarArchivos(){
+
+    public void actualizarArchivos() {
         crearArchivoMesas();
         crearArchivos();
-    
+
     }
-   
-    public void guardarPedido(Pedido pedido){
+
+    public void guardarPedido(Pedido pedido) {
         File file = new File("src/Archivos/pedidos.txt");
-        if(!file.exists()){
+        if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException ex) {
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
-            try(BufferedWriter bf = new BufferedWriter(new FileWriter(file.getAbsoluteFile(),true));) {
-                bf.write(pedido.toString()+"\n");
+        } else {
+            try (BufferedWriter bf = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), true));) {
+                bf.write(pedido.toString() + "\n");
             } catch (IOException ex) {
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-       
+
     }
-    
-    public void actualizarMenus(){
-        File ficherosopa =new File("src/Archivos/Sopas.dat");
+
+    public void actualizarMenus() {
+        File ficherosopa = new File("src/Archivos/Sopas.dat");
     }
-    
 
     public boolean validarUsuario(String usuario, String contraseña) {
         for (Usuario u : usuarios) {
@@ -359,33 +358,32 @@ public class Interfaz implements Serializable {
     public HashMap<String, ArrayList<Plato>> getPlatos() {
         return platos;
     }
-    
-    public Plato getPlato(String nombre){
+
+    public Plato getPlato(String nombre) {
         List<Plato> platosCompletos = new ArrayList<>();
-        for(ArrayList<Plato> listaPlatos: platos.values()){
+        for (ArrayList<Plato> listaPlatos : platos.values()) {
             platosCompletos.addAll(listaPlatos);
         }
-        for(Plato p: platosCompletos){
-            if(p.getNombre().equals(nombre)){
+        for (Plato p : platosCompletos) {
+            if (p.getNombre().equals(nombre)) {
                 return p;
             }
         }
         return null;
     }
-    
 
-    public Mesa getMesa(Mesa mesa){
-        for(Mesa m:mesas){
-            if(m.equals(mesa)){
+    public Mesa getMesa(Mesa mesa) {
+        for (Mesa m : mesas) {
+            if (m.equals(mesa)) {
                 return m;
             }
         }
         return null;
     }
-    
-    public Mesa getMesa(String numero){
-        for(Mesa m:mesas){
-            if(m.getNumeroMesa().equals(numero)){
+
+    public Mesa getMesa(String numero) {
+        for (Mesa m : mesas) {
+            if (m.getNumeroMesa().equals(numero)) {
                 return m;
             }
         }
@@ -394,13 +392,28 @@ public class Interfaz implements Serializable {
 
     /**
      * Elimina de platos el plato pasado por el parámetro.
+     *
      * @param p plato a ser eliminado.
      */
-    
-    public void eliminarPlato(Plato p){
+    public void eliminarPlato(Plato p) {
         platos.get(p.getTipo()).remove(p);
     }
-    
- 
+
+    public boolean esString(TextField validar) {
+        if (isString(validar.getText())) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean esDouble(TextField validar) {
+        try {
+            Double.parseDouble(validar.getText());
+            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+    }
 
 }
