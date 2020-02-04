@@ -188,15 +188,19 @@ public class PlatillosView {
     public void modificarPlato(Plato plato) {
 
         Label elegir = new Label("          Elija una opción: ");
+        
+        TextField ingresoNombre = new TextField();
+        TextField ingresoPrecio = new TextField();
 
         Button nombre = new Button("Modificar nombre");
         Button precio = new Button("Modificar Precio");
         Button eliminar = new Button("Eiminar el plato");
+        
 
         ventanaParaModificar = new Stage();
 
         VBox root = new VBox();
-        root.getChildren().addAll(nombre, precio, eliminar);
+        root.getChildren().addAll(ingresoNombre, nombre, ingresoPrecio, precio, eliminar);
 
         HBox caja = new HBox();
         caja.setSpacing(50);
@@ -210,8 +214,8 @@ public class PlatillosView {
 
         eliminarPlato(eliminar, plato);
 
-        cambiarPlatos(nombre, plato);
-        cambiarPlatos(precio, plato);
+        cambiarPlatos(nombre, plato, ingresoNombre);
+        cambiarPlatos(precio, plato,ingresoPrecio);
     }
 
     /**
@@ -241,50 +245,22 @@ public class PlatillosView {
         });
     }
 
-    public void cambiarPlatos(Button boton, Plato p) {
-        boton.setOnMouseClicked(event -> {
-            ventanaParaIngresarDatos = new Stage();
-
-            TextField ingreso = new TextField();
-            VBox cuadro = new VBox();
-            Label mensaje = new Label();
-            Button confirmar = new Button("Confirmar");
-
+    public void cambiarPlatos(Button boton, Plato p, TextField mensaje) {
+        boton.setOnMouseClicked(event -> {    
             if (boton.getText().equals("Modificar nombre")) {
-                mensaje.setText("Ingrese el nuevo nombre: ");
+                p.setNombre(mensaje.getText());
 
             } else if (boton.getText().equals("Modificar Precio")) {
-                mensaje.setText("Ingrese el nuevo precio: ");
+                p.setPrecio(Double.parseDouble(mensaje.getText()));
             }
-
-            cuadro.getChildren().addAll(mensaje, ingreso, confirmar);
-
-            Scene scene = new Scene(cuadro, Constantes.anchoVentana / 4, Constantes.altoVentana / 4);
-
-            ventanaParaIngresarDatos.setScene(scene);
-            ventanaParaIngresarDatos.setResizable(false);
-            ventanaParaIngresarDatos.show();
             
-            cambiarNombre(confirmar,mensaje,p,ingreso);
+            ProyectoPOO2p.datos.modificarMenu(p);
+            colocarTodos();
+            colocarPlatosPorFiltro(p.getTipo());
+            
         });
 
     }
 
-    public void cambiarNombre(Button boton, Label mensaje, Plato p, TextField ingreso) {
-        Label alerta = new Label("!DATO INGRESADO INCORRECTO!");
-        boton.setOnMouseClicked(event -> {
-            while (ingreso != null) {
-                if (mensaje.equals("Modificar nombre")) {
-                    p.setNombre(ingreso.getText());
-                } else if (mensaje.equals("Modificar Precio")) {
-                    p.setPrecio(Double.parseDouble(ingreso.getText()));
-                }
-                ProyectoPOO2p.datos.modificarMenu(p);
-                
-                ventanaParaIngresarDatos.close();
-            }
-
-        });
-    }
-
+   
 }
