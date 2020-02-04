@@ -6,6 +6,7 @@
 package MeseroView;
 
 import AditionalViews.ModificacionMesa;
+import AditionalViews.NombreCliente;
 import static Datos.Constantes.altoVentana;
 import Datos.Mesa;
 import Datos.Plato;
@@ -119,7 +120,6 @@ public class MesasView {
                 Label numero = new Label(m.getNumeroMesa());
                 Circle c = new Circle(m.getRadio());
                 darColorMesa(c,m);
-                System.out.println(m.getCoordenadaX()+"  "+m.getCoordenadaY());
                 mesaNumero.setTranslateX(m.getCoordenadaX());
                 mesaNumero.setTranslateY(m.getCoordenadaY());
                 mesas.add(c);
@@ -129,30 +129,46 @@ public class MesasView {
                     if(AdminView.isDiseño()){
                         crearMovimientoMesas(mesaNumero,m);
                         crearModificacion(mesaNumero, m);
+                        crearMesa();
                        
                     }else{
                          mostrarInformaciónMesa(mesaNumero,m);
                     }
 
                 }else{
-                    crearEscenaPedido(mesaNumero,m);
+                    if(m.getCliente()==null){
+                        mostrarVentanaCliente(mesaNumero,m);
+                    }else{
+                        crearEscenaPedido(mesaNumero,m);
+                    }
+                    
 
                 }
             }
         
-        if(AdminView.isDiseño()){
-         crearMesa();
-         
-        }
+        
        
+    }
+    
+    public void mostrarVentanaCliente(StackPane sp, Mesa m){
+        sp.setOnMouseClicked(event->{
+            NombreCliente ventanaCliente = new NombreCliente(m);
+            ventanaCliente.showStage(); 
+            crearPedido(sp,m);
+        });
+        
     }
     
     public void crearEscenaPedido(StackPane c, Mesa m){
         c.setOnMouseClicked(event->{
-            m.setDisponible(false);
-            if(m.getMesero()==null|| m.getMesero().equals((Mesero)ProyectoPOO2p.usuario)){
-               m.setMesero((Mesero)ProyectoPOO2p.usuario); 
-                HBox vistaMesa = new HBox();
+            crearPedido(c,m);
+        });
+    }
+    
+    public void crearPedido(StackPane sp, Mesa m){
+    if(m.getMesero()==null|| m.getMesero().equals((Mesero)ProyectoPOO2p.usuario)){
+             m.setMesero((Mesero)ProyectoPOO2p.usuario); 
+             HBox vistaMesa = new HBox();
             VBox descripcion = new VBox();
              PlatillosView vistaPlatos = new PlatillosView(m);
              pedido = vistaPlatos.seccionDetalle();
@@ -172,9 +188,6 @@ public class MesasView {
              vistaMesa.getChildren().addAll(descripcion,vistaPlatos.build());
              ProyectoPOO2p.setScene(vistaMesa);
             }
-            
-           
-        });
     }
     
     public static void main(String[]args){
@@ -258,18 +271,6 @@ public class MesasView {
         
     }
     
-//    public EventHandler<MouseEvent> crearEvent(){
-//        EventHandler<MouseEvent> evento = new EventHandler<MouseEvent>(){
-//            @Override
-//            public void handle(MouseEvent event) {
-//               if(!dragging){
-//                   
-//               } 
-//            }
-//        
-//        };
-//        return evento;
-//    }
     
     public class HiloActualizarPedido implements Runnable{
         private Mesa m; //Al final se colocarán nombre adecuados

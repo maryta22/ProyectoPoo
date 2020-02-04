@@ -75,6 +75,10 @@ public class PlatillosView {
             //filtro.setStyle("-fx-border-color:white; -fx-background-color: black;");
             filtros.getChildren().add(filtro);
         }
+        
+            Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
+            filtros.getChildren().add(cliente);
+            
 //        for(String s:ProyectoPOO2p.datos.getPlatos().keySet()){
 //            for(Plato p:ProyectoPOO2p.datos.getPlatos().get(s)){
 //                VBox detalles = new VBox(10);
@@ -120,6 +124,7 @@ public class PlatillosView {
              });
         Button finalizar = new Button("Finalizar Orden");
         finalizar.setOnMouseClicked(event->{
+            mesaActual.setCliente(null);
             Pedido pMesa = new Pedido(LocalDate.now(),mesaActual,(Mesero)ProyectoPOO2p.usuario,"000-123",mesaActual.getCliente(),aPagar);
             ProyectoPOO2p.datos.getPedidos().add(pMesa);
             mesaActual.setVentasTotal(aPagar);

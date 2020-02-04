@@ -92,7 +92,6 @@ public class ModificacionMesa {
     }
     
     private void crearEscena(){
-        System.out.println("Escena para pane"+eventoCrear.getSource());
         boton = new Button("Crear");
         
         boton.setOnMouseClicked(event->{
@@ -146,25 +145,25 @@ public class ModificacionMesa {
                 double radio = Double.parseDouble(inputRadio.getText())*10;
                 String numero = inputNumero.getText();
                 if(validarDatos()){
-                    Mesa nuevaMesa = new Mesa(eventoCrear.getX(),eventoCrear.getY(),radio,numero);
+                    double diffRadio = radio-mesaAModificar.getRadio();
+                    Mesa mesa = ProyectoPOO2p.datos.getMesa(mesaAModificar);
+                   Mesa nuevaMesa = new Mesa(mesaAModificar.getCoordenadaX()-diffRadio,mesaAModificar.getCoordenadaY()-diffRadio,radio,numero);
                     if(datosValidosMesa(nuevaMesa)){
-                        ProyectoPOO2p.datos.getMesas().add(nuevaMesa);
-                        ProyectoPOO2p.datos.getMesas().remove(mesaAModificar);
+                        mesa.setRadio(radio);
+                        mesa.setNumeroMesa(numero);
+                        mesa.setCoordenadaX(mesa.getCoordenadaX()-diffRadio);
+                        mesa.setCoordenadaY(mesa.getCoordenadaY()-diffRadio);
+//                        ProyectoPOO2p.datos.getMesas().add(nuevaMesa);
+//                        ProyectoPOO2p.datos.getMesas().remove(mesaAModificar);
+                        escenaAnterior.colocarMesas();
+                        escenaAnterior.setDisparo();
+                         modificacion.close();
+                        
                     }else{
                          mostrarAlerta("Datos Invalidos");
                     }
                 }else{
                     mostrarAlerta("Datos Incosistentes");
-                }
-                
-                if(validarDatos()){
-                     mesaAModificar.setNumeroMesa(numero);
-                     mesaAModificar.setRadio(radio);
-                     escenaAnterior.setDisparo();
-                     escenaAnterior.colocarMesas();
-                     modificacion.close();
-                }else{
-                    
                 }
                
                 
@@ -179,8 +178,16 @@ public class ModificacionMesa {
         });
         
         eliminar.setOnMouseClicked(event->{
-            ProyectoPOO2p.datos.getMesas().remove(mesaAModificar);
+            if(mesaAModificar.isDisponible()){
+                ProyectoPOO2p.datos.getMesas().remove(mesaAModificar);
+                escenaAnterior.colocarMesas();
+                modificacion.close();
+            }else{
+                mostrarAlerta("Mesa no Disponible");
+            }
+            
         });
+        mainRoot.getChildren().add(eliminar);
     }
     
    
@@ -220,6 +227,11 @@ public class ModificacionMesa {
                 alerta.setContentText("Los datos ingresados no son validos");
                 alerta.showAndWait();
                 break;
+            case "Mesa no Disponible":
+                alerta = new Alert(AlertType.WARNING);
+                alerta.setTitle(tipo);
+                alerta.setContentText("La mesa seleccionada no se puede eliminar porque está siendo manejada por un mesero");
+                alerta.showAndWait();
         }
     }
     

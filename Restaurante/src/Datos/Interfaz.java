@@ -278,4 +278,13 @@ public class Interfaz implements Serializable {
         }
         return null;
     }
+    
+    public Mesa getMesa(Mesa mesa){
+        for(Mesa m:mesas){
+            if(m.equals(mesa)){
+                return m;
+            }
+        }
+        return null;
+    }
 }

@@ -23,7 +23,7 @@ public class Mesa  {
     private Mesero mesero;
     private boolean disponible;
     private Map<String,Double> comidasPedido;
-    private String cliente="Prueba";
+    private String cliente;
     private Double valorTotalFacturado;
 
     public Mesa(double coordenadaX, double coordenadaY,double radio,String numero) {
@@ -33,6 +33,7 @@ public class Mesa  {
         this.numeroMesa = numero;
         disponible=true;
         comidasPedido = new HashMap<>();
+        cliente = null;
         mesero = null;
         valorTotalFacturado = new Double(0);
         
@@ -100,6 +101,9 @@ public class Mesa  {
         valorTotalFacturado += venta;
     }
     
+    public void setCliente(String cliente){
+        this.cliente = cliente;
+    }
    
     public String getDatos() {
         if(mesero==null){
