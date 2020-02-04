@@ -9,6 +9,7 @@ import Datos.Constantes;
 import Datos.Mesa;
 import Datos.Pedido;
 import Datos.Plato;
+import Usuario.Administrador;
 import Usuario.Mesero;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
@@ -180,7 +181,9 @@ public class PlatillosView {
                         crearAccionPedido(img,p.getNombre(),p.getPrecio());
 
                     }
-                    cambiarInformacion(img,p);
+                    if(ProyectoPOO2p.usuario instanceof Administrador){
+                        cambiarInformacion(img,p);
+                    }
                     detalles.getChildren().addAll(precio,img,nombre);
                     platos.getChildren().add(detalles);
     }
