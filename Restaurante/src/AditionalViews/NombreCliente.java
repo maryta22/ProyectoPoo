@@ -39,6 +39,10 @@ public class NombreCliente {
         inputNombre = new TextField();
         aceptar = new Button("Aceptar");
         aceptar.setOnMouseClicked(event->{
+            
+            
+            String cliente = inputNombre.getText();
+                    
             mesa.setCliente(inputNombre.getText());//Falta hacer validaciones
         });
         datos.getChildren().addAll(nombre,inputNombre,aceptar);

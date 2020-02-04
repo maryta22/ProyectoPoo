@@ -246,7 +246,6 @@ public class MesasView {
     }
     
     public void crearMesa(){
-         System.out.println(eventoDisparado);
         root.setOnMouseClicked(event->{
             if(!dragging && !eventoDisparado){
                 eventoDisparado = true;

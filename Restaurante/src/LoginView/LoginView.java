@@ -5,6 +5,7 @@
  */
 package LoginView;
 
+import Alertas.Alerta;
 import MeseroView.AdminView;
 import MeseroView.MeseroView;
 import Usuario.Administrador;
@@ -62,10 +63,7 @@ public class LoginView {
                 }
                 
             }else{
-                Alert datosIncorrectos = new Alert(AlertType.INFORMATION);
-                datosIncorrectos.setTitle("Datos Invalidos");
-                datosIncorrectos.setContentText("Usuario o contraseña Incorrectos");
-                datosIncorrectos.showAndWait();
+                new Alerta("Usuario Invalido").mostrarAlerta();
                 inputNombre.clear();
                 inputContraseña.clear();
             }

@@ -5,6 +5,7 @@
  */
 package AditionalViews;
 
+import Alertas.Alerta;
 import Datos.Mesa;
 import MeseroView.AdminView;
 import MeseroView.MesasView;
@@ -109,14 +110,14 @@ public class ModificacionMesa {
                         escenaAnterior.setDisparo();
                         modificacion.close();  
                     }else{
-                        mostrarAlerta("Datos Invalidos");
+                        new Alerta("Datos Invalidos").mostrarAlerta();
                     }
                 }else{
-                    mostrarAlerta("Datos Incosistentes");
+                    new Alerta("Datos Incosistentes").mostrarAlerta();
                 }
                 
             }catch(NumberFormatException ex){
-                mostrarAlerta("Formato Incorrecto");
+                new Alerta("Formato Incorrecto").mostrarAlerta();
                 
             }finally{
                 inputNumero.clear();
@@ -160,16 +161,16 @@ public class ModificacionMesa {
                          modificacion.close();
                         
                     }else{
-                         mostrarAlerta("Datos Invalidos");
+                         new Alerta("Datos Invalidos").mostrarAlerta();
                     }
                 }else{
-                    mostrarAlerta("Datos Incosistentes");
+                     new Alerta("Datos Incosistentes").mostrarAlerta();
                 }
                
                 
                 
             }catch(NumberFormatException ex){
-                mostrarAlerta("Formato Incorrecto");
+                 new Alerta("Formato Incorrecto").mostrarAlerta();
                 
             }finally{
                 inputNumero.clear();
@@ -183,7 +184,7 @@ public class ModificacionMesa {
                 escenaAnterior.colocarMesas();
                 modificacion.close();
             }else{
-                mostrarAlerta("Mesa no Disponible");
+                 new Alerta("Mesa no Disponible").mostrarAlerta();
             }
             
         });
@@ -206,33 +207,6 @@ public class ModificacionMesa {
         return false;
     }
     
-    public void mostrarAlerta(String tipo){
-        Alert alerta;
-        switch(tipo){
-            case "Datos Invalidos":
-                alerta = new Alert(AlertType.ERROR);
-                alerta.setTitle(tipo);
-                alerta.setContentText("Ya existe una mesa con el mismo numero");
-                alerta.showAndWait();
-                break;
-            case "Formato Incorrecto":
-                alerta = new Alert(AlertType.WARNING);
-                alerta.setTitle(tipo);
-                alerta.setContentText("Los datos ingresados deben ser numeros");
-                alerta.showAndWait();
-                break;
-            case "Datos Inconsistentes":
-                alerta = new Alert(AlertType.WARNING);
-                alerta.setTitle(tipo);
-                alerta.setContentText("Los datos ingresados no son validos");
-                alerta.showAndWait();
-                break;
-            case "Mesa no Disponible":
-                alerta = new Alert(AlertType.WARNING);
-                alerta.setTitle(tipo);
-                alerta.setContentText("La mesa seleccionada no se puede eliminar porque está siendo manejada por un mesero");
-                alerta.showAndWait();
-        }
-    }
+   
     
 }

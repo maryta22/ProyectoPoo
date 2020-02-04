@@ -282,7 +282,7 @@ public class Interfaz implements Serializable {
         return null;
     }
     
-<<<<<<< HEAD
+
     public Mesa getMesa(Mesa mesa){
         for(Mesa m:mesas){
             if(m.equals(mesa)){
@@ -291,7 +291,7 @@ public class Interfaz implements Serializable {
         }
         return null;
     }
-=======
+
     /**
      * Elimina de platos el plato pasado por el parámetro.
      * @param p plato a ser eliminado.
@@ -307,5 +307,5 @@ public class Interfaz implements Serializable {
         platos.get(p.getTipo());
     }
     
->>>>>>> 9e9dec5bfb24ef4eed10f9e1d380dc59ea74d872
+
 }
