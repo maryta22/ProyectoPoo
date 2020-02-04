@@ -46,6 +46,15 @@ public class Plato implements Serializable {
         return codigo;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+    
+
     @Override
     public String toString() {
         return  nombre + "-" +  precio + "-" +  ruta + "-" +  tipo ;

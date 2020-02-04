@@ -227,14 +227,13 @@ public class Interfaz implements Serializable {
      * Recibe el @param plato y modifica ese plato en el HashMap. 
      */
 
-    public void modificarMenu(Plato plato) {
-        ArrayList<Plato> porModificar = platos.get(plato.getTipo());
-        for (Plato platoModificar : porModificar) {
-            if (platoModificar.getCodigo() == plato.getCodigo()) {
-                porModificar.remove(platoModificar);
-                porModificar.add(plato);
+    public void modificarMenu(Plato p) {
+        for(Plato plato: platos.get(p.getTipo())){
+            if(plato.getCodigo()== p.getCodigo()){
+                platos.get(p.getTipo()).remove(plato);
+                platos.get(p.getTipo()).add(p);
             }
-        }  
+        } 
 
     }
     
@@ -319,20 +318,6 @@ public class Interfaz implements Serializable {
         platos.get(p.getTipo()).remove(p);
     }
     
-    /**
-     * Reemplaza el plato modificado por el plato sin modificar.
-     * @param p plato modifiado
-     */
-    
-    public void modificarPlatoEnLista(Plato p){
-        for(Plato plato: platos.get(p.getTipo())){
-            if(plato.getCodigo()== p.getCodigo()){
-                platos.get(p.getTipo()).remove(plato);
-                platos.get(p.getTipo()).add(p);
-            }
-        }
-    }
-    
-   
+ 
 
 }
