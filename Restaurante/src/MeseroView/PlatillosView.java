@@ -100,7 +100,10 @@ public class PlatillosView {
         //filtros.getChildren().add(cliente);
         colocarTodos();
         
-        crearNuevoPlato(boton);
+        if (ProyectoPOO2p.usuario instanceof Administrador) {
+            crearNuevoPlato(boton);
+        }
+        
         
         root.getChildren().addAll(filtros, platos);
         root.getChildren().add(boton);
@@ -317,6 +320,8 @@ public class PlatillosView {
     }
     
     public void agregarNuevoPlato(Button boton, TextField nombre, TextField precio){
+        
+        
         boton.setOnMouseClicked(event -> {    
             ProyectoPOO2p.datos.getPlatos().get(combo.getValue().toString()).add(
                     new Plato(0003,nombre.getText(),Double.parseDouble(precio.getText()),"/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
