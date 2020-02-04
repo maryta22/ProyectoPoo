@@ -100,15 +100,22 @@ public class ModificacionMesa {
             try{
                 double radio = Double.parseDouble(inputRadio.getText())*10;
                 String numero = inputNumero.getText();
-                Mesa nuevaMesa = new Mesa(eventoCrear.getSceneX(),eventoCrear.getSceneY(),radio,numero);
-                if(datosValidosMesa(nuevaMesa)){
+                
+                System.out.println(eventoCrear.getSceneX()+"  "+eventoCrear.getSceneY());
+                if(validarDatos()){
+                     Mesa nuevaMesa = new Mesa(eventoCrear.getX()-radio,eventoCrear.getY()-radio,radio,numero);
+                    if(datosValidosMesa(nuevaMesa)){
                         ProyectoPOO2p.datos.getMesas().add(nuevaMesa);
                         escenaAnterior.colocarMesas();
-                        
+                        escenaAnterior.setDisparo();
                         modificacion.close();  
+                    }else{
+                        mostrarAlerta("Datos Invalidos");
+                    }
                 }else{
-                    mostrarAlerta("Datos Invalidos");
+                    mostrarAlerta("Datos Incosistentes");
                 }
+                
             }catch(NumberFormatException ex){
                 mostrarAlerta("Formato Incorrecto");
                 
@@ -131,14 +138,37 @@ public class ModificacionMesa {
     public void crearEscenaCambios(){
          System.out.println("Escena para Grid"+eventoCrear.getSource());
         boton = new Button("Guardar Cambios");
+        Button eliminar = new Button("Eliminar Mesa");
+        inputNumero.setPromptText(mesaAModificar.getNumeroMesa());
+        inputRadio.setPromptText(String.valueOf(mesaAModificar.getRadio()));
         boton.setOnMouseClicked(event->{
             try{
                 double radio = Double.parseDouble(inputRadio.getText())*10;
                 String numero = inputNumero.getText();
-                mesaAModificar.setNumeroMesa(numero);
-                mesaAModificar.setRadio(radio);
+                if(validarDatos()){
+                    Mesa nuevaMesa = new Mesa(eventoCrear.getX(),eventoCrear.getY(),radio,numero);
+                    if(datosValidosMesa(nuevaMesa)){
+                        ProyectoPOO2p.datos.getMesas().add(nuevaMesa);
+                        ProyectoPOO2p.datos.getMesas().remove(mesaAModificar);
+                    }else{
+                         mostrarAlerta("Datos Invalidos");
+                    }
+                }else{
+                    mostrarAlerta("Datos Incosistentes");
+                }
                 
-                modificacion.close();
+                if(validarDatos()){
+                     mesaAModificar.setNumeroMesa(numero);
+                     mesaAModificar.setRadio(radio);
+                     escenaAnterior.setDisparo();
+                     escenaAnterior.colocarMesas();
+                     modificacion.close();
+                }else{
+                    
+                }
+               
+                
+                
             }catch(NumberFormatException ex){
                 mostrarAlerta("Formato Incorrecto");
                 
@@ -146,6 +176,10 @@ public class ModificacionMesa {
                 inputNumero.clear();
                 inputRadio.clear();
             }
+        });
+        
+        eliminar.setOnMouseClicked(event->{
+            ProyectoPOO2p.datos.getMesas().remove(mesaAModificar);
         });
     }
     
@@ -158,19 +192,32 @@ public class ModificacionMesa {
         return false;
     }
     
+    public boolean validarDatos(){
+        if(Double.parseDouble(inputNumero.getText())>0){
+            return true;
+        }
+        return false;
+    }
+    
     public void mostrarAlerta(String tipo){
         Alert alerta;
         switch(tipo){
             case "Datos Invalidos":
                 alerta = new Alert(AlertType.ERROR);
-                alerta.setTitle("Datos Invalidos");
+                alerta.setTitle(tipo);
                 alerta.setContentText("Ya existe una mesa con el mismo numero");
                 alerta.showAndWait();
                 break;
             case "Formato Incorrecto":
                 alerta = new Alert(AlertType.WARNING);
-                alerta.setTitle("Formato Incorrecto");
+                alerta.setTitle(tipo);
                 alerta.setContentText("Los datos ingresados deben ser numeros");
+                alerta.showAndWait();
+                break;
+            case "Datos Inconsistentes":
+                alerta = new Alert(AlertType.WARNING);
+                alerta.setTitle(tipo);
+                alerta.setContentText("Los datos ingresados no son validos");
                 alerta.showAndWait();
                 break;
         }

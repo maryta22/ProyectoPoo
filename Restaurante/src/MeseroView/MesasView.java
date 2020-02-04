@@ -56,7 +56,6 @@ public class MesasView {
     
     public MesasView(){
        root = new Pane();
-       root.setPickOnBounds(true);
 
        mesas = new ArrayList<>();
         
@@ -112,14 +111,15 @@ public class MesasView {
     }
     
     public void colocarMesas(){
+       
         root.getChildren().clear();
         for(Mesa m: ProyectoPOO2p.datos.getMesas()){
                 mesaNumero = new StackPane();
-                mesaNumero.setPickOnBounds(true);
                 
                 Label numero = new Label(m.getNumeroMesa());
                 Circle c = new Circle(m.getRadio());
                 darColorMesa(c,m);
+                System.out.println(m.getCoordenadaX()+"  "+m.getCoordenadaY());
                 mesaNumero.setTranslateX(m.getCoordenadaX());
                 mesaNumero.setTranslateY(m.getCoordenadaY());
                 mesas.add(c);
@@ -233,6 +233,7 @@ public class MesasView {
     }
     
     public void crearMesa(){
+         System.out.println(eventoDisparado);
         root.setOnMouseClicked(event->{
             if(!dragging && !eventoDisparado){
                 eventoDisparado = true;
