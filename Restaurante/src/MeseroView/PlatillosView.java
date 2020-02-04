@@ -81,13 +81,12 @@ public class PlatillosView {
             filtros.getChildren().add(filtro);
         }
         
-<<<<<<< HEAD
 //            Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
 //            filtros.getChildren().add(cliente);
-=======
+
             //Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
             //filtros.getChildren().add(cliente);
->>>>>>> 2a12566dfd15e914e6e87b8545e56588947ca5f8
+
             
         colocarTodos();
         root.getChildren().addAll(filtros, platos);
