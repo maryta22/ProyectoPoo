@@ -180,18 +180,24 @@ public class PlatillosView {
                     platos.getChildren().add(detalles);
     }
     
+    
+    /**
+     * Método que crea la nueva pestaña en la que se muestran las opciones para modificar o eliminar.
+     * @param p el plato que se va a modificar o eliminar.
+     */
      public void modificarPlato(Plato p) {
-         
-        Label elegir = new Label("Elija una opción: ");
         
-        Button nombre= new Button();
-        Button precio= new Button();
-        Button eliminar = new Button();
+        Label elegir = new Label("          Elija una opción: ");
+        
+        Button nombre= new Button("Modificar nombre");
+        Button precio= new Button("Modificar Precio");
+        Button eliminar = new Button("Eiminar el plato");
         
         Stage ventana = new Stage();
         
         VBox root = new VBox();
         root.getChildren().addAll(nombre, precio, eliminar);
+        
         
         HBox caja= new HBox();
         caja.setSpacing(50);
@@ -205,11 +211,17 @@ public class PlatillosView {
 
     }
     
-    
-    
+    /**
+     * Método que permite modificar la información de ese plato.
+     * @param img la imagen a la que le da click.
+     * @param p el plato que se va a modificar o elimiar.
+     */
     public void cambiarInformacion(ImageView img,Plato p){
         img.setOnMouseClicked(event->{
            modificarPlato(p);
         });
     }
+    
+    
+    
 }
