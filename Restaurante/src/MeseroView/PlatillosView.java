@@ -56,6 +56,7 @@ public class PlatillosView {
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida", "Todos"};
     private Stage ventanaParaModificar;
     private Stage ventanaParaIngresarDatos;
+    ComboBox combo;
 
     public PlatillosView() {
         root = new VBox(50);
@@ -278,7 +279,7 @@ public class PlatillosView {
         boton.setOnMouseClicked((MouseEvent event) -> {
 
             Stage ventana = new Stage();
-            ComboBox combo = new ComboBox();
+            combo = new ComboBox();
             VBox root = new VBox(10);
             Button crear = new Button(" Crear ");
             
@@ -310,7 +311,18 @@ public class PlatillosView {
             ventana.setScene(scene);
             ventana.setResizable(true);
             ventana.show();
+            
+            agregarNuevoPlato(crear,escribirNombre,escribirPrecio);
         });
+    }
+    
+    public void agregarNuevoPlato(Button boton, TextField nombre, TextField precio){
+        boton.setOnMouseClicked(event -> {    
+            ProyectoPOO2p.datos.getPlatos().get(combo.getValue().toString()).add(
+                    new Plato(0003,nombre.getText(),Double.parseDouble(precio.getText()),"/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
+            colocarTodos();
+        });
+
     }
 
    
