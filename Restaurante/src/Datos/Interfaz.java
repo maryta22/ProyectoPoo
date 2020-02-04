@@ -319,9 +319,12 @@ public class Interfaz implements Serializable {
         platos.get(p.getTipo()).remove(p);
     }
     
+    /**
+     * Reemplaza el plato modificado por el plato sin modificar.
+     * @param p plato modifiado
+     */
     
-    
-    public void modificarNombre(Plato p){
+    public void modificarPlatoEnLista(Plato p){
         for(Plato plato: platos.get(p.getTipo())){
             if(plato.getCodigo()== p.getCodigo()){
                 platos.get(p.getTipo()).remove(plato);

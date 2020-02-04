@@ -25,6 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -47,6 +48,7 @@ public class PlatillosView {
     private VBox detalle;
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida","Todos"};
     private Stage ventanaParaModificar;
+    private Stage ventanaParaIngresarDatos;
 
     public PlatillosView() {
         root = new VBox(50);
@@ -207,8 +209,8 @@ public class PlatillosView {
         
         eliminarPlato(eliminar,plato);
         
-        
-
+        cambiarPlatos(nombre,plato);
+        cambiarPlatos(precio,plato);
     }
     
     /**
@@ -236,5 +238,34 @@ public class PlatillosView {
         });
     }
     
+    public void cambiarPlatos(Button boton,Plato p){
+        boton.setOnMouseClicked(event->{
+           ventanaParaIngresarDatos = new Stage();
+           
+           TextField ingreso = new TextField();
+           VBox cuadro = new VBox();
+           Label mensaje = new Label();
+           Button confirmar = new Button("Confirmar");
+           
+           if(boton.getText().equals("Modificar nombre")){
+               mensaje.setText("Ingrese el nuevo nombre: ");
+                    
+           }else if(boton.getText().equals("Modificar Precio")){
+               mensaje.setText("Ingrese el nuevo precio: ");
+               
+           }
+            
+           cuadro.getChildren().addAll(mensaje, ingreso,confirmar);
+           
+           Scene scene = new Scene(cuadro, Constantes.anchoVentana / 4, Constantes.altoVentana / 4);
+           
+           ventanaParaIngresarDatos.setScene(scene);
+           ventanaParaIngresarDatos.show();
+        });
+        
+        
+    }
+    
     
 }
+ 
