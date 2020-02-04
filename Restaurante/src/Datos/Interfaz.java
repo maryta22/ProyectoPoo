@@ -10,12 +10,16 @@ import Usuario.Mesero;
 import Usuario.Usuario;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,13 +37,17 @@ public class Interfaz implements Serializable {
     ObjectOutputStream archivoBebidas;
 
     private HashMap<String, ArrayList<Plato>> platos = new HashMap<>();
+    private List<String> nombresArchivos = Arrays.asList("Sopas.dat","Segundos.dat","Postres.dat","Bebidas.dat");
+    private List<String> clavesMapa = Arrays.asList("Sopa","Segundo","Postre","Bebida");
 
     private ArrayList<Usuario> usuarios = new ArrayList<>();
     private ArrayList<Mesa> mesas = new ArrayList<>();
     private ArrayList<Pedido> pedidos = new ArrayList<>();
 
     public Interfaz() {
-        inicializarDatos();
+        crearUsuarios();
+        cargarData();
+        cargarMesas();
     }
 
     public ArrayList<Usuario> getUsuarios() {
@@ -52,11 +60,23 @@ public class Interfaz implements Serializable {
         crearPlatos();
         crearUsuarios();
         crearMesas();
+        crearArchivoMesas();
         crearArchivos();
         System.out.println(archivoSopas);
 
     }
 
+    public void crearArchivoMesas(){
+        try(ObjectOutputStream op = new ObjectOutputStream(new FileOutputStream("src/Archivos/Mesas.dat"))){
+            op.writeObject(mesas);
+            System.out.println("Archivo escrito");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void crearMesas() {
         mesas.add(new Mesa(100, 100, 15, "01"));
         mesas.add(new Mesa(200, 200, 25, "02"));
@@ -237,6 +257,41 @@ public class Interfaz implements Serializable {
 
     }
     
+    public void cargarData(){
+        int contador = 0;
+        for(String s:nombresArchivos){
+            try(ObjectInputStream ob = new ObjectInputStream(new FileInputStream("src/Archivos/"+s))){
+                platos.put(clavesMapa.get(contador), (ArrayList<Plato>)ob.readObject());
+                System.out.println(s+" leido");
+            
+            } catch (IOException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+                contador +=1;
+            }
+        }
+    
+    }
+    
+    public void cargarMesas(){
+        try(ObjectInputStream op = new ObjectInputStream(new FileInputStream("src/Archivos/Mesas.dat"))){
+            mesas = (ArrayList<Mesa>) op.readObject();
+             
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void actualizarArchivos(){
+        crearArchivoMesas();
+        crearArchivos();
+    
+    }
+   
     public void guardarPedido(Pedido pedido){
         File file = new File("src/Archivos/pedidos.txt");
         if(!file.exists()){

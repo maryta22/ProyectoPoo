@@ -50,7 +50,6 @@ public class MesasView {
     private double orgTranslateX, orgTranslateY; //Pruebas
     private Pane root;
     private VBox pedido;
-    private boolean enVentana=true;
     private StackPane mesaNumero;
     private boolean dragging = false;
     private boolean eventoDisparado = false;
@@ -120,6 +119,7 @@ public class MesasView {
                 Label numero = new Label(m.getNumeroMesa());
                 Circle c = new Circle(m.getRadio());
                 darColorMesa(c,m);
+                System.out.println(m.isDisponible());
                 mesaNumero.setTranslateX(m.getCoordenadaX());
                 mesaNumero.setTranslateY(m.getCoordenadaY());
                 mesas.add(c);
@@ -139,6 +139,7 @@ public class MesasView {
                     if(m.getCliente()==null){
                         mostrarVentanaCliente(mesaNumero,m);
                     }else{
+                        
                         crearEscenaPedido(mesaNumero,m);
                     }
                     
@@ -236,7 +237,9 @@ public class MesasView {
                 c.setFill(Color.YELLOW);
             }
         }else{
+            System.out.println(m.isDisponible());
             if(m.isDisponible()){
+               
                 c.setFill(Color.GREEN);
             }else{
                 c.setFill(Color.RED);
@@ -280,7 +283,7 @@ public class MesasView {
         
         @Override
         public void run() {
-            while(enVentana){
+            while(!ProyectoPOO2p.cerrar){
             
                 try {
                     Platform.runLater(()->{

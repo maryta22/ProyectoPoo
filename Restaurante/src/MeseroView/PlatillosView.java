@@ -66,6 +66,7 @@ public class PlatillosView {
     public PlatillosView(Mesa mesa) {
         this();
         mesaActual = mesa;
+        mesaActual.setDisponible(false);
     }
 
     public Parent build() {
@@ -117,6 +118,7 @@ public class PlatillosView {
         });
         Button finalizar = new Button("Finalizar Orden");
         finalizar.setOnMouseClicked(event -> {
+            mesaActual.setDisponible(true);
             mesaActual.setCliente(null);
             Pedido pMesa = new Pedido(LocalDate.now(), mesaActual, (Mesero) ProyectoPOO2p.usuario, "000-123", mesaActual.getCliente(), aPagar);
             ProyectoPOO2p.datos.guardarPedido(pMesa);

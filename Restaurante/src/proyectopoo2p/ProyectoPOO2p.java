@@ -27,6 +27,7 @@ public class ProyectoPOO2p extends Application {
     public static Scene scene;
     public static Interfaz datos;
     public static Usuario usuario;
+    public static boolean cerrar = false;
 
     @Override
     public void start(Stage primaryStage) {
@@ -38,7 +39,12 @@ public class ProyectoPOO2p extends Application {
         primaryStage.show();
 
     }
-
+    @Override
+    public void stop(){
+        cerrar = false;
+        datos.actualizarArchivos();
+    }
+    
     /**
      * @param args the command line arguments
      */

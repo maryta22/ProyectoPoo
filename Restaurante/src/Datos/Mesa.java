@@ -6,6 +6,7 @@
 package Datos;
 
 import Usuario.Mesero;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ import javafx.scene.shape.Circle;
  *
  * @author danny
  */
-public class Mesa  {
+public class Mesa implements Serializable  {
     private double coordenadaX;
     private double coordenadaY;
     private double radio;
