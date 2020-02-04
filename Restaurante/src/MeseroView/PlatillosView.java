@@ -46,6 +46,7 @@ public class PlatillosView {
     private Double aPagar = new Double(0);
     private VBox detalle;
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida","Todos"};
+    private Stage ventanaParaModificar;
 
     public PlatillosView() {
         root = new VBox(50);
@@ -80,8 +81,13 @@ public class PlatillosView {
             filtros.getChildren().add(filtro);
         }
         
+<<<<<<< HEAD
 //            Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
 //            filtros.getChildren().add(cliente);
+=======
+            //Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
+            //filtros.getChildren().add(cliente);
+>>>>>>> 2a12566dfd15e914e6e87b8545e56588947ca5f8
             
         colocarTodos();
         root.getChildren().addAll(filtros, platos);
@@ -164,7 +170,9 @@ public class PlatillosView {
                         crearAccionPedido(img,p.getNombre(),p.getPrecio());
 
                     }
-                    cambiarInformacion(img,p);
+                    if(ProyectoPOO2p.usuario instanceof Administrador){
+                        cambiarInformacion(img,p);
+                    }
                     detalles.getChildren().addAll(precio,img,nombre);
                     platos.getChildren().add(detalles);
     }
@@ -174,7 +182,7 @@ public class PlatillosView {
      * Método que crea la nueva pestaña en la que se muestran las opciones para modificar o eliminar.
      * @param p el plato que se va a modificar o eliminar.
      */
-     public void modificarPlato(Plato p) {
+     public void modificarPlato(Plato plato) {
         
         Label elegir = new Label("          Elija una opción: ");
         
@@ -182,7 +190,7 @@ public class PlatillosView {
         Button precio= new Button("Modificar Precio");
         Button eliminar = new Button("Eiminar el plato");
         
-        Stage ventana = new Stage();
+        ventanaParaModificar = new Stage();
         
         VBox root = new VBox();
         root.getChildren().addAll(nombre, precio, eliminar);
@@ -194,9 +202,13 @@ public class PlatillosView {
         
         Scene scene = new Scene(caja, Constantes.anchoVentana / 2, Constantes.altoVentana / 2);
         
-        ventana.setResizable(false);
-        ventana.setScene(scene);
-        ventana.show();
+        ventanaParaModificar.setResizable(false);
+        ventanaParaModificar.setScene(scene);
+        ventanaParaModificar.show();
+        
+        eliminarPlato(eliminar,plato);
+        
+        
 
     }
     
@@ -211,6 +223,19 @@ public class PlatillosView {
         });
     }
     
+    /**
+     * Recibe el evento y llama al método que modifica el plato
+     * @param boton el boton de eliminar
+     * @param plato el plato a eliminar
+     */
+    public void eliminarPlato(Button boton,Plato plato){
+        boton.setOnMouseClicked(event->{
+           ProyectoPOO2p.datos.eliminarPlato(plato);
+           colocarTodos();
+           colocarPlatosPorFiltro(plato.getTipo());
+           ventanaParaModificar.close();
+        });
+    }
     
     
 }
