@@ -5,6 +5,7 @@
  */
 package MeseroView;
 
+import Datos.Constantes;
 import Datos.Mesa;
 import LoginView.LoginView;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import proyectopoo2p.ProyectoPOO2p;
@@ -29,11 +31,7 @@ import proyectopoo2p.ProyectoPOO2p;
  */
 public class MeseroView {
     private static VBox root;
-    private VBox pruebas;
-    ArrayList<Circle> mesas;
-    private HBox vistaMesa,filtros;
-    private VBox descripcion, platillos,botones,pedido;
-    private FlowPane platos;
+    private StackPane infoMesero;
 
     
     public MeseroView() {
@@ -41,19 +39,23 @@ public class MeseroView {
     }
     
     public Parent build(){
-        pruebas = new VBox();
-        vistaMesa = new HBox();
+        infoMesero = new StackPane();
+        Label mesero = new Label(ProyectoPOO2p.usuario.toString());
+        mesero.setMinWidth(Constantes.anchoVentana);
+        
+        
         Label prueba = new Label("Menu Mesero");
         Button logOut = new Button("Cerrar Sesión");
-        pruebas.getChildren().addAll(prueba,logOut);
+        logOut.setAlignment(Pos.CENTER_LEFT);
+        infoMesero.getChildren().addAll(prueba,logOut);
         logOut.setOnMouseClicked(event ->{
             ProyectoPOO2p.setScene(new LoginView().crearLogin());
         });
-        pruebas.setAlignment(Pos.CENTER);
+        infoMesero.setAlignment(Pos.CENTER);
 
         MesasView mesasView = new MesasView();
         
-        root.getChildren().addAll(pruebas,mesasView.build());
+        root.getChildren().addAll(infoMesero,mesasView.build());
         return root;
     }
     

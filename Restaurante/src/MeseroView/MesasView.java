@@ -213,13 +213,15 @@ public class MesasView {
     
     public void colocarPedido(Mesa m){
         pedido.getChildren().clear();
-        Map<String,Double> orden = m.getComidasPedido();
+        Map<String,ArrayList<Double>> orden = m.getComidasPedido();
+       
         for(String s: orden.keySet()){
             Label plato = new Label(s);
             Double precioUnitario = ProyectoPOO2p.datos.getPlato(s).getPrecio();
-            Double unidades = orden.get(s)/precioUnitario;
-            Label detalle = new Label(String.valueOf(unidades)+" Unidad(es) a: "+String.valueOf(precioUnitario)+" C/u");
-            Label precio = new Label(String.valueOf(orden.get(s)));
+             
+            //System.out.println(orden.get(s).get(0));
+            Label detalle = new Label(String.valueOf(orden.get(s).get(0))+" Unidad(es) a: "+String.valueOf(precioUnitario)+" C/u");
+            Label precio = new Label(String.valueOf(orden.get(s).get(1)));
             pedido.getChildren().addAll(plato,detalle,precio);
         }
         

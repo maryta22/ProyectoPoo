@@ -33,6 +33,7 @@ public class ProyectoPOO2p extends Application {
     public void start(Stage primaryStage) {
 
         scene = new Scene(new LoginView().crearLogin(),Constantes.anchoVentana,Constantes.altoVentana);
+        scene.getStylesheets().add(Constantes.rutaEstilo);
         primaryStage.setTitle("Proyecto Poo");
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);

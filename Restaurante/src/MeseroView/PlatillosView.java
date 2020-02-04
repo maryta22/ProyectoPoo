@@ -12,15 +12,9 @@ import Datos.Plato;
 import Usuario.Administrador;
 import Usuario.Mesero;
 import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -48,6 +42,7 @@ public class PlatillosView {
     private Double aPagar = new Double(0);
     private VBox detalle;
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida", "Todos"};
+    private ArrayList<Double> unidadesTotal = new ArrayList<>();
     private Stage ventanaParaModificar;
     private Stage ventanaParaIngresarDatos;
 
@@ -98,11 +93,17 @@ public class PlatillosView {
 
     public void crearAccionPedido(ImageView img, String nombre, Double precio) {
         img.setOnMouseClicked(event -> {
-            Map<String, Double> pedidoActual = mesaActual.getComidasPedido();
+            Map<String, ArrayList<Double>> pedidoActual = mesaActual.getComidasPedido();
             if (pedidoActual.containsKey(nombre)) {
-                pedidoActual.put(nombre, pedidoActual.get(nombre) + precio);
+                ArrayList<Double> venta = pedidoActual.get(nombre);
+                venta.set(0, venta.get(0)+1);
+                venta.set(1, venta.get(1)+precio);
+                //pedidoActual.put(nombre, pedidoActual.get(nombre) + precio);
             } else {
-                pedidoActual.put(nombre, precio);
+                ArrayList<Double> venta = new ArrayList<>();
+                venta.add(new Double(1));
+                venta.add(precio);
+                pedidoActual.put(nombre, venta);
             }
             aPagar += precio;
             System.out.println(mesaActual.getComidasPedido());
@@ -258,11 +259,14 @@ public class PlatillosView {
             
             ProyectoPOO2p.datos.modificarMenu(p);
             colocarTodos();
-            colocarPlatosPorFiltro(p.getTipo());
+            ProyectoPOO2p.datos.actualizarPedidos();
+            //colocarPlatosPorFiltro(p.getTipo()); //Esta de más
             
         });
 
     }
+    
+    
 
    
 }

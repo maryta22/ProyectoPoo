@@ -12,5 +12,7 @@ package Datos;
 public class Constantes {
     public static double anchoVentana = 1000;
     public static double altoVentana = 750;
+    public static String rutaArchivos ="src/Archivos/";
+    public static String rutaEstilo = "style/Estilo.css";
     
 }

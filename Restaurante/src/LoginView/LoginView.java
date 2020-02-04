@@ -38,18 +38,23 @@ public class LoginView {
         root.setHgap(10);
         
         Label labelNombre = new Label("Usuario");
+        labelNombre.getStyleClass().add("label_login");
         GridPane.setConstraints(labelNombre, 0, 0);
         
         TextField inputNombre = new TextField();
+        inputNombre.getStyleClass().add("input_login");
         GridPane.setConstraints(inputNombre, 1, 0);
         
         Label labelContraseña = new Label("Contraseña");
+        labelContraseña.getStyleClass().add("label_login");
         GridPane.setConstraints(labelContraseña, 0, 1);
         
         TextField inputContraseña = new TextField();
+        inputContraseña.getStyleClass().add("input_login");
         GridPane.setConstraints(inputContraseña, 1, 1);
         
         Button login = new Button("Ingresar");
+        login.getStyleClass().add("login_button");
         login.setOnMouseClicked(event ->{
            
             if(ProyectoPOO2p.datos.validarUsuario(inputNombre.getText(),inputContraseña.getText())){

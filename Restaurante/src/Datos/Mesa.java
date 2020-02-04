@@ -23,7 +23,7 @@ public class Mesa implements Serializable  {
     private String numeroMesa;
     private Mesero mesero;
     private boolean disponible;
-    private Map<String,Double> comidasPedido;
+    private Map<String,ArrayList<Double>> comidasPedido;
     private String cliente;
     private Double valorTotalFacturado;
 
@@ -50,11 +50,11 @@ public class Mesa implements Serializable  {
     public String getCliente(){
         return cliente;
     }
-    public Map<String, Double> getComidasPedido() {
+    public Map<String, ArrayList<Double>> getComidasPedido() {
         return comidasPedido;
     }
 
-    public void setComidasPedido(Map<String, Double> comidasPedido) {
+    public void setComidasPedido(Map<String, ArrayList<Double>> comidasPedido) {
         this.comidasPedido = comidasPedido;
     }
     

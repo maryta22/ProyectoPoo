@@ -1,0 +1,22 @@
+.label_login{
+    -fx-font-family: 'Verdana';
+    -fx-padding: 10;
+    -fx-text-alignment: left;
+    -fx-font-size: 15;
+}
+
+.input_login{
+    -fx-font-size: 15;
+    -fx-border-color: linear-gradient(#87CEEB, #2196f3);
+    -fx-border-radius: 5;
+    -fx-padding: 10;
+}
+
+.login_button{
+    -fx-font-family: 'Verdana';
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-background-color: #2196f3;;
+    -fx-padding: 20;
+    -fx-cursor: hand;
+}

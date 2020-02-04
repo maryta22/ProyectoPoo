@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -108,6 +109,15 @@ public class Interfaz implements Serializable {
         platos.put("Postre", postres());
         platos.put("Bebida", bebidas());
 
+    }
+    
+    public void actualizarPedidos(){
+        for(Mesa m:mesas){
+            Map<String,ArrayList<Double>> pedidoMesa = m.getComidasPedido();
+                for(String clave: pedidoMesa.keySet()){
+                    pedidoMesa.get(clave).set(1, pedidoMesa.get(clave).get(0)*getPlato(clave).getPrecio());
+                }
+        }
     }
 
     /**
