@@ -15,16 +15,11 @@ import java.io.DataOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
-<<<<<<< HEAD
-=======
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
-
 import javafx.collections.ObservableList;
-
->>>>>>> 069e9dddcc69d93c48e8e8e58dd808e92704f546
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -278,11 +273,11 @@ public class PlatillosView {
 
             ProyectoPOO2p.datos.modificarMenu(p);
             colocarTodos();
-<<<<<<< HEAD
+
             ProyectoPOO2p.datos.actualizarPedidos();
             //colocarPlatosPorFiltro(p.getTipo()); //Esta de más
             
-=======
+
             colocarPlatosPorFiltro(p.getTipo());
 
         });
@@ -333,7 +328,7 @@ public class PlatillosView {
     public void agregarNuevoPlato(Button boton, TextField nombre, TextField precio) {
 
         boton.setOnMouseClicked(event -> {
-            if (ProyectoPOO2p.datos.esString(nombre) == true && ProyectoPOO2p.datos.esDouble(precio) == true && combo.getValue() == null) {
+            if (ProyectoPOO2p.datos.esString(nombre) == true && ProyectoPOO2p.datos.esDouble(precio) == true && combo.getValue() != null) {
                 ProyectoPOO2p.datos.getPlatos().get(combo.getValue().toString()).add(
                         new Plato(0003, nombre.getText(), Double.parseDouble(precio.getText()), "/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
                 colocarTodos();
@@ -343,7 +338,7 @@ public class PlatillosView {
                 nuevoPlato.getScene().getRoot().getChildrenUnmodifiable().add(new Label("Ingrese los datos correctos porfavor"));
             }
 
->>>>>>> 069e9dddcc69d93c48e8e8e58dd808e92704f546
+
         });
 
     }
