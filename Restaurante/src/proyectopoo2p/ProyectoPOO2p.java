@@ -41,7 +41,7 @@ public class ProyectoPOO2p extends Application {
     }
     @Override
     public void stop(){
-        cerrar = false;
+        cerrar = true;
         datos.actualizarArchivos();
     }
     

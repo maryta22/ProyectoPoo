@@ -161,7 +161,7 @@ public class AdminView {
     public void crearColumnas(){
         columnas.clear();
         TableColumn<Pedido,LocalDate> fecha = new TableColumn("Fecha");
-        TableColumn <Pedido,Mesa> mesa = new TableColumn("Mesa");
+        TableColumn <Pedido,String> mesa = new TableColumn("Mesa");
         TableColumn <Pedido,Mesero> mesero = new TableColumn("Mesero");
         TableColumn <Pedido,String>cuenta = new TableColumn("#Cuenta");
         TableColumn <Pedido,String>cliente = new TableColumn("Cliente");

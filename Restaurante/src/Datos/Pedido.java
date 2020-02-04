@@ -19,15 +19,15 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class Pedido {
     private ObjectProperty<LocalDate> fecha;
-    private ObjectProperty<Mesa> mesa;
+    private SimpleStringProperty mesa;
     private ObjectProperty<Mesero> mesero;
     private SimpleStringProperty cuenta;
     private SimpleStringProperty cliente;
     private SimpleDoubleProperty total;
 
-    public Pedido(LocalDate fecha, Mesa mesa, Mesero mesero, String cuenta, String cliente, Double total) {
+    public Pedido(LocalDate fecha, String mesa, Mesero mesero, String cuenta, String cliente, Double total) {
         this.fecha = new SimpleObjectProperty<>(this,"fecha",fecha);
-        this.mesa = new SimpleObjectProperty<>(this,"mesa",mesa);
+        this.mesa = new SimpleStringProperty(mesa);
         this.mesero = new SimpleObjectProperty<>(this,"mesero",mesero);
         this.cliente = new SimpleStringProperty(cliente);
         this.cuenta =  new SimpleStringProperty(cuenta);
@@ -38,7 +38,7 @@ public class Pedido {
         return fecha.get();
     }
 
-    public Mesa getMesa() {
+    public String getMesa() {
         return mesa.get();
     }
 
@@ -62,7 +62,7 @@ public class Pedido {
         this.fecha.set(fecha);
     }
 
-    public void setMesa(Mesa mesa) {
+    public void setMesa(String mesa) {
         this.mesa.set(mesa);
     }
 

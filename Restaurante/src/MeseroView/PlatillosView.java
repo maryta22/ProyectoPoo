@@ -120,7 +120,7 @@ public class PlatillosView {
         finalizar.setOnMouseClicked(event -> {
             mesaActual.setDisponible(true);
             mesaActual.setCliente(null);
-            Pedido pMesa = new Pedido(LocalDate.now(), mesaActual, (Mesero) ProyectoPOO2p.usuario, "000-123", mesaActual.getCliente(), aPagar);
+            Pedido pMesa = new Pedido(LocalDate.now(), mesaActual.getNumeroMesa(), (Mesero) ProyectoPOO2p.usuario, "000-123", mesaActual.getCliente(), aPagar);
             ProyectoPOO2p.datos.guardarPedido(pMesa);
             ProyectoPOO2p.datos.getPedidos().add(pMesa);
             mesaActual.setVentasTotal(aPagar);

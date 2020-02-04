@@ -8,16 +8,19 @@ package Datos;
 import Usuario.Administrador;
 import Usuario.Mesero;
 import Usuario.Usuario;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,6 +49,7 @@ public class Interfaz implements Serializable {
 
     public Interfaz() {
         crearUsuarios();
+        cargarReportes();
         cargarData();
         cargarMesas();
     }
@@ -275,6 +279,21 @@ public class Interfaz implements Serializable {
     
     }
     
+    public void cargarReportes(){
+        try(BufferedReader bf = new BufferedReader(new FileReader("src/Archivos/pedidos.txt"))){
+            String linea = null;
+            while((linea=bf.readLine())!=null){
+                String[] datosPedido =  linea.split(",");
+                Pedido pedido = new Pedido(LocalDate.parse(datosPedido[0]),datosPedido[1],(Mesero)getUsuario(datosPedido[2]),datosPedido[3],datosPedido[4],Double.parseDouble(datosPedido[5]));
+                pedidos.add(pedido);
+            }
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void cargarMesas(){
         try(ObjectInputStream op = new ObjectInputStream(new FileInputStream("src/Archivos/Mesas.dat"))){
             mesas = (ArrayList<Mesa>) op.readObject();
@@ -302,7 +321,7 @@ public class Interfaz implements Serializable {
             }
         }else{
             try(BufferedWriter bf = new BufferedWriter(new FileWriter(file.getAbsoluteFile(),true));) {
-                bf.write(pedido.toString());
+                bf.write(pedido.toString()+"\n");
             } catch (IOException ex) {
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -358,6 +377,15 @@ public class Interfaz implements Serializable {
     public Mesa getMesa(Mesa mesa){
         for(Mesa m:mesas){
             if(m.equals(mesa)){
+                return m;
+            }
+        }
+        return null;
+    }
+    
+    public Mesa getMesa(String numero){
+        for(Mesa m:mesas){
+            if(m.getNumeroMesa().equals(numero)){
                 return m;
             }
         }
