@@ -76,6 +76,10 @@ public class Mesa  {
         return radio;
     }
     
+    public void setRadio(double radio){
+        this.radio = radio;
+    }
+    
     public Mesero getMesero(){
         return mesero;
     }

@@ -51,9 +51,13 @@ public class MesasView {
     private VBox pedido;
     private boolean enVentana=true;
     private StackPane mesaNumero;
+    private boolean dragging = false;
+    private boolean eventoDisparado = false;
     
     public MesasView(){
        root = new Pane();
+       root.setPickOnBounds(true);
+
        mesas = new ArrayList<>();
         
         
@@ -74,6 +78,7 @@ public class MesasView {
  
         @Override
         public void handle(MouseEvent t) {
+            dragging = false;
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
             orgTranslateX = ((StackPane)(t.getSource())).getTranslateX();
@@ -86,6 +91,7 @@ public class MesasView {
  
         @Override
         public void handle(MouseEvent t) {
+            dragging = true;
             double offsetX = t.getSceneX() - orgSceneX;
             double offsetY = t.getSceneY() - orgSceneY;
             double newTranslateX = orgTranslateX + offsetX;
@@ -109,6 +115,8 @@ public class MesasView {
         root.getChildren().clear();
         for(Mesa m: ProyectoPOO2p.datos.getMesas()){
                 mesaNumero = new StackPane();
+                mesaNumero.setPickOnBounds(true);
+                
                 Label numero = new Label(m.getNumeroMesa());
                 Circle c = new Circle(m.getRadio());
                 darColorMesa(c,m);
@@ -120,7 +128,7 @@ public class MesasView {
                 if(ProyectoPOO2p.usuario instanceof Administrador){
                     if(AdminView.isDiseño()){
                         crearMovimientoMesas(mesaNumero,m);
-                        
+                        crearModificacion(mesaNumero, m);
                        
                     }else{
                          mostrarInformaciónMesa(mesaNumero,m);
@@ -134,6 +142,7 @@ public class MesasView {
         
         if(AdminView.isDiseño()){
          crearMesa();
+         
         }
        
     }
@@ -184,6 +193,10 @@ public class MesasView {
         }
     }
     
+    public void setDisparo(){//Se puede cambiar
+        eventoDisparado=false;
+    }
+    
     public void colocarPedido(Mesa m){
         pedido.getChildren().clear();
         Map<String,Double> orden = m.getComidasPedido();
@@ -221,12 +234,41 @@ public class MesasView {
     
     public void crearMesa(){
         root.setOnMouseClicked(event->{
-            ModificacionMesa escenaModificacion = new ModificacionMesa(event,this);
-            escenaModificacion.showStage();
+            if(!dragging && !eventoDisparado){
+                eventoDisparado = true;
+                 ModificacionMesa escenaModificacion = new ModificacionMesa(event,this);
+                escenaModificacion.showStage();
+            }
+           
             
         });
          
     }
+    
+    public void crearModificacion(StackPane sp, Mesa m){
+        sp.setOnMouseClicked(event->{
+            if(!dragging && !eventoDisparado){
+                eventoDisparado = true;
+                ModificacionMesa escenaModificacion = new ModificacionMesa(event,this,m);
+                escenaModificacion.showStage();
+            }
+            
+        });
+        
+    }
+    
+//    public EventHandler<MouseEvent> crearEvent(){
+//        EventHandler<MouseEvent> evento = new EventHandler<MouseEvent>(){
+//            @Override
+//            public void handle(MouseEvent event) {
+//               if(!dragging){
+//                   
+//               } 
+//            }
+//        
+//        };
+//        return evento;
+//    }
     
     public class HiloActualizarPedido implements Runnable{
         private Mesa m; //Al final se colocarán nombre adecuados

@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import proyectopoo2p.ProyectoPOO2p;
@@ -37,6 +38,7 @@ public class ModificacionMesa {
     private Label numeroMesa,radio;
     private TextField inputNumero,inputRadio;
     private MesasView escenaAnterior;
+    private Button boton;
 
     public ModificacionMesa(MouseEvent evento,MesasView escena) {
         modificacion = new Stage();
@@ -50,6 +52,9 @@ public class ModificacionMesa {
         root.setPadding(new Insets(10,10,10,10));
         root.setVgap(10);
         root.setHgap(10);
+        modificacion.setOnCloseRequest(event->{
+            escenaAnterior.setDisparo();
+        });
     }
     
     public ModificacionMesa(MouseEvent evento,MesasView escena,Mesa m){
@@ -58,14 +63,24 @@ public class ModificacionMesa {
     }
     
     public void showStage(){
-        crearEscena();
+        crearEscenaComun();
+        if(mesaAModificar==null){
+            crearEscena();
+        }else{
+            if(eventoCrear.getSource() instanceof StackPane){
+                crearEscenaCambios();
+            }
+            
+        }
+        root.getChildren().addAll(numeroMesa,inputNumero,radio,inputRadio);
+        mainRoot.getChildren().addAll(root,boton);
         modificacion.setScene(scene);
         modificacion.show();
     }
     
-    private void crearEscena(){
-        numeroMesa = new Label("Ingrese el numero de la mesa");
-        radio = new Label("Ingrese el radio de la mesa");
+    public void crearEscenaComun(){
+        numeroMesa = new Label("Numero de mesa");
+        radio = new Label("Capacidad de la mesa");
         inputNumero = new TextField();
         inputRadio = new TextField();
         
@@ -74,29 +89,28 @@ public class ModificacionMesa {
         GridPane.setConstraints(radio, 0, 1);
         GridPane.setConstraints(inputRadio, 1, 1);
         
-        Button crear = new Button("Crear");
+    }
+    
+    private void crearEscena(){
+        System.out.println("Escena para pane"+eventoCrear.getSource());
+        boton = new Button("Crear");
         
-        crear.setOnMouseClicked(event->{
+        boton.setOnMouseClicked(event->{
             
             try{
                 double radio = Double.parseDouble(inputRadio.getText())*10;
                 String numero = inputNumero.getText();
                 Mesa nuevaMesa = new Mesa(eventoCrear.getSceneX(),eventoCrear.getSceneY(),radio,numero);
-                if(datosValidos(nuevaMesa)){
+                if(datosValidosMesa(nuevaMesa)){
                         ProyectoPOO2p.datos.getMesas().add(nuevaMesa);
                         escenaAnterior.colocarMesas();
+                        
                         modificacion.close();  
                 }else{
-                    Alert alerta = new Alert(AlertType.ERROR);
-                    alerta.setTitle("Datos Invalidos");
-                    alerta.setContentText("Ya existe una mesa con el mismo numero");
-                    alerta.showAndWait();
+                    mostrarAlerta("Datos Invalidos");
                 }
             }catch(NumberFormatException ex){
-                Alert alerta = new Alert(AlertType.WARNING);
-                alerta.setTitle("Formato Incorrecto");
-                alerta.setContentText("Los datos ingresados deben ser numeros");
-                alerta.showAndWait();
+                mostrarAlerta("Formato Incorrecto");
                 
             }finally{
                 inputNumero.clear();
@@ -107,20 +121,59 @@ public class ModificacionMesa {
                     
         });
         
-        root.getChildren().addAll(numeroMesa,inputNumero,radio,inputRadio);
-        mainRoot.getChildren().addAll(root,crear);
+        
+        
         
         
         
     }
     
-    public boolean datosValidos(Mesa mesa){
+    public void crearEscenaCambios(){
+         System.out.println("Escena para Grid"+eventoCrear.getSource());
+        boton = new Button("Guardar Cambios");
+        boton.setOnMouseClicked(event->{
+            try{
+                double radio = Double.parseDouble(inputRadio.getText())*10;
+                String numero = inputNumero.getText();
+                mesaAModificar.setNumeroMesa(numero);
+                mesaAModificar.setRadio(radio);
+                
+                modificacion.close();
+            }catch(NumberFormatException ex){
+                mostrarAlerta("Formato Incorrecto");
+                
+            }finally{
+                inputNumero.clear();
+                inputRadio.clear();
+            }
+        });
+    }
+    
+   
+    
+    public boolean datosValidosMesa(Mesa mesa){
         if(!ProyectoPOO2p.datos.getMesas().contains(mesa)){
-            
             return true;
         }
         return false;
     }
     
+    public void mostrarAlerta(String tipo){
+        Alert alerta;
+        switch(tipo){
+            case "Datos Invalidos":
+                alerta = new Alert(AlertType.ERROR);
+                alerta.setTitle("Datos Invalidos");
+                alerta.setContentText("Ya existe una mesa con el mismo numero");
+                alerta.showAndWait();
+                break;
+            case "Formato Incorrecto":
+                alerta = new Alert(AlertType.WARNING);
+                alerta.setTitle("Formato Incorrecto");
+                alerta.setContentText("Los datos ingresados deben ser numeros");
+                alerta.showAndWait();
+                break;
+        }
+    }
     
 }
