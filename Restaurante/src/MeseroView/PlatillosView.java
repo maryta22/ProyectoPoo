@@ -79,8 +79,8 @@ public class PlatillosView {
             filtros.getChildren().add(filtro);
         }
         
-            Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
-            filtros.getChildren().add(cliente);
+            //Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
+            //filtros.getChildren().add(cliente);
             
 //        for(String s:ProyectoPOO2p.datos.getPlatos().keySet()){
 //            for(Plato p:ProyectoPOO2p.datos.getPlatos().get(s)){
@@ -190,7 +190,7 @@ public class PlatillosView {
      * Método que crea la nueva pestaña en la que se muestran las opciones para modificar o eliminar.
      * @param p el plato que se va a modificar o eliminar.
      */
-     public void modificarPlato(Plato p) {
+     public void modificarPlato(Plato plato) {
         
         Label elegir = new Label("          Elija una opción: ");
         
@@ -213,6 +213,8 @@ public class PlatillosView {
         ventana.setResizable(false);
         ventana.setScene(scene);
         ventana.show();
+        
+        eliminarPlato(eliminar,plato);
 
     }
     
@@ -236,6 +238,7 @@ public class PlatillosView {
         boton.setOnMouseClicked(event->{
            ProyectoPOO2p.datos.eliminarPlato(plato);
            colocarTodos();
+           colocarPlatosPorFiltro(plato.getTipo());
         });
     }
     
