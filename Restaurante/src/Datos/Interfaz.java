@@ -185,6 +185,9 @@ public class Interfaz implements Serializable {
 
     }
     
+    /**
+     * Escribe los archivos.
+     */
     
     public void agregarElementosArchivos(){
         try {
@@ -279,6 +282,7 @@ public class Interfaz implements Serializable {
         return null;
     }
     
+<<<<<<< HEAD
     public Mesa getMesa(Mesa mesa){
         for(Mesa m:mesas){
             if(m.equals(mesa)){
@@ -287,4 +291,21 @@ public class Interfaz implements Serializable {
         }
         return null;
     }
+=======
+    /**
+     * Elimina de platos el plato pasado por el parámetro.
+     * @param p plato a ser eliminado.
+     */
+    
+    public void eliminarPlato(Plato p){
+        platos.get(p.getTipo()).remove(p);
+    }
+    
+    
+    
+    public void modificarNombre(Plato p){
+        platos.get(p.getTipo());
+    }
+    
+>>>>>>> 9e9dec5bfb24ef4eed10f9e1d380dc59ea74d872
 }

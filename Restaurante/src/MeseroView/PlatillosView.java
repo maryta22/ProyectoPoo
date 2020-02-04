@@ -5,6 +5,7 @@
  */
 package MeseroView;
 
+import Datos.Constantes;
 import Datos.Mesa;
 import Datos.Pedido;
 import Datos.Plato;
@@ -20,6 +21,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -27,6 +29,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import proyectopoo2p.ProyectoPOO2p;
 
 /**
@@ -177,8 +180,53 @@ public class PlatillosView {
                         crearAccionPedido(img,p.getNombre(),p.getPrecio());
 
                     }
-
+                    cambiarInformacion(img,p);
                     detalles.getChildren().addAll(precio,img,nombre);
                     platos.getChildren().add(detalles);
     }
+    
+    
+    /**
+     * Método que crea la nueva pestaña en la que se muestran las opciones para modificar o eliminar.
+     * @param p el plato que se va a modificar o eliminar.
+     */
+     public void modificarPlato(Plato p) {
+        
+        Label elegir = new Label("          Elija una opción: ");
+        
+        Button nombre= new Button("Modificar nombre");
+        Button precio= new Button("Modificar Precio");
+        Button eliminar = new Button("Eiminar el plato");
+        
+        Stage ventana = new Stage();
+        
+        VBox root = new VBox();
+        root.getChildren().addAll(nombre, precio, eliminar);
+        
+        
+        HBox caja= new HBox();
+        caja.setSpacing(50);
+        caja.getChildren().addAll(elegir, root);
+        
+        Scene scene = new Scene(caja, Constantes.anchoVentana / 2, Constantes.altoVentana / 2);
+        
+        ventana.setResizable(false);
+        ventana.setScene(scene);
+        ventana.show();
+
+    }
+    
+    /**
+     * Método que permite modificar la información de ese plato.
+     * @param img la imagen a la que le da click.
+     * @param p el plato que se va a modificar o elimiar.
+     */
+    public void cambiarInformacion(ImageView img,Plato p){
+        img.setOnMouseClicked(event->{
+           modificarPlato(p);
+        });
+    }
+    
+    
+    
 }
