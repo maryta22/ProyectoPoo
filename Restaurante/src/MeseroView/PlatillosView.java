@@ -50,10 +50,10 @@ public class PlatillosView {
     private VBox detalle;
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida", "Todos"};
     private ArrayList<Double> unidadesTotal = new ArrayList<>();
-    
+
     private Stage ventanaParaModificar;
     private Stage ventanaParaIngresarDatos;
-    
+
     Stage nuevoPlato;
     ComboBox combo;
     VBox rootCrear;
@@ -267,21 +267,24 @@ public class PlatillosView {
 
     public void cambiarPlatos(Button boton, Plato p, TextField mensaje) {
         boton.setOnMouseClicked(event -> {
-            if (boton.getText().equals("Modificar nombre")) {
-                p.setNombre(mensaje.getText());
+            try {
+                if (boton.getText().equals("Modificar nombre")) {
+                    p.setNombre(mensaje.getText());
 
-            } else if (boton.getText().equals("Modificar Precio")) {
-                p.setPrecio(Double.parseDouble(mensaje.getText()));
+                } else if (boton.getText().equals("Modificar Precio")) {
+                    p.setPrecio(Double.parseDouble(mensaje.getText()));
+                }
+
+                ProyectoPOO2p.datos.modificarMenu(p);
+                colocarTodos();
+
+                ProyectoPOO2p.datos.actualizarPedidos();
+                //colocarPlatosPorFiltro(p.getTipo()); //Esta de más
+
+                colocarPlatosPorFiltro(p.getTipo());
+            } catch (UnsupportedOperationException | NullPointerException | NumberFormatException ex) {
+                System.out.println("");
             }
-
-            ProyectoPOO2p.datos.modificarMenu(p);
-            colocarTodos();
-
-            ProyectoPOO2p.datos.actualizarPedidos();
-            //colocarPlatosPorFiltro(p.getTipo()); //Esta de más
-
-            colocarPlatosPorFiltro(p.getTipo());
-
         });
 
     }
@@ -331,18 +334,16 @@ public class PlatillosView {
 
         boton.setOnMouseClicked(event -> {
             try {
-                if(nombre!=null && precio!=null && combo.getValue()!= null){
+                if (nombre != null && precio != null && combo.getValue() != null) {
                     ProyectoPOO2p.datos.getPlatos().get(combo.getValue().toString()).add(
-                        new Plato(0003, nombre.getText(), Double.parseDouble(precio.getText()), "/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
-                colocarTodos();
+                            new Plato(0003, nombre.getText(), Double.parseDouble(precio.getText()), "/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
+                    colocarTodos();
 
-                nuevoPlato.close();
+                    nuevoPlato.close();
                 }
-                
+
             } catch (UnsupportedOperationException | NullPointerException | NumberFormatException ex) {
-                Stage ventana = new Stage();
-                ventana.setScene(new Scene(new Label("Ingrese los datos correctamente"),500,100));
-                ventana.show();
+                System.out.println("");
             }
         });
 
