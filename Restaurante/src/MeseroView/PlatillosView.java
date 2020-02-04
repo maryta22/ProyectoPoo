@@ -227,6 +227,17 @@ public class PlatillosView {
         });
     }
     
+    /**
+     * Recibe el evento y llama al método que modifica el plato
+     * @param boton el boton de eliminar
+     * @param plato el plato a eliminar
+     */
+    public void eliminarPlato(Button boton,Plato plato){
+        boton.setOnMouseClicked(event->{
+           ProyectoPOO2p.datos.eliminarPlato(plato);
+           colocarTodos();
+        });
+    }
     
     
 }
