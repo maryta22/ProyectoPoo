@@ -15,16 +15,14 @@ import java.io.DataOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
-<<<<<<< HEAD
-=======
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 
->>>>>>> 069e9dddcc69d93c48e8e8e58dd808e92704f546
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -82,15 +80,17 @@ public class PlatillosView {
         Button boton = new Button("Crear nuevo plato");
         filtros = new HBox();
         platos = new FlowPane();
-        filtros.setSpacing(100);
         platos.setHgap(15);
         platos.setVgap(15);
+        filtros.setSpacing(10);
+        filtros.setPadding(new Insets(10));
         root.setStyle("-fx-border-color: yellow;");
         for (int i = 0; i < tipos.length; i++) {
             Label filtro = new Label(tipos[i]);
-            filtro.setStyle("-fx-border-color:white; -fx-background-color: black;");
+            //filtro.setStyle("-fx-border-color:white; -fx-background-color: black;");
             filtro.setMinHeight(50);
-            filtro.setMinWidth(filtros.getWidth() / tipos.length);
+            filtro.setMinWidth((Constantes.anchoVentana*0.90)/tipos.length);
+            filtro.getStyleClass().add("login_button");
             makeClickable(filtro);
             //filtro.setStyle("-fx-border-color:white; -fx-background-color: black;");
             filtros.getChildren().add(filtro);
@@ -107,13 +107,17 @@ public class PlatillosView {
         }
 
         root.getChildren().addAll(filtros, platos);
-        root.getChildren().add(boton);
+        if(ProyectoPOO2p.usuario instanceof Administrador){
+                 root.getChildren().add(boton);
+        }
+       
         return root;
     }
 
     public void crearAccionPedido(ImageView img, String nombre, Double precio) {
         img.setOnMouseClicked(event -> {
             Map<String, ArrayList<Double>> pedidoActual = mesaActual.getComidasPedido();
+            aPagar = mesaActual.totalFactura();
             if (pedidoActual.containsKey(nombre)) {
                 ArrayList<Double> venta = pedidoActual.get(nombre);
                 venta.set(0, venta.get(0)+1);
@@ -126,7 +130,7 @@ public class PlatillosView {
                 pedidoActual.put(nombre, venta);
             }
             aPagar += precio;
-            System.out.println(mesaActual.getComidasPedido());
+            System.out.println(aPagar);
         });
 
     }
@@ -278,11 +282,11 @@ public class PlatillosView {
 
             ProyectoPOO2p.datos.modificarMenu(p);
             colocarTodos();
-<<<<<<< HEAD
+
             ProyectoPOO2p.datos.actualizarPedidos();
             //colocarPlatosPorFiltro(p.getTipo()); //Esta de más
             
-=======
+
             colocarPlatosPorFiltro(p.getTipo());
 
         });
@@ -343,7 +347,7 @@ public class PlatillosView {
                 nuevoPlato.getScene().getRoot().getChildrenUnmodifiable().add(new Label("Ingrese los datos correctos porfavor"));
             }
 
->>>>>>> 069e9dddcc69d93c48e8e8e58dd808e92704f546
+
         });
 
     }

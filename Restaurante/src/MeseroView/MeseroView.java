@@ -23,6 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.TextAlignment;
 import proyectopoo2p.ProyectoPOO2p;
 
 /**
@@ -31,7 +32,7 @@ import proyectopoo2p.ProyectoPOO2p;
  */
 public class MeseroView {
     private static VBox root;
-    private StackPane infoMesero;
+    private HBox infoMesero;
 
     
     public MeseroView() {
@@ -39,15 +40,16 @@ public class MeseroView {
     }
     
     public Parent build(){
-        infoMesero = new StackPane();
-        Label mesero = new Label(ProyectoPOO2p.usuario.toString());
-        mesero.setMinWidth(Constantes.anchoVentana);
-        
-        
-        Label prueba = new Label("Menu Mesero");
+        infoMesero = new HBox();
+        Label mesero = new Label(ProyectoPOO2p.usuario.getNombreUsuario());
+        mesero.setMinWidth(Constantes.anchoVentana*0.83);
+        mesero.setAlignment(Pos.CENTER);
+        mesero.getStyleClass().add("label_pestana");
         Button logOut = new Button("Cerrar Sesión");
+        logOut.getStyleClass().add("login_button");
+        
         logOut.setAlignment(Pos.CENTER_LEFT);
-        infoMesero.getChildren().addAll(prueba,logOut);
+        infoMesero.getChildren().addAll(mesero,logOut);
         logOut.setOnMouseClicked(event ->{
             ProyectoPOO2p.setScene(new LoginView().crearLogin());
         });

@@ -7,6 +7,7 @@ package MeseroView;
 
 import AditionalViews.ModificacionMesa;
 import AditionalViews.NombreCliente;
+import Datos.Constantes;
 import static Datos.Constantes.altoVentana;
 import Datos.Mesa;
 import Datos.Plato;
@@ -32,12 +33,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import proyectopoo2p.ProyectoPOO2p;
 
 /**
@@ -48,7 +51,9 @@ public class MesasView {
     private static ArrayList<Circle> mesas;
     private double orgSceneX, orgSceneY; //Pruebas
     private double orgTranslateX, orgTranslateY; //Pruebas
+    private HBox cocina;
     private Pane root;
+    private BorderPane restaurante;
     private VBox pedido;
     private StackPane mesaNumero;
     private boolean dragging = false;
@@ -56,7 +61,9 @@ public class MesasView {
     
     public MesasView(){
        root = new Pane();
-
+       restaurante = new BorderPane();
+       cocina = new HBox();
+       cocina.setMinWidth(Constantes.anchoVentana-(Constantes.anchoVentana*0.90));
        mesas = new ArrayList<>();
         
         
@@ -64,7 +71,10 @@ public class MesasView {
     
     public Parent build(){
         colocarMesas();
-        return root;
+        colocarCocina();
+        restaurante.setCenter(root);
+        restaurante.setRight(cocina);
+        return restaurante;
         
     }
     public void mostrarInformaciónMesa(StackPane p, Mesa m){
@@ -151,6 +161,19 @@ public class MesasView {
        
     }
     
+    public void colocarCocina(){
+        Rectangle barrera = new Rectangle(0,0,15,Constantes.altoVentana);
+        Label cocinaLabel = new Label("Cocina");
+        cocinaLabel.setStyle("-fx-rotate: -90;"
+                            + "-fx-font-family: 'Verdana';"
+                            +"-fx-font-size: 20;");
+        cocinaLabel.setTranslateY(Constantes.altoVentana*0.5);
+        
+        
+        
+        cocina.getChildren().addAll(barrera,cocinaLabel);
+    }
+    
     public void mostrarVentanaCliente(StackPane sp, Mesa m){
         sp.setOnMouseClicked(event->{
             NombreCliente ventanaCliente = new NombreCliente(m);
@@ -171,6 +194,7 @@ public class MesasView {
              m.setMesero((Mesero)ProyectoPOO2p.usuario); 
              HBox vistaMesa = new HBox();
             VBox descripcion = new VBox();
+            descripcion.setMinWidth(Constantes.anchoVentana*0.25);
              PlatillosView vistaPlatos = new PlatillosView(m);
              pedido = vistaPlatos.seccionDetalle();
              pedido.setPadding(new Insets(10));
@@ -214,17 +238,17 @@ public class MesasView {
     public void colocarPedido(Mesa m){
         pedido.getChildren().clear();
         Map<String,ArrayList<Double>> orden = m.getComidasPedido();
-       
+        Label total = new Label("Total: "+String.valueOf(m.totalFactura())); 
         for(String s: orden.keySet()){
             Label plato = new Label(s);
             Double precioUnitario = ProyectoPOO2p.datos.getPlato(s).getPrecio();
              
-            //System.out.println(orden.get(s).get(0));
+           
             Label detalle = new Label(String.valueOf(orden.get(s).get(0))+" Unidad(es) a: "+String.valueOf(precioUnitario)+" C/u");
             Label precio = new Label(String.valueOf(orden.get(s).get(1)));
             pedido.getChildren().addAll(plato,detalle,precio);
         }
-        
+        pedido.getChildren().add(total);
     }
     
     public void darColorMesa(Circle c, Mesa m){

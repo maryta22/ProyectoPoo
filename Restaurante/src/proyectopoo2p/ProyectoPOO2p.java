@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -32,7 +33,7 @@ public class ProyectoPOO2p extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        scene = new Scene(new LoginView().crearLogin(),Constantes.anchoVentana,Constantes.altoVentana);
+        scene = new Scene(new LoginView().crearLogin(),Constantes.anchoVentana,Constantes.altoVentana,Color.AQUA);
         scene.getStylesheets().add(Constantes.rutaEstilo);
         primaryStage.setTitle("Proyecto Poo");
         primaryStage.setResizable(false);

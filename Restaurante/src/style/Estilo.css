@@ -16,7 +16,21 @@
     -fx-font-family: 'Verdana';
     -fx-text-fill: white;
     -fx-font-size: 20;
-    -fx-background-color: #2196f3;;
+    -fx-background-color: #2196f3;
     -fx-padding: 20;
     -fx-cursor: hand;
+}
+
+.label_pestana{
+    -fx-font-family: 'Verdana';
+    -fx-background-color: #8F1D04;
+    -fx-font-size: 20;
+    -fx-padding: 20;
+    -fx-text-alignment: center;
+    
+}
+
+.vista_mesa{
+    -fx-background-color: #11C8F1;
+    
 }

@@ -134,6 +134,13 @@ public class Mesa implements Serializable  {
         }
         return false;
     }
-
+    
+    public Double totalFactura(){
+        Double valor = new Double(0);
+        for(String plato: comidasPedido.keySet()){
+            valor += comidasPedido.get(plato).get(1);
+        }
+        return valor;
+    }
     
 }
