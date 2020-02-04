@@ -82,5 +82,8 @@ public class Pedido {
         this.total.set(total); 
     }
     
+    public String toString(){
+        return fecha.get().toString()+","+mesa.get().toString()+","+mesero.get() .toString()+","+cuenta.get()+","+cliente.get()+","+String.valueOf(total.get());
+    }
     
 }

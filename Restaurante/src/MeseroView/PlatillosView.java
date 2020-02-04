@@ -9,6 +9,7 @@ import Datos.Constantes;
 import Datos.Mesa;
 import Datos.Pedido;
 import Datos.Plato;
+import Usuario.Administrador;
 import Usuario.Mesero;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
@@ -79,27 +80,9 @@ public class PlatillosView {
             filtros.getChildren().add(filtro);
         }
         
-            Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
-            filtros.getChildren().add(cliente);
+//            Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
+//            filtros.getChildren().add(cliente);
             
-//        for(String s:ProyectoPOO2p.datos.getPlatos().keySet()){
-//            for(Plato p:ProyectoPOO2p.datos.getPlatos().get(s)){
-//                VBox detalles = new VBox(10);
-//                Label precio = new Label("Precio: "+String.valueOf(p.getPrecio()));
-//                Label nombre = new Label(p.getNombre());
-//                Image plato = new Image(p.getRuta());
-//                ImageView img = new ImageView(plato);
-//                img.setFitHeight(80);
-//                img.setFitWidth(80);  
-//                if(ProyectoPOO2p.usuario instanceof Mesero){
-//                    crearAccionPedido(img,p.getNombre(),p.getPrecio());
-//                    
-//                }
-//                
-//                detalles.getChildren().addAll(precio,img,nombre);
-//                platos.getChildren().add(detalles);
-//            }
-//        }
         colocarTodos();
         root.getChildren().addAll(filtros, platos);
         return root;
@@ -129,6 +112,7 @@ public class PlatillosView {
         finalizar.setOnMouseClicked(event->{
             mesaActual.setCliente(null);
             Pedido pMesa = new Pedido(LocalDate.now(),mesaActual,(Mesero)ProyectoPOO2p.usuario,"000-123",mesaActual.getCliente(),aPagar);
+            ProyectoPOO2p.datos.guardarPedido(pMesa);
             ProyectoPOO2p.datos.getPedidos().add(pMesa);
             mesaActual.setVentasTotal(aPagar);
             mesaActual.setMesero(null);
@@ -222,7 +206,7 @@ public class PlatillosView {
      * @param p el plato que se va a modificar o elimiar.
      */
     public void cambiarInformacion(ImageView img,Plato p){
-        img.setOnMouseClicked(event->{
+           img.setOnMouseClicked(event->{
            modificarPlato(p);
         });
     }

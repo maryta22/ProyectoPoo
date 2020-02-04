@@ -238,6 +238,24 @@ public class Interfaz implements Serializable {
 
     }
     
+    public void guardarPedido(Pedido pedido){
+        File file = new File("src/Archivos/pedidos.txt");
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            try(BufferedWriter bf = new BufferedWriter(new FileWriter(file.getAbsoluteFile(),true));) {
+                bf.write(pedido.toString());
+            } catch (IOException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+       
+    }
+    
     public void actualizarMenus(){
         File ficherosopa =new File("src/Archivos/Sopa.dat");
     }
