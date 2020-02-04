@@ -120,6 +120,7 @@ public class MesasView {
                 if(ProyectoPOO2p.usuario instanceof Administrador){
                     if(AdminView.isDiseño()){
                         crearMovimientoMesas(mesaNumero,m);
+                        
                        
                     }else{
                          mostrarInformaciónMesa(mesaNumero,m);
@@ -220,7 +221,7 @@ public class MesasView {
     
     public void crearMesa(){
         root.setOnMouseClicked(event->{
-            ModificacionMesa escenaModificacion = new ModificacionMesa(event);
+            ModificacionMesa escenaModificacion = new ModificacionMesa(event,this);
             escenaModificacion.showStage();
             
         });
