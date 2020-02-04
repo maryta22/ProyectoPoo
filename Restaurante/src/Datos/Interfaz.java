@@ -409,21 +409,5 @@ public class Interfaz implements Serializable {
         platos.get(p.getTipo()).remove(p);
     }
 
-    public boolean esString(TextField validar) {
-        if (isString(validar.getText())) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public boolean esDouble(TextField validar) {
-        try {
-            Double.parseDouble(validar.getText());
-            return true;
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-    }
 
 }
