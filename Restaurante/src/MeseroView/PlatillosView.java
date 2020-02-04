@@ -46,6 +46,7 @@ public class PlatillosView {
     private Double aPagar = new Double(0);
     private VBox detalle;
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida","Todos"};
+    private Stage ventanaParaModificar;
 
     public PlatillosView() {
         root = new VBox(50);
@@ -201,7 +202,7 @@ public class PlatillosView {
         Button precio= new Button("Modificar Precio");
         Button eliminar = new Button("Eiminar el plato");
         
-        Stage ventana = new Stage();
+        ventanaParaModificar = new Stage();
         
         VBox root = new VBox();
         root.getChildren().addAll(nombre, precio, eliminar);
@@ -213,11 +214,13 @@ public class PlatillosView {
         
         Scene scene = new Scene(caja, Constantes.anchoVentana / 2, Constantes.altoVentana / 2);
         
-        ventana.setResizable(false);
-        ventana.setScene(scene);
-        ventana.show();
+        ventanaParaModificar.setResizable(false);
+        ventanaParaModificar.setScene(scene);
+        ventanaParaModificar.show();
         
         eliminarPlato(eliminar,plato);
+        
+        
 
     }
     
@@ -242,6 +245,7 @@ public class PlatillosView {
            ProyectoPOO2p.datos.eliminarPlato(plato);
            colocarTodos();
            colocarPlatosPorFiltro(plato.getTipo());
+           ventanaParaModificar.close();
         });
     }
     
