@@ -21,13 +21,19 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+
+import javafx.collections.ObservableList;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -70,7 +76,7 @@ public class PlatillosView {
     }
 
     public Parent build() {
-
+        Button boton = new Button("Crear nuevo plato");
         filtros = new HBox();
         platos = new FlowPane();
         filtros.setSpacing(100);
@@ -92,7 +98,11 @@ public class PlatillosView {
         //Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
         //filtros.getChildren().add(cliente);
         colocarTodos();
+        
+        crearNuevoPlato(boton);
+        
         root.getChildren().addAll(filtros, platos);
+        root.getChildren().add(boton);
         return root;
     }
 
@@ -262,6 +272,45 @@ public class PlatillosView {
             
         });
 
+    }
+    
+    public void crearNuevoPlato(Button boton) {
+        boton.setOnMouseClicked((MouseEvent event) -> {
+
+            Stage ventana = new Stage();
+            ComboBox combo = new ComboBox();
+            VBox root = new VBox(10);
+            Button crear = new Button(" Crear ");
+            
+            HBox paraTipo = new HBox(10);
+            HBox paraNombre = new HBox(10);
+            HBox paraPrecio= new HBox(10);
+            
+            TextField escribirNombre = new TextField();
+            TextField escribirPrecio = new TextField();
+            
+            Label escoja = new Label(" Tipo de plato:  ");
+            Label nombre = new Label(" Nombre del plato: ");
+            Label precio = new Label(" Precio del plato: ");
+
+            ObservableList<String> items = FXCollections.observableArrayList();
+            for(int i= 0 ; i<4 ; i++){
+                items.add(tipos[i]);
+            }
+            combo.itemsProperty().set(items);
+            
+            paraTipo.getChildren().addAll(escoja,combo);
+            paraNombre.getChildren().addAll(nombre,escribirNombre);
+            paraPrecio.getChildren().addAll(precio, escribirPrecio);
+            
+            root.getChildren().addAll(paraTipo,paraNombre,paraPrecio,crear);
+            
+            Scene scene = new Scene(root, Constantes.anchoVentana / 2, Constantes.altoVentana / 2);
+            
+            ventana.setScene(scene);
+            ventana.setResizable(true);
+            ventana.show();
+        });
     }
 
    
