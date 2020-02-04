@@ -181,16 +181,25 @@ public class PlatillosView {
     }
     
      public void modificarPlato(Plato p) {
+         
         Label elegir = new Label("Elija una opción: ");
+        
         Button nombre= new Button();
         Button precio= new Button();
         Button eliminar = new Button();
+        
         Stage ventana = new Stage();
+        
         VBox root = new VBox();
-        HBox caja= new HBox();
         root.getChildren().addAll(nombre, precio, eliminar);
+        
+        HBox caja= new HBox();
+        caja.setSpacing(50);
         caja.getChildren().addAll(elegir, root);
+        
         Scene scene = new Scene(caja, Constantes.anchoVentana / 2, Constantes.altoVentana / 2);
+        
+        ventana.setResizable(false);
         ventana.setScene(scene);
         ventana.show();
 
