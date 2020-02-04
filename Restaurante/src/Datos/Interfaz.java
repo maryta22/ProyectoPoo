@@ -257,7 +257,7 @@ public class Interfaz implements Serializable {
     }
     
     public void actualizarMenus(){
-        File ficherosopa =new File("src/Archivos/Sopa.dat");
+        File ficherosopa =new File("src/Archivos/Sopas.dat");
     }
     
 
@@ -322,7 +322,12 @@ public class Interfaz implements Serializable {
     
     
     public void modificarNombre(Plato p){
-        platos.get(p.getTipo());
+        for(Plato plato: platos.get(p.getTipo())){
+            if(plato.getCodigo()== p.getCodigo()){
+                platos.get(p.getTipo()).remove(plato);
+                platos.get(p.getTipo()).add(p);
+            }
+        }
     }
     
    
