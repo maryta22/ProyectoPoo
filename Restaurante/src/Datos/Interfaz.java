@@ -126,6 +126,17 @@ public class Interfaz implements Serializable {
 
     }
     
+    public boolean existeCodigo(int codigo){
+        for(String clave: platos.keySet()){
+            for(Plato plato:platos.get(clave)){
+                if(plato.getCodigo()==codigo){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     public void actualizarPedidos(){
         for(Mesa m:mesas){
             Map<String,ArrayList<Double>> pedidoMesa = m.getComidasPedido();

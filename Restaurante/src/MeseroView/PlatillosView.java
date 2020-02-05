@@ -16,6 +16,7 @@ import java.io.DataOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,7 +56,7 @@ public class PlatillosView {
     private VBox detalle;
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida", "Todos"};
     private ArrayList<Double> unidadesTotal = new ArrayList<>();
-
+    private int codigo;
     private Stage ventanaParaModificar;
     private Stage ventanaParaIngresarDatos;
 
@@ -377,12 +378,18 @@ public class PlatillosView {
     }
 
     public void agregarNuevoPlato(Button boton, TextField nombre, TextField precio) {
+        Random rd = new Random();
+        codigo = rd.nextInt(2000);
+        while(ProyectoPOO2p.datos.existeCodigo(codigo)){
+            codigo = rd.nextInt(2000);
+        }
 
         boton.setOnMouseClicked(event -> {
             try {
                 if (nombre != null && precio != null && combo.getValue() != null) {
                     ProyectoPOO2p.datos.getPlatos().get(combo.getValue().toString()).add(
-                            new Plato(0003, nombre.getText(), Double.parseDouble(precio.getText()), "/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
+                           
+                            new Plato(codigo, nombre.getText(), Double.parseDouble(precio.getText()), "/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
                     colocarTodos();
 
                     nuevoPlato.close();
