@@ -44,6 +44,8 @@ public class NombreCliente {
             String cliente = inputNombre.getText();
                     
             mesa.setCliente(inputNombre.getText());//Falta hacer validaciones
+            
+            ventanaCliente.close();
         });
         datos.getChildren().addAll(nombre,inputNombre,aceptar);
         ventanaCliente.setScene(scene);

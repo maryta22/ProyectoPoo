@@ -5,6 +5,7 @@
  */
 package MeseroView;
 
+import Alertas.Alerta;
 import Datos.Constantes;
 import Datos.Mesa;
 import Datos.Pedido;
@@ -20,13 +21,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-<<<<<<< HEAD
 import javafx.geometry.Insets;
-
-=======
->>>>>>> 82782cf316493c61f6743235a0a8fabf0de100d8
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -35,6 +34,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -148,8 +148,7 @@ public class PlatillosView {
         });
         Button finalizar = new Button("Finalizar Orden");
         finalizar.setOnMouseClicked(event -> {
-            mesaActual.setDisponible(true);
-            mesaActual.setCliente(null);
+            
             Pedido pMesa = new Pedido(LocalDate.now(), mesaActual.getNumeroMesa(), (Mesero) ProyectoPOO2p.usuario, "000-123", mesaActual.getCliente(), aPagar);
             ProyectoPOO2p.datos.guardarPedido(pMesa);
             ProyectoPOO2p.datos.getPedidos().add(pMesa);
@@ -157,6 +156,8 @@ public class PlatillosView {
             mesaActual.setMesero(null);
             mesaActual.getComidasPedido().clear();
             detalle.getChildren().clear();
+            mesaActual.setDisponible(true);
+            mesaActual.setCliente(null);
             ProyectoPOO2p.scene.setRoot(new MeseroView().build());
         });
 
@@ -218,19 +219,27 @@ public class PlatillosView {
      * @param p el plato que se va a modificar o eliminar.
      */
     public void modificarPlato(Plato plato) {
-
+        GridPane root = new GridPane();
+        root.setHgap(10);
+        root.setVgap(10);
+        
         Label elegir = new Label("          Elija una opción: ");
-
+        GridPane.setConstraints(elegir, 0, 0);
         TextField ingresoNombre = new TextField();
+        GridPane.setConstraints(ingresoNombre, 0, 1);
         TextField ingresoPrecio = new TextField();
+        GridPane.setConstraints(ingresoPrecio, 0,2);
 
         Button nombre = new Button("Modificar nombre");
+        GridPane.setConstraints(nombre, 1, 1);
         Button precio = new Button("Modificar Precio");
+        GridPane.setConstraints(precio, 1, 2);
         Button eliminar = new Button("Eiminar el plato");
+        GridPane.setConstraints(eliminar, 1, 3);
 
         ventanaParaModificar = new Stage();
 
-        VBox root = new VBox();
+        
         root.getChildren().addAll(ingresoNombre, nombre, ingresoPrecio, precio, eliminar);
 
         HBox caja = new HBox();
@@ -269,9 +278,16 @@ public class PlatillosView {
      */
     public void eliminarPlato(Button boton, Plato plato) {
         boton.setOnMouseClicked(event -> {
-            ProyectoPOO2p.datos.eliminarPlato(plato);
+            if(!ProyectoPOO2p.datos.platoEnPedido(plato.getNombre())){
+                ProyectoPOO2p.datos.eliminarPlato(plato);
+            }else{
+                Alert alerta = new Alert(AlertType.ERROR);
+                alerta.setTitle("Error al eliminar");
+                alerta.setContentText("El plato no se pudo eliminar porque se encuentre en el pedido de un cliente");
+                alerta.showAndWait();
+            }
+            
             colocarTodos();
-            colocarPlatosPorFiltro(plato.getTipo());
             ventanaParaModificar.close();
         });
     }
@@ -280,30 +296,38 @@ public class PlatillosView {
         boton.setOnMouseClicked(event -> {
             try {
                 if (boton.getText().equals("Modificar nombre")) {
-                    p.setNombre(mensaje.getText());
+                    if(mensaje.getText().equals("")){
+                       new Alerta("Datos Inconsistentes").mostrarAlerta();
+                       mensaje.clear();
+                    }else{
+                         p.setNombre(mensaje.getText());
+                    }
+                   
 
                 } else if (boton.getText().equals("Modificar Precio")) {
-                    p.setPrecio(Double.parseDouble(mensaje.getText()));
+                    if(mensaje.getText().equals("")){
+                       new Alerta("Datos Inconsistentes").mostrarAlerta();
+                       mensaje.clear();
+                    }else{
+                        try{
+                        Double precio = Double.parseDouble(mensaje.getText());
+                        p.setPrecio(precio);
+                        }catch(NumberFormatException ex){
+                             new Alerta("Formato Incorrecto").mostrarAlerta();
+                        }finally{
+                            mensaje.clear();
+                        }
+                          
+                    }
+                   
                 }
 
-<<<<<<< HEAD
+
             ProyectoPOO2p.datos.modificarMenu(p);
             colocarTodos();
 
             ProyectoPOO2p.datos.actualizarPedidos();
-            //colocarPlatosPorFiltro(p.getTipo()); //Esta de más
-            
-
-            colocarPlatosPorFiltro(p.getTipo());
-=======
-                ProyectoPOO2p.datos.modificarMenu(p);
-                colocarTodos();
->>>>>>> 82782cf316493c61f6743235a0a8fabf0de100d8
-
-                ProyectoPOO2p.datos.actualizarPedidos();
-                //colocarPlatosPorFiltro(p.getTipo()); //Esta de más
-
-                colocarPlatosPorFiltro(p.getTipo());
+          
             } catch (UnsupportedOperationException | NullPointerException | NumberFormatException ex) {
                 System.out.println("");
             }
@@ -364,13 +388,13 @@ public class PlatillosView {
                     nuevoPlato.close();
                 }
 
-<<<<<<< HEAD
 
-=======
+
+
             } catch (UnsupportedOperationException | NullPointerException | NumberFormatException ex) {
                 System.out.println("");
             }
->>>>>>> 82782cf316493c61f6743235a0a8fabf0de100d8
+
         });
 
     }

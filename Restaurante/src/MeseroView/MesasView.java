@@ -129,7 +129,6 @@ public class MesasView {
                 Label numero = new Label(m.getNumeroMesa());
                 Circle c = new Circle(m.getRadio());
                 darColorMesa(c,m);
-                System.out.println(m.isDisponible());
                 mesaNumero.setTranslateX(m.getCoordenadaX());
                 mesaNumero.setTranslateY(m.getCoordenadaY());
                 mesas.add(c);
@@ -146,7 +145,8 @@ public class MesasView {
                     }
 
                 }else{
-                    if(m.getCliente()==null){
+                    System.out.println(m.getCliente());
+                    if(m.getCliente()==null || "".equals(m.getCliente())){
                         mostrarVentanaCliente(mesaNumero,m);
                     }else{
                         
@@ -176,9 +176,15 @@ public class MesasView {
     
     public void mostrarVentanaCliente(StackPane sp, Mesa m){
         sp.setOnMouseClicked(event->{
-            NombreCliente ventanaCliente = new NombreCliente(m);
-            ventanaCliente.showStage(); 
-            crearPedido(sp,m);
+            
+                NombreCliente ventanaCliente = new NombreCliente(m);
+                ventanaCliente.showStage();
+                if(!m.getCliente().equals("")){
+                    m.setMesero((Mesero)ProyectoPOO2p.usuario);
+                }
+                colocarMesas();
+            
+            
         });
         
     }
@@ -186,6 +192,7 @@ public class MesasView {
     public void crearEscenaPedido(StackPane c, Mesa m){
         c.setOnMouseClicked(event->{
             crearPedido(c,m);
+            
         });
     }
     
@@ -263,7 +270,6 @@ public class MesasView {
                 c.setFill(Color.YELLOW);
             }
         }else{
-            System.out.println(m.isDisponible());
             if(m.isDisponible()){
                
                 c.setFill(Color.GREEN);

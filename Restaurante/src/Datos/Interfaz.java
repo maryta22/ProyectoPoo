@@ -271,6 +271,16 @@ public class Interfaz implements Serializable {
         }
 
     }
+    
+    public boolean platoEnPedido(String plato){
+        for(Mesa mesa: mesas){
+            if(mesa.getComidasPedido().containsKey(plato)){
+                return true;
+            }
+            
+        }
+        return false;
+    }
 
     public void cargarData() {
         int contador = 0;
