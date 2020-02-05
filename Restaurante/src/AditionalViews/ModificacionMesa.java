@@ -144,7 +144,7 @@ public class ModificacionMesa {
         inputRadio.setPromptText(String.valueOf(mesaAModificar.getRadio()));
         boton.setOnMouseClicked(event->{
             try{
-                double radio = Double.parseDouble(inputRadio.getText())*10;
+                double radio = Double.parseDouble(inputRadio.getText());
                 
                 String numero = inputNumero.getText();
                 System.out.println(radio +" "+ numero);
