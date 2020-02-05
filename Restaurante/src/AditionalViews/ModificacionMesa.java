@@ -26,7 +26,7 @@ import Restaurante.Restaurante;
  */
 public class ModificacionMesa {
     private Stage modificacion;
-    private GridPane root;
+        private GridPane root;
     private VBox mainRoot;
     private Scene scene;
     private Mesa mesaAModificar;

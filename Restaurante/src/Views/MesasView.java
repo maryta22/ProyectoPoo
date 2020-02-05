@@ -81,7 +81,7 @@ public class MesasView {
         
     }
     
-    /**
+    /** 
      * Metodo que permite ver la información de la mesa sobre la que se encuentre el mouse
      * @param pane Nodo al cual se le instalara la opcion de ver información
      * @param mesa Mesa de la cual se mostrara la información

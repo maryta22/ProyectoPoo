@@ -3,20 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Datos/Pedido.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Datos/Constantes.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Views/MeseroView.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Datos/Interfaz.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Alertas/Alerta.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/AditionalViews/ModificacionMesa.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Datos/Plato.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Views/AdminView.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Views/MesasView.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Views/PlatillosView.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Views/LoginView.java</file>
+            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Usuario/Administrador.java</file>
             <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Usuario/Usuario.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Restaurante/Restaurante.java</file>
-            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Datos/Mesa.java</file>
+            <file>file:/C:/Users/danny/OneDrive/Escritorio/Git/proyecto-poo-grupo-8/Restaurante/src/Views/MesasView.java</file>
         </group>
     </open-files>
 </project-private>
