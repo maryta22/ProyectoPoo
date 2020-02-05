@@ -71,10 +71,21 @@ public class Interfaz implements Serializable {
         crearMesas();
         crearArchivoMesas();
         crearArchivos();
-        System.out.println(archivoSopas);
 
     }
 
+     public double asignarRadio(double capacidad){
+        double radioAsignado;
+         if(capacidad<10){
+             radioAsignado = 50;
+         }else if(capacidad>=10 && capacidad<30){
+             radioAsignado = 60;
+         }else{
+             radioAsignado = 70;
+         }
+         return radioAsignado;
+    }
+    
     public void crearArchivoMesas() {
         try (ObjectOutputStream op = new ObjectOutputStream(new FileOutputStream("src/Archivos/Mesas.dat"))) {
             op.writeObject(mesas);
@@ -87,11 +98,11 @@ public class Interfaz implements Serializable {
     }
 
     public void crearMesas() {
-        mesas.add(new Mesa(100, 100, 15, "01"));
-        mesas.add(new Mesa(200, 200, 25, "02"));
-        mesas.add(new Mesa(300, 300, 50, "03"));
-        mesas.add(new Mesa(200, 500, 25, "04"));
-        mesas.add(new Mesa(500, 100, 30, "05"));
+        mesas.add(new Mesa(100, 100, 10, "1"));
+        mesas.add(new Mesa(200, 200, 25, "2"));
+        mesas.add(new Mesa(300, 300, 15, "3"));
+        mesas.add(new Mesa(200, 500, 20, "4"));
+        mesas.add(new Mesa(500, 100, 2, "5"));
     }
 
     public void crearUsuarios() {

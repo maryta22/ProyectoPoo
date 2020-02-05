@@ -27,10 +27,10 @@ public class Mesa implements Serializable  {
     private String cliente;
     private Double valorTotalFacturado;
 
-    public Mesa(double coordenadaX, double coordenadaY,double radio,String numero) {
+    public Mesa(double coordenadaX, double coordenadaY,double capacidad,String numero) {
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
-        this.radio = radio;
+        radio =asignarRadio(capacidad);
         this.numeroMesa = numero;
         disponible=true;
         comidasPedido = new HashMap<>();
@@ -39,6 +39,19 @@ public class Mesa implements Serializable  {
         valorTotalFacturado = new Double(0);
         
     }
+    
+    public double asignarRadio(double capacidad){
+        double radioAsignado;
+         if(capacidad<10){
+             radioAsignado = 50;
+         }else if(capacidad>=10 && capacidad<30){
+             radioAsignado = 60;
+         }else{
+             radioAsignado = 70;
+         }
+         return radioAsignado;
+    }
+    
     public void setDisponible(boolean disponible){
         this.disponible = disponible;
     }

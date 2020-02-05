@@ -179,7 +179,7 @@ public class MesasView {
             
                 NombreCliente ventanaCliente = new NombreCliente(m);
                 ventanaCliente.showStage();
-                if(!m.getCliente().equals("")){
+                if(!(m.getCliente()==null) && !m.getCliente().equals("")){
                     m.setMesero((Mesero)ProyectoPOO2p.usuario);
                 }
                 colocarMesas();

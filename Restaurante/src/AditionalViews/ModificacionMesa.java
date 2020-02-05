@@ -98,12 +98,13 @@ public class ModificacionMesa {
         boton.setOnMouseClicked(event->{
             
             try{
-                double radio = Double.parseDouble(inputRadio.getText())*10;
+                double radio = Double.parseDouble(inputRadio.getText());
                 String numero = inputNumero.getText();
-                
-                System.out.println(eventoCrear.getSceneX()+"  "+eventoCrear.getSceneY());
+                if(radio<0 || Integer.parseInt(numero)<0){
+                    throw new NumberFormatException();
+                }
                 if(validarDatos()){
-                     Mesa nuevaMesa = new Mesa(eventoCrear.getX()-radio,eventoCrear.getY()-radio,radio,numero);
+                     Mesa nuevaMesa = new Mesa(eventoCrear.getX()-ProyectoPOO2p.datos.asignarRadio(radio),eventoCrear.getY()-ProyectoPOO2p.datos.asignarRadio(radio),radio,numero);
                     if(datosValidosMesa(nuevaMesa)){
                         ProyectoPOO2p.datos.getMesas().add(nuevaMesa);
                         escenaAnterior.colocarMesas();
@@ -144,9 +145,14 @@ public class ModificacionMesa {
         boton.setOnMouseClicked(event->{
             try{
                 double radio = Double.parseDouble(inputRadio.getText())*10;
+                
                 String numero = inputNumero.getText();
+                System.out.println(radio +" "+ numero);
+                if(radio<0 || Integer.parseInt(numero)<0){
+                    throw new NumberFormatException();
+                }
                 if(validarDatos()){
-                    double diffRadio = radio-mesaAModificar.getRadio();
+                    double diffRadio = mesaAModificar.asignarRadio(radio)-mesaAModificar.getRadio();
                     Mesa mesa = ProyectoPOO2p.datos.getMesa(mesaAModificar);
                    Mesa nuevaMesa = new Mesa(mesaAModificar.getCoordenadaX()-diffRadio,mesaAModificar.getCoordenadaY()-diffRadio,radio,numero);
                     if(datosValidosMesa(nuevaMesa)){
