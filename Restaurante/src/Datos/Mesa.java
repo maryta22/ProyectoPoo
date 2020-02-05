@@ -34,7 +34,7 @@ public class Mesa implements Serializable  {
         this.numeroMesa = numero;
         disponible=true;
         comidasPedido = new HashMap<>();
-        cliente = null;
+        cliente = "Ninguno";
         mesero = null;
         valorTotalFacturado = new Double(0);
         

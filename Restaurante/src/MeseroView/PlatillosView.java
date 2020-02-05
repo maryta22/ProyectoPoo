@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -59,10 +60,10 @@ public class PlatillosView {
     private int codigo;
     private Stage ventanaParaModificar;
     private Stage ventanaParaIngresarDatos;
-
-    Stage nuevoPlato;
-    ComboBox combo;
-    VBox rootCrear;
+    private Label mesaCliente;
+    private Stage nuevoPlato;
+    private ComboBox combo;
+    private GridPane rootCrear;
 
     public PlatillosView() {
         root = new VBox(50);
@@ -84,32 +85,40 @@ public class PlatillosView {
 
     public Parent build() {
         Button boton = new Button("Crear nuevo plato");
+        boton.setAlignment(Pos.CENTER);
+        boton.setTranslateX(Constantes.anchoVentana*0.4);
+        boton.getStyleClass().add("login_button");
         filtros = new HBox();
         platos = new FlowPane();
         platos.setHgap(15);
         platos.setVgap(15);
+        platos.setPadding(new Insets(10));
         filtros.setSpacing(10);
         filtros.setPadding(new Insets(10));
-        root.setStyle("-fx-border-color: yellow;");
         for (int i = 0; i < tipos.length; i++) {
             Label filtro = new Label(tipos[i]);
-            //filtro.setStyle("-fx-border-color:white; -fx-background-color: black;");
             filtro.setMinHeight(50);
-            filtro.setMinWidth((Constantes.anchoVentana*0.90)/tipos.length);
+            if(ProyectoPOO2p.usuario instanceof Administrador){
+                filtro.setMinWidth((Constantes.anchoVentana*0.90)/tipos.length);
+            }else{
+                filtro.setMinWidth((Constantes.anchoVentana*0.70)/tipos.length);
+            }
+           
             filtro.getStyleClass().add("login_button");
             makeClickable(filtro);
-            //filtro.setStyle("-fx-border-color:white; -fx-background-color: black;");
             filtros.getChildren().add(filtro);
         }
-
-//            Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
-//            filtros.getChildren().add(cliente);
-        //Label cliente = new Label(mesaActual.getCliente());//TEMPORAL
-        //filtros.getChildren().add(cliente);
         colocarTodos();
 
         if (ProyectoPOO2p.usuario instanceof Administrador) {
             crearNuevoPlato(boton);
+        }else{
+            mesaCliente = new Label("Mesa "+ mesaActual.getNumeroMesa()+" ,Cliente: "+mesaActual.getCliente());
+            mesaCliente.setMinWidth(Constantes.anchoVentana);
+            mesaCliente.setMinHeight(50);
+            mesaCliente.setAlignment(Pos.CENTER);
+            mesaCliente.getStyleClass().add("login_button");
+            //root.getChildren().add(mesaCliente);
         }
 
         root.getChildren().addAll(filtros, platos);
@@ -118,6 +127,10 @@ public class PlatillosView {
         }
        
         return root;
+    }
+    
+    public Label getLabel(){
+        return mesaCliente;
     }
 
     public void crearAccionPedido(ImageView img, String nombre, Double precio) {
@@ -136,21 +149,22 @@ public class PlatillosView {
                 pedidoActual.put(nombre, venta);
             }
             aPagar += precio;
-            System.out.println(aPagar);
         });
 
     }
 
     public void setBotonesEscena(VBox boxBotones) {
         Button regresar = new Button("Regresar");
+        regresar.getStyleClass().add("login_button");
         regresar.setOnMouseClicked(v -> {
             ProyectoPOO2p.scene.setRoot(new MeseroView().build());
 
         });
         Button finalizar = new Button("Finalizar Orden");
+        finalizar.getStyleClass().add("login_button");
         finalizar.setOnMouseClicked(event -> {
-            
-            Pedido pMesa = new Pedido(LocalDate.now(), mesaActual.getNumeroMesa(), (Mesero) ProyectoPOO2p.usuario, "000-123", mesaActual.getCliente(), aPagar);
+            Random rd = new Random();
+            Pedido pMesa = new Pedido(LocalDate.now(), mesaActual.getNumeroMesa(), (Mesero) ProyectoPOO2p.usuario, String.valueOf(rd.nextInt(999999)), mesaActual.getCliente(), aPagar);
             ProyectoPOO2p.datos.guardarPedido(pMesa);
             ProyectoPOO2p.datos.getPedidos().add(pMesa);
             mesaActual.setVentasTotal(aPagar);
@@ -247,7 +261,7 @@ public class PlatillosView {
         caja.setSpacing(50);
         caja.getChildren().addAll(elegir, root);
 
-        Scene scene = new Scene(caja, Constantes.anchoVentana / 2, Constantes.altoVentana / 2);
+        Scene scene = new Scene(caja, 550, 150);
 
         ventanaParaModificar.setResizable(false);
         ventanaParaModificar.setScene(scene);
@@ -324,7 +338,7 @@ public class PlatillosView {
                 }
 
 
-            ProyectoPOO2p.datos.modificarMenu(p);
+            //ProyectoPOO2p.datos.modificarMenu(p);
             colocarTodos();
 
             ProyectoPOO2p.datos.actualizarPedidos();
@@ -341,19 +355,29 @@ public class PlatillosView {
 
             nuevoPlato = new Stage();
             combo = new ComboBox();
-            rootCrear = new VBox(10);
+            rootCrear = new GridPane();
+            
+            Label escoja = new Label(" Tipo de plato:  ");
+            GridPane.setConstraints(escoja, 0, 0);
+            Label nombre = new Label(" Nombre del plato: ");
+            GridPane.setConstraints(nombre, 0, 1);
+            Label precio = new Label(" Precio del plato: ");
+            GridPane.setConstraints(precio, 0, 2);
+            
+            GridPane.setConstraints(combo, 1, 0);
             Button crear = new Button(" Crear ");
 
-            HBox paraTipo = new HBox(10);
-            HBox paraNombre = new HBox(10);
-            HBox paraPrecio = new HBox(10);
+            
 
             TextField escribirNombre = new TextField();
+            GridPane.setConstraints(escribirNombre, 1, 1);
             TextField escribirPrecio = new TextField();
+            GridPane.setConstraints(escribirPrecio, 1, 2);
 
-            Label escoja = new Label(" Tipo de plato:  ");
-            Label nombre = new Label(" Nombre del plato: ");
-            Label precio = new Label(" Precio del plato: ");
+            
+            
+            
+            GridPane.setConstraints(crear, 0, 3);
 
             ObservableList<String> items = FXCollections.observableArrayList();
             for (int i = 0; i < 4; i++) {
@@ -361,13 +385,11 @@ public class PlatillosView {
             }
             combo.itemsProperty().set(items);
 
-            paraTipo.getChildren().addAll(escoja, combo);
-            paraNombre.getChildren().addAll(nombre, escribirNombre);
-            paraPrecio.getChildren().addAll(precio, escribirPrecio);
+            rootCrear.setHgap(10);
+            rootCrear.setVgap(10);
+            rootCrear.getChildren().addAll(escoja,combo,nombre,escribirNombre,precio,escribirPrecio,crear);
 
-            rootCrear.getChildren().addAll(paraTipo, paraNombre, paraPrecio, crear);
-
-            Scene scene = new Scene(rootCrear, Constantes.anchoVentana / 2, Constantes.altoVentana / 2);
+            Scene scene = new Scene(rootCrear, 300, 130);
 
             nuevoPlato.setScene(scene);
             nuevoPlato.setResizable(false);
@@ -386,20 +408,29 @@ public class PlatillosView {
 
         boton.setOnMouseClicked(event -> {
             try {
-                if (nombre != null && precio != null && combo.getValue() != null) {
+                if (!nombre.getText().equals("") && !precio.getText().equals("") && combo.getValue() != null) {
                     ProyectoPOO2p.datos.getPlatos().get(combo.getValue().toString()).add(
                            
                             new Plato(codigo, nombre.getText(), Double.parseDouble(precio.getText()), "/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
                     colocarTodos();
 
                     nuevoPlato.close();
-                }
+                }else{
+                    
+                    new Alerta("Datos Inconsistentes").mostrarAlerta();
+                    nombre.clear();
+                    precio.clear();
+                    }
 
 
 
 
             } catch (UnsupportedOperationException | NullPointerException | NumberFormatException ex) {
-                System.out.println("");
+               
+                new Alerta("Datos Incosistentes").mostrarAlerta();
+                nombre.clear();
+                precio.clear();
+            
             }
 
         });

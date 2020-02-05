@@ -20,27 +20,28 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.TextAlignment;
 import proyectopoo2p.ProyectoPOO2p;
 
 /**
@@ -58,6 +59,7 @@ public class MesasView {
     private StackPane mesaNumero;
     private boolean dragging = false;
     private boolean eventoDisparado = false;
+    private ScrollPane detallePedido;
     
     public MesasView(){
        root = new Pane();
@@ -65,7 +67,7 @@ public class MesasView {
        cocina = new HBox();
        cocina.setMinWidth(Constantes.anchoVentana-(Constantes.anchoVentana*0.90));
        mesas = new ArrayList<>();
-        
+        detallePedido = new ScrollPane();
         
     }
     
@@ -145,8 +147,7 @@ public class MesasView {
                     }
 
                 }else{
-                    System.out.println(m.getCliente());
-                    if(m.getCliente()==null || "".equals(m.getCliente())){
+                    if(m.getCliente()==null || "Ninguno".equals(m.getCliente())){
                         mostrarVentanaCliente(mesaNumero,m);
                     }else{
                         
@@ -179,7 +180,7 @@ public class MesasView {
             
                 NombreCliente ventanaCliente = new NombreCliente(m);
                 ventanaCliente.showStage();
-                if(!(m.getCliente()==null) && !m.getCliente().equals("")){
+                if(!(m.getCliente()==null) && !m.getCliente().equals("Ninguno")){
                     m.setMesero((Mesero)ProyectoPOO2p.usuario);
                 }
                 colocarMesas();
@@ -199,44 +200,36 @@ public class MesasView {
     public void crearPedido(StackPane sp, Mesa m){
     if(m.getMesero()==null|| m.getMesero().equals((Mesero)ProyectoPOO2p.usuario)){
              m.setMesero((Mesero)ProyectoPOO2p.usuario); 
+             VBox caja = new VBox();
              HBox vistaMesa = new HBox();
+             
             VBox descripcion = new VBox();
+            descripcion.getChildren().add(detallePedido);
+            VBox.setVgrow(detallePedido, Priority.ALWAYS);
+            detallePedido.setVmax(Constantes.altoVentana*0.5);
             descripcion.setMinWidth(Constantes.anchoVentana*0.25);
              PlatillosView vistaPlatos = new PlatillosView(m);
              pedido = vistaPlatos.seccionDetalle();
              pedido.setPadding(new Insets(10));
              pedido.setSpacing(10);
-             pedido.setStyle("-fx-border-color: green;");
+             pedido.setMaxHeight(Constantes.altoVentana*0.5);
              Thread hiloMesas = new Thread(new HiloActualizarPedido(m) );
              hiloMesas.start();
              pedido.setAlignment(Pos.CENTER_LEFT);
+             detallePedido.setContent(pedido);
              VBox botones = new VBox();
              botones.setPadding(new Insets(15));
              botones.setSpacing(25);
              botones.setAlignment(Pos.CENTER);
-             botones.setStyle("-fx-border-color: red;");
              vistaPlatos.setBotonesEscena(botones);
-             descripcion.getChildren().addAll(pedido,botones);
+             descripcion.getChildren().addAll(botones);
              vistaMesa.getChildren().addAll(descripcion,vistaPlatos.build());
-             ProyectoPOO2p.setScene(vistaMesa);
+             caja.getChildren().addAll(vistaPlatos.getLabel(),vistaMesa);
+             ProyectoPOO2p.setScene(caja);
             }
     }
     
-    public static void main(String[]args){
-        ArrayList<Circle> mesas = new ArrayList<>();
-        for(Circle m: mesas){
-            mesas.add(m);
-            
-        }
-        try(ObjectOutputStream arch= new ObjectOutputStream(new FileOutputStream("src/Archivos/mesas.dat"))){
-            arch.writeObject(mesas);
-        }catch(FileNotFoundException ie){
-            System.out.println(ie.getMessage());
-            
-        }catch(IOException io){
-            System.out.println(io.getMessage());
-        }
-    }
+    
     
     public void setDisparo(){//Se puede cambiar
         eventoDisparado=false;
@@ -249,11 +242,16 @@ public class MesasView {
         for(String s: orden.keySet()){
             Label plato = new Label(s);
             Double precioUnitario = ProyectoPOO2p.datos.getPlato(s).getPrecio();
-             
-           
+            HBox descripcion = new HBox();
+            descripcion.setSpacing(50);
             Label detalle = new Label(String.valueOf(orden.get(s).get(0))+" Unidad(es) a: "+String.valueOf(precioUnitario)+" C/u");
             Label precio = new Label(String.valueOf(orden.get(s).get(1)));
-            pedido.getChildren().addAll(plato,detalle,precio);
+            precio.setTextAlignment(TextAlignment.RIGHT);
+            precio.setAlignment(Pos.CENTER_RIGHT);
+            Region espacio = new Region();
+            HBox.setHgrow(espacio, Priority.ALWAYS);
+            descripcion.getChildren().addAll(plato,espacio,precio);
+            pedido.getChildren().addAll(descripcion,detalle);
         }
         pedido.getChildren().add(total);
     }

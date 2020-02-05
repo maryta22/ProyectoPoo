@@ -51,8 +51,10 @@ public class NombreCliente {
                 alerta.setContentText("El nombre no puede quedar vacio");
                 alerta.showAndWait();
                 ventanaCliente.close();
+            }else{
+                mesa.setCliente(inputNombre.getText());
             }
-            mesa.setCliente(inputNombre.getText());
+            
             
             ventanaCliente.close();
         });

@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -89,7 +90,6 @@ public class Interfaz implements Serializable {
     public void crearArchivoMesas() {
         try (ObjectOutputStream op = new ObjectOutputStream(new FileOutputStream("src/Archivos/Mesas.dat"))) {
             op.writeObject(mesas);
-            System.out.println("Archivo escrito");
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -109,9 +109,7 @@ public class Interfaz implements Serializable {
         usuarios.add(new Administrador("Admin", "Admin"));
         usuarios.add(new Mesero("Mesero1", "Mesero1"));
         usuarios.add(new Mesero("Mesero2", "Mesero2"));
-        //usuario de acceso rapido para pruebas :v
-        usuarios.add(new Administrador("a", "a"));
-        usuarios.add(new Mesero("m", "m"));
+        
     }
 
     /**
@@ -285,12 +283,21 @@ public class Interfaz implements Serializable {
      * Recibe el @param plato y modifica ese plato en el HashMap. 
      */
     public void modificarMenu(Plato p) {
-        for (Plato plato : platos.get(p.getTipo())) {
-            if (plato.getCodigo() == p.getCodigo()) {
-                platos.get(p.getTipo()).remove(plato);
-                platos.get(p.getTipo()).add(p);
-            }
+        Iterator iterador = platos.get(p.getTipo()).iterator();
+        while(iterador.hasNext()){
+            Plato plato = (Plato)iterador.next();
+             if (plato.getCodigo() == p.getCodigo()) {
+                 iterador.remove();
+                 platos.get(p).add(plato);
+             }
         }
+       
+//        for (Plato plato : platos.get(p.getTipo())) {
+//            if (plato.getCodigo() == p.getCodigo()) {
+//                platos.get(p.getTipo()).remove(plato);
+//                platos.get(p.getTipo()).add(p);
+//            }
+//        }
 
     }
     
@@ -309,8 +316,7 @@ public class Interfaz implements Serializable {
         for (String s : nombresArchivos) {
             try (ObjectInputStream ob = new ObjectInputStream(new FileInputStream("src/Archivos/" + s))) {
                 platos.put(clavesMapa.get(contador), (ArrayList<Plato>) ob.readObject());
-                System.out.println(s + " leido");
-
+              
             } catch (IOException ex) {
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
