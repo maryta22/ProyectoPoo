@@ -7,8 +7,8 @@ package AditionalViews;
 
 import Alertas.Alerta;
 import Datos.Mesa;
-import MeseroView.AdminView;
-import MeseroView.MesasView;
+import Views.AdminView;
+import Views.MesasView;
 import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,7 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import proyectopoo2p.ProyectoPOO2p;
+import Restaurante.Restaurante;
 /**
  *
  * @author danny
@@ -41,6 +41,12 @@ public class ModificacionMesa {
     private MesasView escenaAnterior;
     private Button boton;
 
+    /**
+     * Constructor de la clase
+     * @param evento Evento con el que fue llamada la clase
+     * @param escena Escena anterior para realizar modificaciones
+     */
+    
     public ModificacionMesa(MouseEvent evento,MesasView escena) {
         modificacion = new Stage();
         root = new GridPane();
@@ -57,12 +63,20 @@ public class ModificacionMesa {
             escenaAnterior.setDisparo();
         });
     }
+    /**
+     * Constructor sobrecargado para distinguir una creacion de mesa
+     * @param evento Evento con el que fue llamada la clase
+     * @param escena Escena anterior para realizar modificaciones
+     * @param mesa Mesa a ser modificada
+     */
     
-    public ModificacionMesa(MouseEvent evento,MesasView escena,Mesa m){
+    public ModificacionMesa(MouseEvent evento,MesasView escena,Mesa mesa){
         this(evento,escena);
-        mesaAModificar = m;
+        mesaAModificar = mesa;
     }
-    
+    /**
+     * Metodo que muestra la nueva ventana
+     */
     public void showStage(){
         crearEscenaComun();
         if(mesaAModificar==null){
@@ -78,6 +92,9 @@ public class ModificacionMesa {
         modificacion.setScene(scene);
         modificacion.show();
     }
+    /**
+     * Metodo que crea una ventana comun 
+     */
     
     public void crearEscenaComun(){
         numeroMesa = new Label("Numero de mesa");
@@ -92,6 +109,10 @@ public class ModificacionMesa {
         
     }
     
+    /**
+     * Metodo que crea la escena para crear una mesa
+     */
+    
     private void crearEscena(){
         boton = new Button("Crear");
         
@@ -104,9 +125,9 @@ public class ModificacionMesa {
                     throw new NumberFormatException();
                 }
                 if(validarDatos()){
-                     Mesa nuevaMesa = new Mesa(eventoCrear.getX()-ProyectoPOO2p.datos.asignarRadio(radio),eventoCrear.getY()-ProyectoPOO2p.datos.asignarRadio(radio),radio,numero);
+                     Mesa nuevaMesa = new Mesa(eventoCrear.getX()-Restaurante.datos.asignarRadio(radio),eventoCrear.getY()-Restaurante.datos.asignarRadio(radio),radio,numero);
                     if(datosValidosMesa(nuevaMesa)){
-                        ProyectoPOO2p.datos.getMesas().add(nuevaMesa);
+                        Restaurante.datos.getMesas().add(nuevaMesa);
                         escenaAnterior.colocarMesas();
                         escenaAnterior.setDisparo();
                         modificacion.close();  
@@ -136,6 +157,10 @@ public class ModificacionMesa {
         
     }
     
+    /**
+     * Metodo que crea la escena para modificar una mesa
+     */
+    
     public void crearEscenaCambios(){
          System.out.println("Escena para Grid"+eventoCrear.getSource());
         boton = new Button("Guardar Cambios");
@@ -153,15 +178,13 @@ public class ModificacionMesa {
                 }
                 if(validarDatos()){
                     double diffRadio = mesaAModificar.asignarRadio(radio)-mesaAModificar.getRadio();
-                    Mesa mesa = ProyectoPOO2p.datos.getMesa(mesaAModificar);
+                    Mesa mesa = Restaurante.datos.getMesa(mesaAModificar);
                    Mesa nuevaMesa = new Mesa(mesaAModificar.getCoordenadaX()-diffRadio,mesaAModificar.getCoordenadaY()-diffRadio,radio,numero);
                     if(datosValidosMesa(nuevaMesa)){
                         mesa.setRadio(radio);
                         mesa.setNumeroMesa(numero);
                         mesa.setCoordenadaX(mesa.getCoordenadaX()-diffRadio);
                         mesa.setCoordenadaY(mesa.getCoordenadaY()-diffRadio);
-//                        ProyectoPOO2p.datos.getMesas().add(nuevaMesa);
-//                        ProyectoPOO2p.datos.getMesas().remove(mesaAModificar);
                         escenaAnterior.colocarMesas();
                         escenaAnterior.setDisparo();
                          modificacion.close();
@@ -186,7 +209,7 @@ public class ModificacionMesa {
         
         eliminar.setOnMouseClicked(event->{
             if(mesaAModificar.isDisponible()){
-                ProyectoPOO2p.datos.getMesas().remove(mesaAModificar);
+                Restaurante.datos.getMesas().remove(mesaAModificar);
                 escenaAnterior.colocarMesas();
                 modificacion.close();
             }else{
@@ -198,13 +221,22 @@ public class ModificacionMesa {
     }
     
    
-    
+    /**
+     * Metodo que valida que la mesa a crear o modificar no exista
+     * @param mesa Mesa a validad
+     * @return boolean, si las mesa a crear/modificar tiene datos de otra mesa retorna falso, caso contrario retorna verdadero
+     */
     public boolean datosValidosMesa(Mesa mesa){
-        if(!ProyectoPOO2p.datos.getMesas().contains(mesa)){
+        if(!Restaurante.datos.getMesas().contains(mesa)){
             return true;
         }
         return false;
     }
+    
+    /**
+     * Metodo que valida que la capacidad de la mesa no sea negativa ni cero
+     * @return 
+     */
     
     public boolean validarDatos(){
         if(Double.parseDouble(inputNumero.getText())>0){

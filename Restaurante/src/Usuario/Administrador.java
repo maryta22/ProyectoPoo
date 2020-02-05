@@ -10,7 +10,11 @@ package Usuario;
  * @author danny
  */
 public class Administrador extends Usuario{
-
+    /**
+     * Constructor de la clase
+     * @param usuario Nombre de Usuario
+     * @param contraseña Contraseña
+     */
     public Administrador(String usuario, String contraseña) {
         super(usuario, contraseña);
     }

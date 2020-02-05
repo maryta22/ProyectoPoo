@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package LoginView;
+package Views;
 
 import Alertas.Alerta;
-import MeseroView.AdminView;
-import MeseroView.MeseroView;
+import Views.AdminView;
+import Views.MeseroView;
 import Usuario.Administrador;
 import Usuario.Usuario;
 import javafx.geometry.Insets;
@@ -20,7 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import proyectopoo2p.ProyectoPOO2p;
+import Restaurante.Restaurante;
+import javafx.scene.control.PasswordField;
 
 /**
  *
@@ -29,6 +30,11 @@ import proyectopoo2p.ProyectoPOO2p;
 public class LoginView {
     private GridPane root;
     private  VBox mainRoot;
+    
+    /**
+     * Crea la escena del login
+     * @return un root con los elementos graficos
+     */
     
     public Parent crearLogin(){
         root = new GridPane();
@@ -49,7 +55,7 @@ public class LoginView {
         labelContraseña.getStyleClass().add("label_login");
         GridPane.setConstraints(labelContraseña, 0, 1);
         
-        TextField inputContraseña = new TextField();
+        PasswordField inputContraseña = new PasswordField();
         inputContraseña.getStyleClass().add("input_login");
         GridPane.setConstraints(inputContraseña, 1, 1);
         
@@ -57,14 +63,14 @@ public class LoginView {
         login.getStyleClass().add("login_button");
         login.setOnMouseClicked(event ->{
            
-            if(ProyectoPOO2p.datos.validarUsuario(inputNombre.getText(),inputContraseña.getText())){
-                if(ProyectoPOO2p.datos.getUsuario(inputNombre.getText()) instanceof Administrador){
-                    ProyectoPOO2p.usuario = ProyectoPOO2p.datos.getUsuario(inputNombre.getText());
-                    ProyectoPOO2p.setScene(new AdminView().build());  
+            if(Restaurante.datos.validarUsuario(inputNombre.getText(),inputContraseña.getText())){
+                if(Restaurante.datos.getUsuario(inputNombre.getText()) instanceof Administrador){
+                    Restaurante.usuario = Restaurante.datos.getUsuario(inputNombre.getText());
+                    Restaurante.setScene(new AdminView().build());  
                     
                 }else{
-                    ProyectoPOO2p.usuario = ProyectoPOO2p.datos.getUsuario(inputNombre.getText());
-                    ProyectoPOO2p.setScene(new MeseroView().build());
+                    Restaurante.usuario = Restaurante.datos.getUsuario(inputNombre.getText());
+                    Restaurante.setScene(new MeseroView().build());
                 }
                 
             }else{

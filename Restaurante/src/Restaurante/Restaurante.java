@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyectopoo2p;
+package Restaurante;
 
 import Datos.Constantes;
 import Datos.Interfaz;
-import LoginView.LoginView;
+import Views.LoginView;
 import Usuario.Usuario;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  *
  * @author danny
  */
-public class ProyectoPOO2p extends Application {
+public class Restaurante extends Application {
 
     public static Scene scene;
     public static Interfaz datos;
@@ -31,6 +31,9 @@ public class ProyectoPOO2p extends Application {
     public static boolean cerrar = false;
 
     @Override
+    /**
+     * Metodo que inicia la app
+     */
     public void start(Stage primaryStage) {
 
         scene = new Scene(new LoginView().crearLogin(),Constantes.anchoVentana,Constantes.altoVentana,Color.AQUA);
@@ -42,6 +45,9 @@ public class ProyectoPOO2p extends Application {
 
     }
     @Override
+    /**
+     * Metodo para detener hilos y actualizar los archivos
+     */
     public void stop(){
         cerrar = true;
         datos.actualizarArchivos();
@@ -55,10 +61,15 @@ public class ProyectoPOO2p extends Application {
         launch(args);
     }
 
+    /**
+     * Metodo para cambiar el root de la escena
+     * @param newRoot Root a modificar
+     */
     public static void setScene(Parent newRoot) {
         scene.setRoot(newRoot);
     }
 
+    
     public Interfaz getInterfaz() {
         return datos;
     }

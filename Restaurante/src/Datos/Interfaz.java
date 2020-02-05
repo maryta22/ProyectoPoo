@@ -51,6 +51,9 @@ public class Interfaz implements Serializable {
     private ArrayList<Mesa> mesas = new ArrayList<>();
     private ArrayList<Pedido> pedidos = new ArrayList<>();
 
+    /**
+     * Constructor de la clase encargado de cargar los datos
+     */
     public Interfaz() {
         crearUsuarios();
         cargarReportes();
@@ -58,14 +61,23 @@ public class Interfaz implements Serializable {
         cargarMesas();
     }
 
+    /**
+     * Metodo para obtener un ArrayList de usuarios
+     * @return ArrayList con los usuarios registrados
+     */
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
-
+    /**
+     * Metodo para obtener un ArrayList de los pedidos
+     * @return ArrayList con los pedidos registrados
+     */
     public ArrayList<Pedido> getPedidos() {
         return pedidos;
     }
-
+    /**
+     * Metodo para cargar los datos iniciales
+     */
     public void inicializarDatos() {
         crearPlatos();
         crearUsuarios();
@@ -74,7 +86,11 @@ public class Interfaz implements Serializable {
         crearArchivos();
 
     }
-
+    /**
+     * Metodo que asigna un radio a una mesa a partir de su capacidad
+     * @param capacidad Capacidad de la mesa
+     * @return  Radio de la mesa
+     */
      public double asignarRadio(double capacidad){
         double radioAsignado;
          if(capacidad<10){
@@ -87,6 +103,9 @@ public class Interfaz implements Serializable {
          return radioAsignado;
     }
     
+     /**
+      * Metod que crea el archivo de mesas
+      */
     public void crearArchivoMesas() {
         try (ObjectOutputStream op = new ObjectOutputStream(new FileOutputStream("src/Archivos/Mesas.dat"))) {
             op.writeObject(mesas);
@@ -97,6 +116,9 @@ public class Interfaz implements Serializable {
         }
     }
 
+     /**
+      * Metodo que agrega mesas al ArrayList
+      */
     public void crearMesas() {
         mesas.add(new Mesa(100, 100, 10, "1"));
         mesas.add(new Mesa(200, 200, 25, "2"));
@@ -104,7 +126,9 @@ public class Interfaz implements Serializable {
         mesas.add(new Mesa(200, 500, 20, "4"));
         mesas.add(new Mesa(500, 100, 2, "5"));
     }
-
+    /**
+     * Metodo que añade usuarios al ArrayList
+     */
     public void crearUsuarios() {
         usuarios.add(new Administrador("Admin", "Admin"));
         usuarios.add(new Mesero("Mesero1", "Mesero1"));
@@ -123,7 +147,11 @@ public class Interfaz implements Serializable {
         platos.put("Bebida", bebidas());
 
     }
-    
+    /**
+     * Metodo para comprobar si existe un plato con el codigo enviado
+     * @param codigo codigo a comprobar
+     * @return true si el codigo existe, caso contrario false
+     */
     public boolean existeCodigo(int codigo){
         for(String clave: platos.keySet()){
             for(Plato plato:platos.get(clave)){
@@ -135,6 +163,9 @@ public class Interfaz implements Serializable {
         return false;
     }
     
+    /**
+     * Metodo que actualiza los pedidos de los usuarios en caso que un admin cambie el precio de los platos
+     */
     public void actualizarPedidos(){
         for(Mesa m:mesas){
             Map<String,ArrayList<Double>> pedidoMesa = m.getComidasPedido();
@@ -145,7 +176,7 @@ public class Interfaz implements Serializable {
     }
 
     /**
-     * Crea "sopa"
+     * Crea "sopa" en el ArrayList
      *
      * @return un ArrayList<Plato> de las sopas.
      */
@@ -301,6 +332,11 @@ public class Interfaz implements Serializable {
 
     }
     
+    /**
+     * Metodo que verifica si un plato se encuentra en el pedido
+     * @param plato Plato a verificar
+     * @return true si el plato está en el pedido, caso contrario, false
+     */
     public boolean platoEnPedido(String plato){
         for(Mesa mesa: mesas){
             if(mesa.getComidasPedido().containsKey(plato)){
@@ -310,7 +346,9 @@ public class Interfaz implements Serializable {
         }
         return false;
     }
-
+    /**
+     * Metodo que carga la data de los archivos 
+     */
     public void cargarData() {
         int contador = 0;
         for (String s : nombresArchivos) {
@@ -327,7 +365,9 @@ public class Interfaz implements Serializable {
         }
 
     }
-
+    /**
+     * Metodo que carga los reportes del archivo
+     */
     public void cargarReportes() {
         try (BufferedReader bf = new BufferedReader(new FileReader("src/Archivos/pedidos.txt"))) {
             String linea = null;
@@ -341,7 +381,9 @@ public class Interfaz implements Serializable {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Metodo que carga las mesas del archivo
+     */
     public void cargarMesas() {
         try (ObjectInputStream op = new ObjectInputStream(new FileInputStream("src/Archivos/Mesas.dat"))) {
             mesas = (ArrayList<Mesa>) op.readObject();
@@ -352,13 +394,18 @@ public class Interfaz implements Serializable {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * metodo que actualiza los archivos cuando se cierra la app
+     */
     public void actualizarArchivos() {
         crearArchivoMesas();
         crearArchivos();
 
     }
-
+    /**
+     * Metodo que guarda un pedido en el archivo
+     * @param pedido 
+     */
     public void guardarPedido(Pedido pedido) {
         File file = new File("src/Archivos/pedidos.txt");
         if (!file.exists()) {
@@ -381,6 +428,12 @@ public class Interfaz implements Serializable {
         File ficherosopa = new File("src/Archivos/Sopas.dat");
     }
 
+    /**
+     * Metodo que valida los datos de un usuario
+     * @param usuario Nombre de usuario a comprobar
+     * @param contraseña Contraseña a comprobar
+     * @return True si los datos coinciden con un usuario registrado, caso contrario, false
+     */
     public boolean validarUsuario(String usuario, String contraseña) {
         for (Usuario u : usuarios) {
             if (u.equals(new Usuario(usuario, contraseña))) {
@@ -390,6 +443,11 @@ public class Interfaz implements Serializable {
         return false;
     }
 
+    /**
+     * Metodo para obtener un usuario a partir de su nombre
+     * @param nombre Nombre de usuario a obtener
+     * @return Usuario que coincida con el nombre pasado como parametro
+     */
     public Usuario getUsuario(String nombre) {
         for (Usuario u : usuarios) {
             if (u.getNombreUsuario().equals(nombre)) {
@@ -398,15 +456,26 @@ public class Interfaz implements Serializable {
         }
         return null;
     }
-
+    /**
+     * Metodo para obtener las mesas
+     * @return ArrayList de mesas
+     */
     public ArrayList<Mesa> getMesas() {
         return mesas;
     }
-
+    /**
+     * Metodo para obtener los platos
+     * @return  Mapa con los platos
+     */
     public HashMap<String, ArrayList<Plato>> getPlatos() {
         return platos;
     }
 
+    /**
+     * Metodo para obtener un plato a partir de su nombre
+     * @param nombre Nombre del plato a obtener
+     * @return Plato con el nombre pasado como parametro
+     */
     public Plato getPlato(String nombre) {
         List<Plato> platosCompletos = new ArrayList<>();
         for (ArrayList<Plato> listaPlatos : platos.values()) {
@@ -420,6 +489,11 @@ public class Interfaz implements Serializable {
         return null;
     }
 
+    /**
+     * Metodo para la mesa pasada como parametro
+     * @param mesa Mesa a comprobar
+     * @return Mesa pasada como parametro
+     */
     public Mesa getMesa(Mesa mesa) {
         for (Mesa m : mesas) {
             if (m.equals(mesa)) {
@@ -428,7 +502,11 @@ public class Interfaz implements Serializable {
         }
         return null;
     }
-
+    /**
+     * Metodo para obtener una mesa a partir de su numero
+     * @param numero Numero de mesa a obtener
+     * @return Mesa con el numero pasado como parametro
+     */
     public Mesa getMesa(String numero) {
         for (Mesa m : mesas) {
             if (m.getNumeroMesa().equals(numero)) {

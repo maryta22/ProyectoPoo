@@ -15,27 +15,48 @@ public class Usuario implements Serializable{
     private String nombreUsuario;
     private String contraseña;
     
+    
+    /**
+     * Constructor de la clase
+     * @param usuario Nombre de usuario
+     * @param contraseña Contraseña del usuario
+     */
     public Usuario(String usuario, String contraseña){
         this.nombreUsuario = usuario;
         this.contraseña = contraseña;
         
     }
-
+    /**
+     * Metodo para obtener el nombre de usuario
+     * @return String con el nombre de usuario
+     */
     public String getNombreUsuario() {
         return nombreUsuario;
     }
-
+    
+    /**
+     * Meotdo para obtener la contraseña
+     * @return String con la contraseña
+     */
     public String getContraseña() {
         return contraseña;
     }
 
     @Override
+    /**
+     * Metodo para imprimir el nombre
+     */
     public String toString() {
         return nombreUsuario;    }
     
-    public boolean equals(Object o){
-        if(o!=null){
-            Usuario u = (Usuario) o;
+    /**
+     * Metodo para comparar dos usuarios
+     * @param obj Objeto a comparar
+     * @return true si los usuarios son iguales, caso contrario false
+     */
+    public boolean equals(Object obj){
+        if(obj!=null){
+            Usuario u = (Usuario) obj;
             if(this.contraseña.equals(u.getContraseña()) && this.nombreUsuario.equals(u.getNombreUsuario())){
                 return true;
             }else{

@@ -27,6 +27,13 @@ public class Mesa implements Serializable  {
     private String cliente;
     private Double valorTotalFacturado;
 
+    /**
+     * Costructor de la clase
+     * @param coordenadaX Coordenada X de la mesa
+     * @param coordenadaY Coordenada Y de la mesa
+     * @param capacidad Capacidad de la mesa
+     * @param numero Numero de mesa
+     */
     public Mesa(double coordenadaX, double coordenadaY,double capacidad,String numero) {
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
@@ -40,6 +47,11 @@ public class Mesa implements Serializable  {
         
     }
     
+    /**
+     * Metodo que asigna un radio a la mesa a partir de la capacidad asginada
+     * @param capacidad Capacidad de la mesa
+     * @return Radio de la mesa
+     */
     public double asignarRadio(double capacidad){
         double radioAsignado;
          if(capacidad<10){
@@ -118,7 +130,10 @@ public class Mesa implements Serializable  {
     public void setCliente(String cliente){
         this.cliente = cliente;
     }
-   
+   /**
+    * Metodo para presentar los datos de la mesa
+    * @return 
+    */
     public String getDatos() {
         if(mesero==null){
             return "Numero de Mesa=" + numeroMesa + 

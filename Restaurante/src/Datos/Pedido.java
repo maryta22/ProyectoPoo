@@ -25,6 +25,15 @@ public class Pedido {
     private SimpleStringProperty cliente;
     private SimpleDoubleProperty total;
 
+    /**
+     * Constructo de la clase
+     * @param fecha Fecha actual cuando se hace el pedido
+     * @param mesa Mesa del pedido
+     * @param mesero Mesero que tomo el pedido
+     * @param cuenta Cuenta asociada al pedido
+     * @param cliente Cliente asociado al pedido
+     * @param total  Total a pagar por el pedido
+     */
     public Pedido(LocalDate fecha, String mesa, Mesero mesero, String cuenta, String cliente, Double total) {
         this.fecha = new SimpleObjectProperty<>(this,"fecha",fecha);
         this.mesa = new SimpleStringProperty(mesa);

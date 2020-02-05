@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MeseroView;
+package Views;
 
 import AditionalViews.ModificacionMesa;
 import AditionalViews.NombreCliente;
@@ -11,7 +11,6 @@ import Datos.Constantes;
 import static Datos.Constantes.altoVentana;
 import Datos.Mesa;
 import Datos.Plato;
-import LoginView.LoginView;
 import Usuario.Administrador;
 import Usuario.Mesero;
 import java.io.FileNotFoundException;
@@ -42,7 +41,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
-import proyectopoo2p.ProyectoPOO2p;
+import Restaurante.Restaurante;
 
 /**
  *
@@ -61,6 +60,10 @@ public class MesasView {
     private boolean eventoDisparado = false;
     private ScrollPane detallePedido;
     
+    /**
+     * Constructor de la clase
+     */
+    
     public MesasView(){
        root = new Pane();
        restaurante = new BorderPane();
@@ -70,6 +73,10 @@ public class MesasView {
         detallePedido = new ScrollPane();
         
     }
+    /**
+     * Metodo que construye el root con sus nodos
+     * @return Root con los elementos graficos
+     */
     
     public Parent build(){
         colocarMesas();
@@ -79,11 +86,23 @@ public class MesasView {
         return restaurante;
         
     }
-    public void mostrarInformaciónMesa(StackPane p, Mesa m){
-       Tooltip informacion = new Tooltip(m.getDatos());
-       Tooltip.install(p,informacion);
+    
+    /**
+     * Metodo que permite ver la información de la mesa sobre la que se encuentre el mouse
+     * @param pane Nodo al cual se le instalara la opcion de ver información
+     * @param mesa Mesa de la cual se mostrara la información
+     */
+    public void mostrarInformaciónMesa(StackPane pane, Mesa mesa){
+       Tooltip informacion = new Tooltip(mesa.getDatos());
+       Tooltip.install(pane,informacion);
     }
-    public void crearMovimientoMesas(StackPane c, Mesa m){
+    
+    /**
+     * Metodo que añade eventos para mover mesas
+     * @param pane Nodo al que se le añadira el evento
+     * @param mesa Mesa a la que se le actualizara la posicion
+     */
+    public void crearMovimientoMesas(StackPane pane, Mesa mesa){
         EventHandler<MouseEvent> circleOnMousePressedEventHandler = 
         new EventHandler<MouseEvent>() {
  
@@ -110,22 +129,25 @@ public class MesasView {
              
             ((StackPane)(t.getSource())).setTranslateX(newTranslateX);
             ((StackPane)(t.getSource())).setTranslateY(newTranslateY);
-            m.setCoordenadaX(newTranslateX);
-            m.setCoordenadaY(newTranslateY);
+            mesa.setCoordenadaX(newTranslateX);
+            mesa.setCoordenadaY(newTranslateY);
                 
             
         }
     }; 
-            c.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-            c.setOnMousePressed(circleOnMousePressedEventHandler);
+            pane.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+            pane.setOnMousePressed(circleOnMousePressedEventHandler);
         
     
     }
     
+    /**
+     * Metodo que coloca las mesas en la escena
+     */
     public void colocarMesas(){
        
         root.getChildren().clear();
-        for(Mesa m: ProyectoPOO2p.datos.getMesas()){
+        for(Mesa m: Restaurante.datos.getMesas()){
                 mesaNumero = new StackPane();
                 
                 Label numero = new Label(m.getNumeroMesa());
@@ -136,7 +158,7 @@ public class MesasView {
                 mesas.add(c);
                 mesaNumero.getChildren().addAll(c,numero);
                 root.getChildren().add(mesaNumero);
-                if(ProyectoPOO2p.usuario instanceof Administrador){
+                if(Restaurante.usuario instanceof Administrador){
                     if(AdminView.isDiseño()){
                         crearMovimientoMesas(mesaNumero,m);
                         crearModificacion(mesaNumero, m);
@@ -162,6 +184,9 @@ public class MesasView {
        
     }
     
+    /**
+     * Metodo que crea el espacio de cocina
+     */
     public void colocarCocina(){
         Rectangle barrera = new Rectangle(0,0,15,Constantes.altoVentana);
         Label cocinaLabel = new Label("Cocina");
@@ -175,13 +200,18 @@ public class MesasView {
         cocina.getChildren().addAll(barrera,cocinaLabel);
     }
     
-    public void mostrarVentanaCliente(StackPane sp, Mesa m){
-        sp.setOnMouseClicked(event->{
+    /**
+     * Metodo que muestra una ventana para añadir un cliente a la mesa 
+     * @param pane Nodo al que se le añadira el evento
+     * @param mesa Mesa a la cual se le añadira el cliente
+     */
+    public void mostrarVentanaCliente(StackPane pane, Mesa mesa){
+        pane.setOnMouseClicked(event->{
             
-                NombreCliente ventanaCliente = new NombreCliente(m);
+                NombreCliente ventanaCliente = new NombreCliente(mesa);
                 ventanaCliente.showStage();
-                if(!(m.getCliente()==null) && !m.getCliente().equals("Ninguno")){
-                    m.setMesero((Mesero)ProyectoPOO2p.usuario);
+                if(!(mesa.getCliente()==null) && !mesa.getCliente().equals("Ninguno")){
+                    mesa.setMesero((Mesero)Restaurante.usuario);
                 }
                 colocarMesas();
             
@@ -190,16 +220,27 @@ public class MesasView {
         
     }
     
-    public void crearEscenaPedido(StackPane c, Mesa m){
-        c.setOnMouseClicked(event->{
-            crearPedido(c,m);
+    
+    /**
+     * Metodo que añade evento de mostrar la ventana de pedido a una mesa
+     * @param pane Nodo al cual se añadira el evento
+     * @param mesa Mesa de la que se tomara informacion
+     */
+    public void crearEscenaPedido(StackPane pane, Mesa mesa){
+        pane.setOnMouseClicked(event->{
+            crearPedido(pane,mesa);
             
         });
     }
     
-    public void crearPedido(StackPane sp, Mesa m){
-    if(m.getMesero()==null|| m.getMesero().equals((Mesero)ProyectoPOO2p.usuario)){
-             m.setMesero((Mesero)ProyectoPOO2p.usuario); 
+    /**
+     * Meotodo para crear la escena de tomar el pedido
+     * @param pane Nodo al que se le añadira el evento
+     * @param mesa Mesa para tomar informacion
+     */
+    public void crearPedido(StackPane pane, Mesa mesa){
+    if(mesa.getMesero()==null|| mesa.getMesero().equals((Mesero)Restaurante.usuario)){
+             mesa.setMesero((Mesero)Restaurante.usuario); 
              VBox caja = new VBox();
              HBox vistaMesa = new HBox();
              
@@ -208,12 +249,12 @@ public class MesasView {
             VBox.setVgrow(detallePedido, Priority.ALWAYS);
             detallePedido.setVmax(Constantes.altoVentana*0.5);
             descripcion.setMinWidth(Constantes.anchoVentana*0.25);
-             PlatillosView vistaPlatos = new PlatillosView(m);
+             PlatillosView vistaPlatos = new PlatillosView(mesa);
              pedido = vistaPlatos.seccionDetalle();
              pedido.setPadding(new Insets(10));
              pedido.setSpacing(10);
              pedido.setMaxHeight(Constantes.altoVentana*0.5);
-             Thread hiloMesas = new Thread(new HiloActualizarPedido(m) );
+             Thread hiloMesas = new Thread(new HiloActualizarPedido(mesa) );
              hiloMesas.start();
              pedido.setAlignment(Pos.CENTER_LEFT);
              detallePedido.setContent(pedido);
@@ -225,23 +266,29 @@ public class MesasView {
              descripcion.getChildren().addAll(botones);
              vistaMesa.getChildren().addAll(descripcion,vistaPlatos.build());
              caja.getChildren().addAll(vistaPlatos.getLabel(),vistaMesa);
-             ProyectoPOO2p.setScene(caja);
+             Restaurante.setScene(caja);
             }
     }
     
     
-    
-    public void setDisparo(){//Se puede cambiar
+    /**
+     * Metodo para cambiar el estado de la variable que determina si un evento se ha disparado o no
+     */
+    public void setDisparo(){
         eventoDisparado=false;
     }
     
-    public void colocarPedido(Mesa m){
+    /**
+     * Metodo que actualiza el pedido de una mesa
+     * @param mesa Mesa para obtener informacion 
+     */
+    public void colocarPedido(Mesa mesa){
         pedido.getChildren().clear();
-        Map<String,ArrayList<Double>> orden = m.getComidasPedido();
-        Label total = new Label("Total: "+String.valueOf(m.totalFactura())); 
+        Map<String,ArrayList<Double>> orden = mesa.getComidasPedido();
+        Label total = new Label("Total: "+String.valueOf(mesa.totalFactura())); 
         for(String s: orden.keySet()){
             Label plato = new Label(s);
-            Double precioUnitario = ProyectoPOO2p.datos.getPlato(s).getPrecio();
+            Double precioUnitario = Restaurante.datos.getPlato(s).getPrecio();
             HBox descripcion = new HBox();
             descripcion.setSpacing(50);
             Label detalle = new Label(String.valueOf(orden.get(s).get(0))+" Unidad(es) a: "+String.valueOf(precioUnitario)+" C/u");
@@ -256,28 +303,35 @@ public class MesasView {
         pedido.getChildren().add(total);
     }
     
-    public void darColorMesa(Circle c, Mesa m){
-        if(!(ProyectoPOO2p.usuario instanceof Administrador)){
-            if(m.getMesero()!=null){
-                if(m.getMesero().equals(ProyectoPOO2p.usuario)){
-                    c.setFill(Color.GREEN);
+    /**
+     * Metodo que da color a las mesas respecto a su estado
+     * @param circulo Circulo al que se le dara el color
+     * @param mesa Mesa para conocer el estado
+     */
+    public void darColorMesa(Circle circulo, Mesa mesa){
+        if(!(Restaurante.usuario instanceof Administrador)){
+            if(mesa.getMesero()!=null){
+                if(mesa.getMesero().equals(Restaurante.usuario)){
+                    circulo.setFill(Color.GREEN);
                 }else{
-                    c.setFill(Color.RED);
+                    circulo.setFill(Color.RED);
                 }
             }else{
-                c.setFill(Color.YELLOW);
+                circulo.setFill(Color.YELLOW);
             }
         }else{
-            if(m.isDisponible()){
+            if(mesa.isDisponible()){
                
-                c.setFill(Color.GREEN);
+                circulo.setFill(Color.GREEN);
             }else{
-                c.setFill(Color.RED);
+                circulo.setFill(Color.RED);
             }
         }
         
     }
-    
+    /**
+     * Metodo que añade evento a la escena para crear una mesa
+     */
     public void crearMesa(){
         root.setOnMouseClicked(event->{
             if(!dragging && !eventoDisparado){
@@ -291,11 +345,16 @@ public class MesasView {
          
     }
     
-    public void crearModificacion(StackPane sp, Mesa m){
-        sp.setOnMouseClicked(event->{
+    /**
+     * Metodo que añade evento a mesa para modificarla
+     * @param pane Nodo al que se le añadira el evento
+     * @param mesa Mesa para obtener informacion
+     */
+    public void crearModificacion(StackPane pane, Mesa mesa){
+        pane.setOnMouseClicked(event->{
             if(!dragging && !eventoDisparado){
                 eventoDisparado = true;
-                ModificacionMesa escenaModificacion = new ModificacionMesa(event,this,m);
+                ModificacionMesa escenaModificacion = new ModificacionMesa(event,this,mesa);
                 escenaModificacion.showStage();
             }
             
@@ -303,7 +362,9 @@ public class MesasView {
         
     }
     
-    
+    /**
+     * Hilo que actualiza el pedido del cliente
+     */
     public class HiloActualizarPedido implements Runnable{
         private Mesa m; //Al final se colocarán nombre adecuados
         
@@ -313,7 +374,7 @@ public class MesasView {
         
         @Override
         public void run() {
-            while(!ProyectoPOO2p.cerrar){
+            while(!Restaurante.cerrar){
             
                 try {
                     Platform.runLater(()->{

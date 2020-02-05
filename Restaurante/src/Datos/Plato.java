@@ -17,7 +17,14 @@ public class Plato implements Serializable {
     private Double precio;
     private String ruta;
     private String tipo;
-    
+    /**
+     * Constructor de la clase
+     * @param codigo codigo del plato
+     * @param nombre nombre del plato
+     * @param precio precio del plato
+     * @param ruta ruta de la imagen
+     * @param tipo tipo de plato
+     */
     public Plato(int codigo,String nombre, Double precio,String ruta,String tipo){
         this.codigo=codigo;
         this.nombre=nombre;

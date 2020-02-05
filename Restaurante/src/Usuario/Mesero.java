@@ -11,6 +11,11 @@ package Usuario;
  */
 public class Mesero extends Usuario{
 
+     /**
+      * Constructor de la clase
+      * @param usuario Nombre de usuario
+      * @param contraseña Contraseña
+      */
     public Mesero(String usuario, String contraseña) {
         super(usuario, contraseña);
     }

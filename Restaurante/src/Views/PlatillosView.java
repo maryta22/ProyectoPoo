@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MeseroView;
+package Views;
 
 import Alertas.Alerta;
 import Datos.Constantes;
@@ -40,7 +40,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import proyectopoo2p.ProyectoPOO2p;
+import Restaurante.Restaurante;
 
 /**
  *
@@ -65,6 +65,9 @@ public class PlatillosView {
     private ComboBox combo;
     private GridPane rootCrear;
 
+    /**
+     * Constructor de la clase
+     */
     public PlatillosView() {
         root = new VBox(50);
         detalle = new VBox();
@@ -73,16 +76,28 @@ public class PlatillosView {
 
     }
 
+    /**
+     * Metodo que retorna la seccion detalle
+     * @return VBox con el detalle de un pedido
+     */
     public VBox seccionDetalle() {
         return detalle;
     }
 
+    /**
+     * Metodo sobreCargado para una ventana para Mesero
+     * @param mesa Mesa para tomar informacion
+     */
     public PlatillosView(Mesa mesa) {
         this();
         mesaActual = mesa;
         mesaActual.setDisponible(false);
     }
 
+     /**
+      * Metodo que retorna el root con los elementos Graficos
+      * @return Root con la escena construida
+      */
     public Parent build() {
         Button boton = new Button("Crear nuevo plato");
         boton.setAlignment(Pos.CENTER);
@@ -98,7 +113,7 @@ public class PlatillosView {
         for (int i = 0; i < tipos.length; i++) {
             Label filtro = new Label(tipos[i]);
             filtro.setMinHeight(50);
-            if(ProyectoPOO2p.usuario instanceof Administrador){
+            if(Restaurante.usuario instanceof Administrador){
                 filtro.setMinWidth((Constantes.anchoVentana*0.90)/tipos.length);
             }else{
                 filtro.setMinWidth((Constantes.anchoVentana*0.70)/tipos.length);
@@ -110,7 +125,7 @@ public class PlatillosView {
         }
         colocarTodos();
 
-        if (ProyectoPOO2p.usuario instanceof Administrador) {
+        if (Restaurante.usuario instanceof Administrador) {
             crearNuevoPlato(boton);
         }else{
             mesaCliente = new Label("Mesa "+ mesaActual.getNumeroMesa()+" ,Cliente: "+mesaActual.getCliente());
@@ -122,17 +137,27 @@ public class PlatillosView {
         }
 
         root.getChildren().addAll(filtros, platos);
-        if(ProyectoPOO2p.usuario instanceof Administrador){
+        if(Restaurante.usuario instanceof Administrador){
                  root.getChildren().add(boton);
         }
        
         return root;
     }
     
+    /**
+     * Metodo que retorna el label con la informacion de la mesa
+     * @return label con informacion de la mesa
+     */
     public Label getLabel(){
         return mesaCliente;
     }
-
+    
+    /**
+     * Metodo para añadir evento de agregar plato a un pedido
+     * @param img Nodo al que se le agregara el evento
+     * @param nombre Nombre del plato a agregar
+     * @param precio Precio del plato a agregar
+     */
     public void crearAccionPedido(ImageView img, String nombre, Double precio) {
         img.setOnMouseClicked(event -> {
             Map<String, ArrayList<Double>> pedidoActual = mesaActual.getComidasPedido();
@@ -152,33 +177,39 @@ public class PlatillosView {
         });
 
     }
-
+    /**
+     * Metodo que añade los botones a la escena
+     * @param boxBotones Contenedor con los botones
+     */
     public void setBotonesEscena(VBox boxBotones) {
         Button regresar = new Button("Regresar");
         regresar.getStyleClass().add("login_button");
         regresar.setOnMouseClicked(v -> {
-            ProyectoPOO2p.scene.setRoot(new MeseroView().build());
+            Restaurante.scene.setRoot(new MeseroView().build());
 
         });
         Button finalizar = new Button("Finalizar Orden");
         finalizar.getStyleClass().add("login_button");
         finalizar.setOnMouseClicked(event -> {
             Random rd = new Random();
-            Pedido pMesa = new Pedido(LocalDate.now(), mesaActual.getNumeroMesa(), (Mesero) ProyectoPOO2p.usuario, String.valueOf(rd.nextInt(999999)), mesaActual.getCliente(), aPagar);
-            ProyectoPOO2p.datos.guardarPedido(pMesa);
-            ProyectoPOO2p.datos.getPedidos().add(pMesa);
+            Pedido pMesa = new Pedido(LocalDate.now(), mesaActual.getNumeroMesa(), (Mesero) Restaurante.usuario, String.valueOf(rd.nextInt(999999)), mesaActual.getCliente(), aPagar);
+            Restaurante.datos.guardarPedido(pMesa);
+            Restaurante.datos.getPedidos().add(pMesa);
             mesaActual.setVentasTotal(aPagar);
             mesaActual.setMesero(null);
             mesaActual.getComidasPedido().clear();
             detalle.getChildren().clear();
             mesaActual.setDisponible(true);
             mesaActual.setCliente(null);
-            ProyectoPOO2p.scene.setRoot(new MeseroView().build());
+            Restaurante.scene.setRoot(new MeseroView().build());
         });
 
         boxBotones.getChildren().addAll(regresar, finalizar);
     }
-
+    /**
+     * Metodo que añade la accion al label para filtrar platos
+     * @param filtro label al que se le añadira el evento
+     */
     public void makeClickable(Label filtro) {
         String texto = filtro.getText();
         filtro.setOnMouseClicked(event -> {
@@ -191,37 +222,48 @@ public class PlatillosView {
 
         });
     }
-
+    
+    /**
+     * Metodo que coloca los platos filtrados en escena
+     * @param tipoPlato String con el tipo de plato a filtrar
+     */
     public void colocarPlatosPorFiltro(String tipoPlato) {
         platos.getChildren().clear();
-        for (Plato p : ProyectoPOO2p.datos.getPlatos().get(tipoPlato)) {
+        for (Plato p : Restaurante.datos.getPlatos().get(tipoPlato)) {
             colocarPlato(p);
         }
     }
 
+    /**
+     * Metodo que coloca todos los platos en la escena
+     */
     public void colocarTodos() {
         platos.getChildren().clear();
-        for (String s : ProyectoPOO2p.datos.getPlatos().keySet()) {
-            for (Plato p : ProyectoPOO2p.datos.getPlatos().get(s)) {
+        for (String s : Restaurante.datos.getPlatos().keySet()) {
+            for (Plato p : Restaurante.datos.getPlatos().get(s)) {
                 colocarPlato(p);
             }
         }
     }
-
-    public void colocarPlato(Plato p) {
+    
+    /**
+     * Metodo que coloca el plato a la escena
+     * @param plato Plato a ser colocado en la escena
+     */
+    public void colocarPlato(Plato plato) {
         VBox detalles = new VBox(10);
-        Label precio = new Label("Precio: " + String.valueOf(p.getPrecio()));
-        Label nombre = new Label(p.getNombre());
-        Image plato = new Image(p.getRuta());
-        ImageView img = new ImageView(plato);
+        Label precio = new Label("Precio: " + String.valueOf(plato.getPrecio()));
+        Label nombre = new Label(plato.getNombre());
+        Image platoImg = new Image(plato.getRuta());
+        ImageView img = new ImageView(platoImg);
         img.setFitHeight(80);
         img.setFitWidth(80);
-        if (ProyectoPOO2p.usuario instanceof Mesero) {
-            crearAccionPedido(img, p.getNombre(), p.getPrecio());
+        if (Restaurante.usuario instanceof Mesero) {
+            crearAccionPedido(img, plato.getNombre(), plato.getPrecio());
 
         }
-        if (ProyectoPOO2p.usuario instanceof Administrador) {
-            cambiarInformacion(img, p);
+        if (Restaurante.usuario instanceof Administrador) {
+            cambiarInformacion(img, plato);
         }
         detalles.getChildren().addAll(precio, img, nombre);
         platos.getChildren().add(detalles);
@@ -231,7 +273,7 @@ public class PlatillosView {
      * Método que crea la nueva pestaña en la que se muestran las opciones para
      * modificar o eliminar.
      *
-     * @param p el plato que se va a modificar o eliminar.
+     * @param plato el plato que se va a modificar o eliminar.
      */
     public void modificarPlato(Plato plato) {
         GridPane root = new GridPane();
@@ -277,11 +319,11 @@ public class PlatillosView {
      * Método que permite modificar la información de ese plato.
      *
      * @param img la imagen a la que le da click.
-     * @param p el plato que se va a modificar o elimiar.
+     * @param plato el plato que se va a modificar o elimiar.
      */
-    public void cambiarInformacion(ImageView img, Plato p) {
+    public void cambiarInformacion(ImageView img, Plato plato) {
         img.setOnMouseClicked(event -> {
-            modificarPlato(p);
+            modificarPlato(plato);
         });
     }
 
@@ -293,8 +335,8 @@ public class PlatillosView {
      */
     public void eliminarPlato(Button boton, Plato plato) {
         boton.setOnMouseClicked(event -> {
-            if(!ProyectoPOO2p.datos.platoEnPedido(plato.getNombre())){
-                ProyectoPOO2p.datos.eliminarPlato(plato);
+            if(!Restaurante.datos.platoEnPedido(plato.getNombre())){
+                Restaurante.datos.eliminarPlato(plato);
             }else{
                 Alert alerta = new Alert(AlertType.ERROR);
                 alerta.setTitle("Error al eliminar");
@@ -306,8 +348,14 @@ public class PlatillosView {
             ventanaParaModificar.close();
         });
     }
-
-    public void cambiarPlatos(Button boton, Plato p, TextField mensaje) {
+    
+    /**
+     * Metodo que añade un evento para modificar plato a un boton   
+     * @param boton boton al que se le añadira el evento
+     * @param plato Plato que se modificara
+     * @param mensaje TextField del que se obtendran los datos a cambiar
+     */
+    public void cambiarPlatos(Button boton, Plato plato, TextField mensaje) {
         boton.setOnMouseClicked(event -> {
             try {
                 if (boton.getText().equals("Modificar nombre")) {
@@ -315,7 +363,7 @@ public class PlatillosView {
                        new Alerta("Datos Inconsistentes").mostrarAlerta();
                        mensaje.clear();
                     }else{
-                         p.setNombre(mensaje.getText());
+                         plato.setNombre(mensaje.getText());
                     }
                    
 
@@ -326,7 +374,7 @@ public class PlatillosView {
                     }else{
                         try{
                         Double precio = Double.parseDouble(mensaje.getText());
-                        p.setPrecio(precio);
+                        plato.setPrecio(precio);
                         }catch(NumberFormatException ex){
                              new Alerta("Formato Incorrecto").mostrarAlerta();
                         }finally{
@@ -341,7 +389,7 @@ public class PlatillosView {
             //ProyectoPOO2p.datos.modificarMenu(p);
             colocarTodos();
 
-            ProyectoPOO2p.datos.actualizarPedidos();
+            Restaurante.datos.actualizarPedidos();
           
             } catch (UnsupportedOperationException | NullPointerException | NumberFormatException ex) {
                 System.out.println("");
@@ -350,6 +398,10 @@ public class PlatillosView {
 
     }
 
+    /**
+     * Metodo que crea un evento para añadir un nuevo plato
+     * @param boton Boton al que se le va a añadir la accion
+     */
     public void crearNuevoPlato(Button boton) {
         boton.setOnMouseClicked((MouseEvent event) -> {
 
@@ -399,17 +451,23 @@ public class PlatillosView {
         });
     }
 
+     /**
+      * Metodo que asigna a un boton un evento para agregar un nuevo plato
+      * @param boton Boton al que se le asigna el evento
+      * @param nombre TextField para obtener el nuevo nombre
+      * @param precio TextField para obtener el nuevo precio
+      */
     public void agregarNuevoPlato(Button boton, TextField nombre, TextField precio) {
         Random rd = new Random();
         codigo = rd.nextInt(2000);
-        while(ProyectoPOO2p.datos.existeCodigo(codigo)){
+        while(Restaurante.datos.existeCodigo(codigo)){
             codigo = rd.nextInt(2000);
         }
 
         boton.setOnMouseClicked(event -> {
             try {
                 if (!nombre.getText().equals("") && !precio.getText().equals("") && combo.getValue() != null) {
-                    ProyectoPOO2p.datos.getPlatos().get(combo.getValue().toString()).add(
+                    Restaurante.datos.getPlatos().get(combo.getValue().toString()).add(
                            
                             new Plato(codigo, nombre.getText(), Double.parseDouble(precio.getText()), "/Archivos/PLATOS/nuevo.gif", combo.getValue().toString()));
                     colocarTodos();

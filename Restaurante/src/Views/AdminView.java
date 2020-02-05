@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MeseroView;
+package Views;
 
 
 import Datos.Mesa;
 import Datos.Pedido;
-import LoginView.LoginView;
 import Usuario.Mesero;
 import java.awt.Color;
 import java.time.LocalDate;
@@ -36,7 +35,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.TextAlignment;
-import proyectopoo2p.ProyectoPOO2p;
+import Restaurante.Restaurante;
 
 
 /**
@@ -52,23 +51,45 @@ public class AdminView {
     private DatePicker fechaInicio,fechaFin;
     private static boolean diseño ;
     
+    /**
+     * Constructor de la clase
+     */
+    
     public AdminView() {
         root = new BorderPane();  
         
     }
-
+    
+    /**
+     * Metodo estatico para determinar si el usuario se encuentra en la pestaña diseño
+     * @return 
+     */
     public static boolean isDiseño() {
         return diseño;
     }
+    
+    /**
+     * Metodo estatico para cambiar el valor de la variable diseño
+     * @param diseño 
+     */
 
     public static void setDiseño(boolean diseño) {
         AdminView.diseño = diseño;
     }
     
+    /**
+     * Metodo que construye el root 
+     * @return root con los elementos graficos
+     */
+    
     public Parent build(){
         crearSeccionTop();
         return root;
     }
+    
+    /**
+     * Metodo que construye la parte de los filtros para el admin
+     */
     
     public void crearSeccionTop(){
         HBox seccionTop = new HBox();
@@ -78,7 +99,7 @@ public class AdminView {
             Label lpestaña = new Label(pestañas.get(i));
             lpestaña.setStyle("-fx-border-color:white; -fx-background-color: black;");
             lpestaña.setMinHeight(50);
-            lpestaña.setMinWidth(ProyectoPOO2p.scene.getWidth()/5);
+            lpestaña.setMinWidth(Restaurante.scene.getWidth()/5);
             lpestaña.setTextFill(Paint.valueOf("white"));
             lpestaña.setTextAlignment(TextAlignment.RIGHT);
             makeClikable(lpestaña);
@@ -87,8 +108,13 @@ public class AdminView {
         root.setTop(seccionTop); 
     }
     
-    public void makeClikable(Label l){
-        String texto = l.getText();
+    /**
+     * Metodo que añade evento de cambiar de ventana a los filtros
+     * @param label filtro al que se le añadira el evento
+     */
+    
+    public void makeClikable(Label label){
+        String texto = label.getText();
         EventHandler<MouseEvent> event = new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
@@ -115,14 +141,18 @@ public class AdminView {
                         generarReportes();
                         break;
                     case "Salir":
-                        ProyectoPOO2p.setScene(new LoginView().crearLogin());
+                        Restaurante.setScene(new LoginView().crearLogin());
                         break;
                 }
             }
         };
-        l.setOnMouseClicked(event);
+        label.setOnMouseClicked(event);
         
     }
+    
+    /**
+     * Metodo que crea la Tabla con los reportes de pedidos
+     */
     
     public void generarReportes(){
         VBox reporte = new VBox();
@@ -151,13 +181,20 @@ public class AdminView {
         
         
     }
+    
+    /**
+     * Metodo que carga los reportes 
+     * @return Lista de reportes 
+     */
     public ObservableList<Pedido> cargarPedidos(){
-        ArrayList<Pedido> pedidos = ProyectoPOO2p.datos.getPedidos();
+        ArrayList<Pedido> pedidos = Restaurante.datos.getPedidos();
         return (FXCollections.observableArrayList(pedidos));
     }
     
     
-    
+    /**
+     * Metodo que crea las columnas de la tabla reporte
+     */
     public void crearColumnas(){
         columnas.clear();
         TableColumn<Pedido,LocalDate> fecha = new TableColumn("Fecha");
@@ -177,10 +214,15 @@ public class AdminView {
         
     }
     
+    /**
+     * Metodo que da las caracteristicas a las columnas para que puedan almacenar datos
+     * @param columnas 
+     */
+    
     public void modelarColumnas(ArrayList<TableColumn> columnas){
         int contador = 0;
         for(TableColumn t:columnas){
-            t.setMinWidth(ProyectoPOO2p.scene.getWidth()/columnas.size()); 
+            t.setMinWidth(Restaurante.scene.getWidth()/columnas.size()); 
             t.setCellValueFactory(new PropertyValueFactory<>(columnasReporte.get(contador))); 
             contador +=1;
         }
@@ -188,6 +230,11 @@ public class AdminView {
     }
     
      
+    /**
+     * Metodo que añade un evento para filtras pedidos por fecha
+     * @param filtro Boton al que se le añadira el evento
+     */
+    
     public void aplicarFiltro(Button filtro){
         filtro.setOnMouseClicked(event->{
             LocalDate inicioFiltro = fechaInicio.getValue();

@@ -15,9 +15,18 @@ import javafx.scene.control.Alert.AlertType;
 public class Alerta {
     private String tipoAlerta;
     
+    /**
+     * Contructor de la clase
+     * @param tipo String para identificar el tipo de alerta a mostrar
+     */
+    
     public Alerta(String tipo){
         tipoAlerta = tipo;
     }
+    
+    /**
+     * Metodo para mostrar una alerta de acuerdo al tipo recibido
+     */
     
     public void mostrarAlerta(){
         Alert alerta;

@@ -28,14 +28,23 @@ public class NombreCliente {
     private Button aceptar;
     private Mesa mesa;
     
-    public NombreCliente(Mesa m){
-        mesa = m;
+    /**
+     * Constructor de la clase
+     * @param mesa Mesa para obtener datos
+     */
+    
+    public NombreCliente(Mesa mesa){
+        this.mesa = mesa;
         ventanaCliente = new Stage();
         datos = new HBox();
         datos.setSpacing(10);
         scene = new Scene(datos,400,50);
          
     }
+    
+    /**
+     * Metodo que muestra la nueva ventana
+     */
     
     public void showStage(){
         nombre = new Label("Ingrese el nombre del cliente");

@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MeseroView;
+package Views;
 
 import Datos.Constantes;
 import Datos.Mesa;
-import LoginView.LoginView;
 import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -24,7 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
-import proyectopoo2p.ProyectoPOO2p;
+import Restaurante.Restaurante;
 
 /**
  *
@@ -34,14 +33,19 @@ public class MeseroView {
     private static VBox root;
     private HBox infoMesero;
 
-    
+    /**
+     * Constructor de la clase
+     */
     public MeseroView() {
         root = new VBox();
     }
-    
+    /**
+     * Metodo que crea la raiz de la escena
+     * @return root con los elementos graficos de la escena
+     */
     public Parent build(){
         infoMesero = new HBox();
-        Label mesero = new Label(ProyectoPOO2p.usuario.getNombreUsuario());
+        Label mesero = new Label(Restaurante.usuario.getNombreUsuario());
         mesero.setMinWidth(Constantes.anchoVentana*0.83);
         mesero.setAlignment(Pos.CENTER);
         mesero.getStyleClass().add("label_pestana");
@@ -51,7 +55,7 @@ public class MeseroView {
         logOut.setAlignment(Pos.CENTER_LEFT);
         infoMesero.getChildren().addAll(mesero,logOut);
         logOut.setOnMouseClicked(event ->{
-            ProyectoPOO2p.setScene(new LoginView().crearLogin());
+            Restaurante.setScene(new LoginView().crearLogin());
         });
         infoMesero.setAlignment(Pos.CENTER);
 
