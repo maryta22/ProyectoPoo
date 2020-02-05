@@ -55,7 +55,7 @@ public class AdminView {
     
     /**
      * Metodo estatico para determinar si el usuario se encuentra en la pestaña diseño
-     * @return 
+     * @return boolean para determinar si la vista es de diseño
      */
     public static boolean isDiseño() {
         return diseño;
@@ -63,7 +63,7 @@ public class AdminView {
     
     /**
      * Metodo estatico para cambiar el valor de la variable diseño
-     * @param diseño 
+     * @param diseño Boolean para setear el diseño
      */
 
     public static void setDiseño(boolean diseño) {
@@ -211,7 +211,7 @@ public class AdminView {
     
     /**
      * Metodo que da las caracteristicas a las columnas para que puedan almacenar datos
-     * @param columnas 
+     * @param columnas Array de columnas a modificar
      */
     
     public void modelarColumnas(ArrayList<TableColumn> columnas){

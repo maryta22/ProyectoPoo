@@ -132,7 +132,7 @@ public class Mesa implements Serializable  {
     }
    /**
     * Metodo para presentar los datos de la mesa
-    * @return 
+    * @return String con los datos de la mesa
     */
     public String getDatos() {
         if(mesero==null){

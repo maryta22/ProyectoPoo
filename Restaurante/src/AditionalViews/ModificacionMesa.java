@@ -228,7 +228,7 @@ public class ModificacionMesa {
     
     /**
      * Metodo que valida que la capacidad de la mesa no sea negativa ni cero
-     * @return 
+     * @return true si el dato es valido, caso contrario false
      */
     
     public boolean validarDatos(){

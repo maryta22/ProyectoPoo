@@ -175,7 +175,7 @@ public class Interfaz {
     /**
      * Crea "sopa" en el ArrayList
      *
-     * @return un ArrayList<Plato> de las sopas.
+     * @return un ArrayList de las sopas.
      */
     public ArrayList<Plato> sopas() {
         ArrayList<Plato> Sopas = new ArrayList<>();
@@ -195,7 +195,7 @@ public class Interfaz {
     /**
      * Crea "segundo"
      *
-     * @return un ArrayList<Plato> de los segundos.
+     * @return un ArrayList de los segundos.
      */
     public ArrayList<Plato> segundos() {
         ArrayList<Plato> Segundos = new ArrayList<>();
@@ -215,7 +215,7 @@ public class Interfaz {
     /**
      * Crea "postre"
      *
-     * @return un ArrayList<Plato> de los postres.
+     * @return un ArrayList de los postres.
      */
     public ArrayList<Plato> postres() {
         ArrayList<Plato> Postres = new ArrayList<>();
@@ -235,7 +235,7 @@ public class Interfaz {
     /**
      * Crea "bebida"
      *
-     * @return un ArrayList<Plato> de las bebidas.
+     * @return un ArrayList de las bebidas.
      */
     public ArrayList<Plato> bebidas() {
         ArrayList<Plato> Bebidas = new ArrayList<>();
@@ -394,7 +394,7 @@ public class Interfaz {
     }
     /**
      * Metodo que guarda un pedido en el archivo
-     * @param pedido 
+     * @param pedido Pedido a guardar en el archivo
      */
     public void guardarPedido(Pedido pedido) {
         File file = new File("src/Archivos/pedidos.txt");
