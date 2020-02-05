@@ -6,6 +6,7 @@
 package Datos;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -75,6 +76,13 @@ public class Plato implements Serializable {
             }
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.nombre);
+        return hash;
     }
     
 }

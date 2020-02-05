@@ -4,18 +4,12 @@
  * and open the template in the editor.
  */
 package Views;
-
-
-import Datos.Mesa;
 import Datos.Pedido;
 import Usuario.Mesero;
-import java.awt.Color;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -32,7 +26,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.TextAlignment;
 import Restaurante.Restaurante;
@@ -142,6 +135,8 @@ public class AdminView {
                         break;
                     case "Salir":
                         Restaurante.setScene(new LoginView().crearLogin());
+                        break;
+                    default:
                         break;
                 }
             }

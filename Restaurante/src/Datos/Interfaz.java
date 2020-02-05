@@ -19,7 +19,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,14 +28,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.control.TextField;
-import static jdk.nashorn.internal.runtime.JSType.isString;
 
 /**
  *
  * @author danny
  */
-public class Interfaz implements Serializable {
+public class Interfaz {
 
     ObjectOutputStream archivoSopas;
     ObjectOutputStream archivoSegundos;
@@ -268,7 +265,7 @@ public class Interfaz implements Serializable {
             agregarElementosArchivos();
 
         } catch (IOException ex) {
-            System.out.println("IOExcepcion");
+            
         }
 
     }
@@ -282,7 +279,7 @@ public class Interfaz implements Serializable {
             for (HashMap.Entry<String, ArrayList<Plato>> entry : platos.entrySet()) {
 
                 if (null == entry.getKey()) {
-                    System.out.println("No existe ese tipo");
+                    System.err.println("No existe ese tipo");
                 } else {
                     switch (entry.getKey()) {
                         case "Sopa":
@@ -298,7 +295,7 @@ public class Interfaz implements Serializable {
                             archivoBebidas.writeObject(entry.getValue());
                             break;
                         default:
-                            System.out.println("No existe ese tipo");
+                            System.err.println("No existe ese tipo");
                             break;
                     }
                 }
@@ -306,7 +303,6 @@ public class Interfaz implements Serializable {
             }
 
         } catch (IOException ex) {
-            System.out.println("IOExcepcion");
         }
     }
 
@@ -322,13 +318,7 @@ public class Interfaz implements Serializable {
                  platos.get(p).add(plato);
              }
         }
-       
-//        for (Plato plato : platos.get(p.getTipo())) {
-//            if (plato.getCodigo() == p.getCodigo()) {
-//                platos.get(p.getTipo()).remove(plato);
-//                platos.get(p.getTipo()).add(p);
-//            }
-//        }
+     
 
     }
     
@@ -424,9 +414,7 @@ public class Interfaz implements Serializable {
 
     }
 
-    public void actualizarMenus() {
-        File ficherosopa = new File("src/Archivos/Sopas.dat");
-    }
+    
 
     /**
      * Metodo que valida los datos de un usuario

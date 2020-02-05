@@ -7,15 +7,10 @@ package AditionalViews;
 
 import Alertas.Alerta;
 import Datos.Mesa;
-import Views.AdminView;
 import Views.MesasView;
-import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -119,13 +114,13 @@ public class ModificacionMesa {
         boton.setOnMouseClicked(event->{
             
             try{
-                double radio = Double.parseDouble(inputRadio.getText());
+                double radioGet = Double.parseDouble(inputRadio.getText());
                 String numero = inputNumero.getText();
-                if(radio<0 || Integer.parseInt(numero)<0){
+                if(radioGet<0 || Integer.parseInt(numero)<0){
                     throw new NumberFormatException();
                 }
                 if(validarDatos()){
-                     Mesa nuevaMesa = new Mesa(eventoCrear.getX()-Restaurante.datos.asignarRadio(radio),eventoCrear.getY()-Restaurante.datos.asignarRadio(radio),radio,numero);
+                     Mesa nuevaMesa = new Mesa(eventoCrear.getX()-Restaurante.datos.asignarRadio(radioGet),eventoCrear.getY()-Restaurante.datos.asignarRadio(radioGet),radioGet,numero);
                     if(datosValidosMesa(nuevaMesa)){
                         Restaurante.datos.getMesas().add(nuevaMesa);
                         escenaAnterior.colocarMesas();
@@ -162,26 +157,24 @@ public class ModificacionMesa {
      */
     
     public void crearEscenaCambios(){
-         System.out.println("Escena para Grid"+eventoCrear.getSource());
         boton = new Button("Guardar Cambios");
         Button eliminar = new Button("Eliminar Mesa");
         inputNumero.setPromptText(mesaAModificar.getNumeroMesa());
         inputRadio.setPromptText(String.valueOf(mesaAModificar.getRadio()));
         boton.setOnMouseClicked(event->{
             try{
-                double radio = Double.parseDouble(inputRadio.getText());
+                double radioGet = Double.parseDouble(inputRadio.getText());
                 
                 String numero = inputNumero.getText();
-                System.out.println(radio +" "+ numero);
-                if(radio<0 || Integer.parseInt(numero)<0){
+                if(radioGet<0 || Integer.parseInt(numero)<0){
                     throw new NumberFormatException();
                 }
                 if(validarDatos()){
-                    double diffRadio = mesaAModificar.asignarRadio(radio)-mesaAModificar.getRadio();
+                    double diffRadio = mesaAModificar.asignarRadio(radioGet)-mesaAModificar.getRadio();
                     Mesa mesa = Restaurante.datos.getMesa(mesaAModificar);
-                   Mesa nuevaMesa = new Mesa(mesaAModificar.getCoordenadaX()-diffRadio,mesaAModificar.getCoordenadaY()-diffRadio,radio,numero);
+                   Mesa nuevaMesa = new Mesa(mesaAModificar.getCoordenadaX()-diffRadio,mesaAModificar.getCoordenadaY()-diffRadio,radioGet,numero);
                     if(datosValidosMesa(nuevaMesa)){
-                        mesa.setRadio(radio);
+                        mesa.setRadio(radioGet);
                         mesa.setNumeroMesa(numero);
                         mesa.setCoordenadaX(mesa.getCoordenadaX()-diffRadio);
                         mesa.setCoordenadaY(mesa.getCoordenadaY()-diffRadio);

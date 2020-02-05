@@ -8,15 +8,9 @@ package Views;
 import AditionalViews.ModificacionMesa;
 import AditionalViews.NombreCliente;
 import Datos.Constantes;
-import static Datos.Constantes.altoVentana;
 import Datos.Mesa;
-import Datos.Plato;
 import Usuario.Administrador;
 import Usuario.Mesero;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
@@ -228,17 +222,16 @@ public class MesasView {
      */
     public void crearEscenaPedido(StackPane pane, Mesa mesa){
         pane.setOnMouseClicked(event->{
-            crearPedido(pane,mesa);
+            crearPedido(mesa);
             
         });
     }
     
     /**
      * Meotodo para crear la escena de tomar el pedido
-     * @param pane Nodo al que se le añadira el evento
      * @param mesa Mesa para tomar informacion
      */
-    public void crearPedido(StackPane pane, Mesa mesa){
+    public void crearPedido( Mesa mesa){
     if(mesa.getMesero()==null|| mesa.getMesero().equals((Mesero)Restaurante.usuario)){
              mesa.setMesero((Mesero)Restaurante.usuario); 
              VBox caja = new VBox();

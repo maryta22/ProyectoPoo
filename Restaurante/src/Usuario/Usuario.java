@@ -6,6 +6,7 @@
 package Usuario;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -65,6 +66,14 @@ public class Usuario implements Serializable{
             
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.nombreUsuario);
+        hash = 41 * hash + Objects.hashCode(this.contraseña);
+        return hash;
     }
     
     

@@ -61,6 +61,9 @@ public class Alerta {
                 alerta.setContentText("Usuario o Contraseña invalidos");
                 alerta.showAndWait();
                 break;
+            default:
+               
+                break;
         }
     }
 }

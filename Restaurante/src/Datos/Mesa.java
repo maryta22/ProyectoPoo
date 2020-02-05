@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import javafx.scene.shape.Circle;
+import java.util.Objects;
 
 /**
  *
@@ -162,6 +162,14 @@ public class Mesa implements Serializable  {
         }
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.numeroMesa);
+        return hash;
+    }
+    
     
     public Double totalFactura(){
         Double valor = new Double(0);

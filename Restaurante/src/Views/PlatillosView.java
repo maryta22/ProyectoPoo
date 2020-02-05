@@ -17,9 +17,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -56,10 +53,8 @@ public class PlatillosView {
     private Double aPagar = new Double(0);
     private VBox detalle;
     private String[] tipos = {"Sopa", "Segundo", "Postre", "Bebida", "Todos"};
-    private ArrayList<Double> unidadesTotal = new ArrayList<>();
     private int codigo;
     private Stage ventanaParaModificar;
-    private Stage ventanaParaIngresarDatos;
     private Label mesaCliente;
     private Stage nuevoPlato;
     private ComboBox combo;
@@ -133,7 +128,6 @@ public class PlatillosView {
             mesaCliente.setMinHeight(50);
             mesaCliente.setAlignment(Pos.CENTER);
             mesaCliente.getStyleClass().add("login_button");
-            //root.getChildren().add(mesaCliente);
         }
 
         root.getChildren().addAll(filtros, platos);
@@ -166,7 +160,6 @@ public class PlatillosView {
                 ArrayList<Double> venta = pedidoActual.get(nombre);
                 venta.set(0, venta.get(0) + 1);
                 venta.set(1, venta.get(1) + precio);
-                //pedidoActual.put(nombre, pedidoActual.get(nombre) + precio);
             } else {
                 ArrayList<Double> venta = new ArrayList<>();
                 venta.add(new Double(1));
@@ -276,9 +269,9 @@ public class PlatillosView {
      * @param plato el plato que se va a modificar o eliminar.
      */
     public void modificarPlato(Plato plato) {
-        GridPane root = new GridPane();
-        root.setHgap(10);
-        root.setVgap(10);
+        GridPane rootModificar = new GridPane();
+        rootModificar.setHgap(10);
+        rootModificar.setVgap(10);
         
         Label elegir = new Label("          Elija una opción: ");
         GridPane.setConstraints(elegir, 0, 0);
@@ -297,11 +290,11 @@ public class PlatillosView {
         ventanaParaModificar = new Stage();
 
         
-        root.getChildren().addAll(ingresoNombre, nombre, ingresoPrecio, precio, eliminar);
+        rootModificar.getChildren().addAll(ingresoNombre, nombre, ingresoPrecio, precio, eliminar);
 
         HBox caja = new HBox();
         caja.setSpacing(50);
-        caja.getChildren().addAll(elegir, root);
+        caja.getChildren().addAll(elegir, rootModificar);
 
         Scene scene = new Scene(caja, 550, 150);
 
@@ -386,7 +379,6 @@ public class PlatillosView {
                 }
 
 
-            //ProyectoPOO2p.datos.modificarMenu(p);
             colocarTodos();
 
             Restaurante.datos.actualizarPedidos();
